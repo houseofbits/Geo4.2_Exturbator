@@ -3,9 +3,9 @@
 
 #include "HPrerequisites.h"
 
-
 class Color{
 public:
+	
 	static int R(int& val){
 		return (((val)>>24) & 0x000000FF);
 	}
@@ -32,21 +32,9 @@ public:
 	static int RGBAf(float r=0, float g=0, float b=0, float a=0){
 		return RGBA(int(255.0f*r), int(255.0f*g), int(255.0f*b), int(255.0f*a));
 	}
-	static int Interpolate(int& A, int& B, float val=0.5f){
-		
-		return RGBA((int)Math::Interpolate((float)Color::R(A), (float)Color::R(B), val),
-					(int)Math::Interpolate((float)Color::G(A), (float)Color::G(B), val),
-					(int)Math::Interpolate((float)Color::B(A), (float)Color::B(B), val),
-					(int)Math::Interpolate((float)Color::A(A), (float)Color::A(B), val)
-					);
-	}
-	static void GLColor(int &c){
-		glColor4ub(Color::R(c), 
-					Color::G(c),
-					Color::B(c),
-					Color::A(c)
-					);
-	}
+	static int Interpolate(int& A, int& B, float val);
+	static void GLColor(int &c);
+
 };
 
 

@@ -31,17 +31,23 @@
     <Filter Include="Header Files\Events">
       <UniqueIdentifier>{52585e1b-3e29-43e8-8f72-25ca981f583c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUIObjects">
-      <UniqueIdentifier>{580904c6-f07a-422c-b670-d24fd9b1ff4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUIObjects">
-      <UniqueIdentifier>{cb218c98-5e5f-4789-b549-cbc2b04a00d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{25f84dcf-8e57-4031-9ba2-c7f81afdf662}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Resources">
       <UniqueIdentifier>{01dd154e-9861-472b-bfe8-2a1279234ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GUI">
+      <UniqueIdentifier>{cb218c98-5e5f-4789-b549-cbc2b04a00d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{580904c6-f07a-422c-b670-d24fd9b1ff4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{eeca4c8d-f2a7-4468-b362-ac67b9fd80a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{43efbd2a-e76b-4c29-acd1-0749314ef00d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,21 +75,6 @@
     <ClCompile Include="math\HVector3.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="CFODocument.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventReceiver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="objects\Window.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -99,29 +90,23 @@
     <ClCompile Include="events\InputEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="events\WindowEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="GUIViewport.cpp">
-      <Filter>Source Files\GUIObjects</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUIButton.cpp">
-      <Filter>Source Files\GUIObjects</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUIEntity.cpp">
-      <Filter>Source Files\GUIObjects</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Hardware.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Serial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GUISlider.cpp">
-      <Filter>Source Files\GUIObjects</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Resources</Filter>
@@ -129,17 +114,35 @@
     <ClCompile Include="GUIEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="GUISound.cpp">
-      <Filter>Source Files\GUIObjects</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="SoundDevice.cpp">
-      <Filter>Source Files\GUIObjects</Filter>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="EventReceiver.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="CFODocument.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Serial.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="HColor.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIRenderable.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StringUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="math\HAxisAlignedBox.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
@@ -185,24 +188,6 @@
     <ClInclude Include="math\HVector4.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="CFODocument.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EventReceiver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Geo4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="objects\Window.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -218,29 +203,23 @@
     <ClInclude Include="events\InputEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="events\WindowEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="GUIViewport.h">
-      <Filter>Header Files\GUIObjects</Filter>
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIButton.h">
-      <Filter>Header Files\GUIObjects</Filter>
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIEntity.h">
-      <Filter>Header Files\GUIObjects</Filter>
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Hardware.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Serial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GUISlider.h">
-      <Filter>Header Files\GUIObjects</Filter>
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files\Resources</Filter>
@@ -248,11 +227,35 @@
     <ClInclude Include="GUIEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="GUISound.h">
-      <Filter>Header Files\GUIObjects</Filter>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="SoundDevice.h">
-      <Filter>Header Files\GUIObjects</Filter>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="EventReceiver.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Serial.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Geo4.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CFODocument.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIRenderable.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

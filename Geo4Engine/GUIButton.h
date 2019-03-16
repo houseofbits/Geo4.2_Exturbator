@@ -15,11 +15,17 @@ public:
 	void	Serialize(CFONode*, ResourceManager*) {}
 	void	Deserialize(CFONode*, ResourceManager*);
 
+	bool	OnWindowEvent(WindowEvent*const);
+	bool	OnInputEvent(InputEvent*const);
+
 	void	PreRender(Renderer*);
 	void	Render(Renderer*);
 	void	PostRender();
 
 	int			window_width;
 	int			window_height;
+
+	GUIRenderable	renderable;
+	GUIStyle		style;
 };
 

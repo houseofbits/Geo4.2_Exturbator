@@ -46,21 +46,6 @@ void Hardware::Deserialize(CFONode* node, ResourceManager* mgr)
 
 	node->getValueInt("fader_mode", faderMode);
 
-	CFONode* n = node->GetFirstChild("output_mapping");
-	if (n) {
-		n = n->GetFirstChild();
-		if (n) {
-			vector<string> out;
-			Utils::Explode(',', n->GetName(), out);
-			if (out.size() > 0) {
-				for (int i = 0; i < out.size(); i++) {
-					int val = std::stoi(out[i]);
-					if(val >= 0 && val < 8)outputMapping[i] = val;
-				}
-			}
-		}
-	}
-
 	string str;
 	if(node->getValueString("serial_port", str)){
 		LONG    lLastError = ERROR_SUCCESS;
@@ -136,34 +121,13 @@ bool Hardware::OnInputEvent(InputEvent*const event)
 
 bool Hardware::OnGUIEvent(GUIEvent*const event)
 {
-	if (event->type == GUIEvent::POT_CHANGED) {
-		if (event->name == "slider1")faders[0] = (unsigned char)event->value;
-		if (event->name == "slider2")faders[1] = (unsigned char)event->value;
-		if (event->name == "slider3")faders[2] = (unsigned char)event->value;
-		if (event->name == "slider4")faders[3] = (unsigned char)event->value;
-		if (event->name == "slider5")faders[4] = (unsigned char)event->value;
-		if (event->name == "slider6")faders[5] = (unsigned char)event->value;
-		if (event->name == "slider7")faders[6] = (unsigned char)event->value;
-		if (event->name == "slider8")faders[7] = (unsigned char)event->value;
-	}
+
 	return true;
 }
 
 bool Hardware::OnWindowEvent(WindowEvent*const event)
 {		
-	for (int i = 0; i < 8; i++) {
-		Entity* e = getObjectByName("SoundCh"+std::to_string(i+1));
-		if (e && e->getTypeId() == GUISound::TypeID()) {
-			GUISound* sound = (GUISound*)e;
-
-			float fv = (float)faders[i] / 256.0f;
-
-			float rms = fv * min(Math::Pow(sound->interpolatedRmsLevel, 0.2), 1.0f);
-
-			fadersRms[i] = int(rms * 256.0f);
-		}
-	}
-
+	/*
 	sendTimer += event->frametime;
 
 	float freq = 1.0f / 10;
@@ -173,7 +137,7 @@ bool Hardware::OnWindowEvent(WindowEvent*const event)
 
 		unsigned int frameSize = prepareSerialFrame();												
 		Write(c_data, frameSize);
-	}
+	}*/
 	return 1;
 }
 
@@ -228,55 +192,6 @@ void Hardware::Render(Renderer*)
 	glPushMatrix();
 	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 
-	float size = 65.0f;
-	float hSize = size / 2;	
-	
-	int index = 0;
-
-	for (int iy = 0; iy < 2; iy++) {
-		for (int ix = 0; ix < 4; ix++) {
-
-			float color = 0;
-
-			if(faderMode == 1)color = (float)faders[index] / 256.0f;
-			else color = (float)fadersRms[index] / 256.0f;
-
-			glEnable(GL_BLEND);
-			glPushMatrix();
-				glTranslatef(hSize+(size+hSize)*ix, hSize + (size + hSize)*iy, 0);
-				//glColor4f(color, color, color, 1);
-				glColor4f(1, 1, 1, color);
-				glLineWidth(2);
-				glBegin(GL_POLYGON);
-					glVertex2f(-hSize, -hSize);
-					glVertex2f(-hSize, hSize);
-					glVertex2f(hSize, hSize);
-					glVertex2f(hSize, -hSize);
-				glEnd();
-				glBegin(GL_LINE_LOOP);
-					glColor4f(0.4f, 0.4f, 0.6f, 0.9f);
-					glVertex2f(-hSize, hSize);
-					glVertex2f(hSize, hSize);
-					glColor4f(1, 1, 1, 0.5f);
-					glVertex2f(hSize, -hSize);
-					glVertex2f(-hSize, -hSize);
-				glEnd();
-
-				glLineWidth(1);
-
-				glPushMatrix();
-					glTranslatef(-hSize/2,hSize/2, 0);
-					glColor4f(0.4f, 0.4f, 0.6f, 0.9f);
-					glEnable(GL_TEXTURE_2D);
-					Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)index+1), 0.45f);
-					glDisable(GL_TEXTURE_2D);
-				glPopMatrix();
-
-			glPopMatrix();
-
-			index++;
-		}
-	}
 
 	glPopMatrix();
 }

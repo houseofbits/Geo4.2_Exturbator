@@ -14,9 +14,15 @@ Geo4 engine
 #include <list>
 #include <vector>
 
+#include "../Lib/GLEW/include/GL/glew.h" 
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
+#include "math/HMath.h"
 #include "math/HVector2.h"
 #include "math/HVector3.h"
 #include "math/HMatrix4.h"
+#include "math/HColor.h"
 
 #include "StringUtils.h"
 
@@ -42,12 +48,13 @@ Geo4 engine
 #include "objects/Viewport.h"
 //#include "objects/ViewportGLES2.h"
 
+#include "GUIRenderable.h"
 #include "GUIEntity.h"
 #include "GUIViewport.h"
 #include "GUIButton.h"
 #include "GUISlider.h"
-#include "GUISound.h"
-#include "SoundDevice.h"
+//#include "GUISound.h"
+//#include "SoundDevice.h"
 
 #include "Hardware.h"
 

@@ -10,9 +10,7 @@
 #include "../math/HAxisAlignedBox.h"
 #include "../math/HPlane.h"
 
-#include "../../Lib/GLEW/include/GL/glew.h" 
-#include <gl.h>
-#include <glu.h>
+
 
 class Viewport : public Entity, public EventHandler
 {

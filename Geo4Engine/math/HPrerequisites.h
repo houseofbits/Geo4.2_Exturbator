@@ -8,7 +8,6 @@
 
 #include <map>
 #include <limits>
-//#include <dinput.h>	
 #include <vector>
 #include <assert.h> 
 

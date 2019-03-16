@@ -129,19 +129,7 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 
 	glcontext = SDL_GL_CreateContext(window);
 
-	/*
-	cout << "----------- Joystick diag ------------" << endl;
-	SDL_SysWMinfo wmInfo;
-	SDL_VERSION(&wmInfo.version);
-	SDL_GetWindowWMInfo(window, &wmInfo);
-	HWND hwnd = wmInfo.info.win.window;
-	HINSTANCE hinst = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
-	cout <<"SDL version: "<< (unsigned int)wmInfo.version.major << "." << (unsigned int)wmInfo.version.minor << "." << (unsigned int)wmInfo.version.patch << endl;
-	cout << "HINSTANCE, HWND: " << hinst <<","<<hwnd<< endl;
-	int r = DirectInput8Create(hinst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&dev, NULL);
-	cout << "DInput create: " << ((r == DI_OK)?"OK":"FAIL") << endl;
-	dev->EnumDevices(DI8DEVCLASS_GAMECTRL, &staticEnumerateGameControllers, this, DIEDFL_ATTACHEDONLY);
-	/**/
+	GLenum errr = glewInit();
 
 	SendEvent(new WindowEvent(WindowEvent::WINDOW_CREATED, this));
 

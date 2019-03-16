@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Lib/GLEW/include/GL/glew.h" 
-#include <gl.h>
+#include <gl/GL.h>
 #include <iostream>
 #include <list>
 #include <string>
