@@ -44,7 +44,6 @@ void GUIViewport::PreRender(Renderer*)
 	glLoadIdentity();
 	glDisable(GL_CULL_FACE);
 	glClear(GL_DEPTH_BUFFER_BIT);
-
 }
 
 void GUIViewport::Render(Renderer* rnd)

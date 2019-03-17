@@ -188,6 +188,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Serial.cpp" />
+    <ClCompile Include="Triangulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CFODocument.h" />
@@ -228,6 +229,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Serial.h" />
     <ClInclude Include="StringUtils.h" />
+    <ClInclude Include="Triangulation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

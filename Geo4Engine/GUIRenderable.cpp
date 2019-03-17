@@ -54,7 +54,7 @@ void GUIRenderable::Draw() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowIndexArray);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
-		glDrawElements(GL_TRIANGLE_FAN, shadowNumIndices, GL_UNSIGNED_INT, (void*)0);
+		glDrawElements(GL_TRIANGLES, shadowNumIndices, GL_UNSIGNED_INT, (void*)0);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -71,29 +71,20 @@ void GUIRenderable::Draw() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bodyIndexArray);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
-		glDrawElements(GL_TRIANGLE_FAN, bodyNumIndices, GL_UNSIGNED_INT, (void*)0);
+		glDrawElements(GL_TRIANGLES, bodyNumIndices, GL_UNSIGNED_INT, (void*)0);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 	if (borderGeometryArray > 0) {
-		glColor3f(1, 1, 1);
-		/*
+		glColor3f(0, 0, 1);
+
 		glBindBuffer(GL_ARRAY_BUFFER, borderGeometryArray);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, borderIndexArray);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
-		glDrawElements(GL_LINE_LOOP, borderNumIndices, GL_UNSIGNED_INT, (void*)0);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		*/
-		glBindBuffer(GL_ARRAY_BUFFER, borderGeometryArray);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, borderIndexArray);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
-		glDrawElements(GL_TRIANGLE_FAN, borderNumIndices, GL_UNSIGNED_INT, (void*)0);
+		glDrawElements(GL_TRIANGLES, borderNumIndices, GL_UNSIGNED_INT, (void*)0);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -187,37 +178,45 @@ void GUIRenderable::generateGeometry() {
 		_generateSolidFromPointSet(&bodyPoints, bodyIndexArray, bodyGeometryArray, bodyNumIndices);
 	}
 	//Generate border geometry
-	vector<Vector2> outerPoints;
+	vector<Vector2> innerPoints;
 	//[borderSize] override all other sizes
 	if (style->borderSize > 0) {
-		_generateShell(outerPoints,
+		_generateShell(innerPoints,
 			size,
 			r1, r2, r3, r4,
 			-style->borderSize,
 			-style->borderSize,
 			-style->borderSize,
 			-style->borderSize);
-		_generateStripFromPointSet(&bodyPoints, &outerPoints, borderIndexArray, borderGeometryArray, borderNumIndices);
+		_generateStripFromPointSet(&innerPoints, &bodyPoints, borderIndexArray, borderGeometryArray, borderNumIndices);
 	}
 	else if(style->borderSizeTop > 0 ||
 		style->borderSizeBottom > 0 || 
 		style->borderSizeLeft > 0 || 
 		style->borderSizeRight > 0){
 
-		_generateShell(outerPoints,
+		_generateShell(innerPoints,
 			size,
 			r1, r2, r3, r4,
 			-style->borderSizeLeft,
 			-style->borderSizeRight,
 			-style->borderSizeTop,
 			-style->borderSizeBottom);
-		_generateStripFromPointSet(&bodyPoints, &outerPoints, borderIndexArray, borderGeometryArray, borderNumIndices);
+		_generateStripFromPointSet(&innerPoints, &bodyPoints, borderIndexArray, borderGeometryArray, borderNumIndices);
 	}
 
-	vector<Vector2> innerPoints;
+	vector<Vector2> outerPoints;
 	//[shadowSize] override all other sizes
 	if (style->shadowSize > 0) {
 
+		_generateShell(outerPoints,
+			size,
+			r1, r2, r3, r4,
+			style->shadowSize,
+			style->shadowSize,
+			style->shadowSize,
+			style->shadowSize);
+		_generateStripFromPointSet(&outerPoints, &bodyPoints, shadowIndexArray, shadowGeometryArray, shadowNumIndices);
 
 	}
 	else if(style->shadowSizeTop > 0 ||
@@ -230,43 +229,35 @@ void GUIRenderable::generateGeometry() {
 
 }
 
-//Generate body VBO, triangle fan around center point
+//Generate body VBO
 void GUIRenderable::_generateSolidFromPointSet(vector<Vector2>* shell,
 	GLuint& indexArray,
 	GLuint& vertexArray,
 	unsigned int& indexCount) {
 
-	if (vertexArray > 0)glDeleteBuffers(1, &vertexArray);
-	if (indexArray > 0)glDeleteBuffers(1, &indexArray);
+	//Triangulate geometry outline into solid
+	Triangulation triang;
+	vector<unsigned int> indicesOut;
+	triang.EarClipTrinagulate(*shell, indicesOut);
 
-	indexCount = 0;
-
-	GLfloat* tmpGeometry = new GLfloat[3 * (shell->size() + 2)];
-	GLuint* tmpIndices = new GLuint[(shell->size() + 2)];
-
+	//Generate vertex and indexbuffers
+	GLfloat* tmpGeometry = new GLfloat[3 * shell->size()];
+	GLuint* tmpIndices = new GLuint[indicesOut.size()];
 	unsigned int vi = 0;
-	unsigned int indexi = 0;
-	tmpGeometry[vi] = 0;
-	tmpGeometry[vi + 1] = 0;
-	tmpGeometry[vi + 2] = 0;
-	tmpIndices[indexi] = indexi;
-	vi += 3;
-	indexi += 1;
 	for (unsigned int i = 0; i < shell->size(); i++) {
 		tmpGeometry[vi] = (*shell)[i].x;
 		tmpGeometry[vi + 1] = (*shell)[i].y;
 		tmpGeometry[vi + 2] = 0;
-		tmpIndices[indexi] = indexi;
 		vi += 3;
-		indexi += 1;
 	}
-	tmpGeometry[vi] = (*shell)[0].x;
-	tmpGeometry[vi + 1] = (*shell)[0].y;
-	tmpGeometry[vi + 2] = 0;
-	tmpIndices[indexi] = indexi;
-	vi += 3;
-	indexi += 1;
-	indexCount = indexi;
+	for (unsigned int i = 0; i < indicesOut.size(); i++){
+		tmpIndices[i] = indicesOut[i];
+	}
+	indexCount = indicesOut.size();
+
+	//Generate VBO data and delete temporary vertex data
+	if (vertexArray > 0)glDeleteBuffers(1, &vertexArray);
+	if (indexArray > 0)glDeleteBuffers(1, &indexArray);
 
 	glGenBuffers(1, &vertexArray);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexArray);
@@ -290,20 +281,49 @@ void GUIRenderable::_generateStripFromPointSet(vector<Vector2>* inner,
 	GLuint& vertexArray,
 	unsigned int& indexCount) {
 
+	//Triangulate geometry outline into solid
+	vector<Vector2> shell = *outer;
+	shell.push_back((*outer)[0]);
+	shell.push_back((*inner)[0]);
+	for (int  i = inner->size()-1; i >= 0; i--){
+		shell.push_back((*inner)[i]);
+	}
+
+	Triangulation triang;
+	vector<unsigned int> indicesOut;
+
+	triang.EarClipTrinagulate(shell, indicesOut);
+
+	//Generate vertex and indexbuffers
+	GLfloat* tmpGeometry = new GLfloat[3 * shell.size()];
+	GLuint* tmpIndices = new GLuint[indicesOut.size()];
+	unsigned int vi = 0;
+	for (unsigned int i = 0; i < shell.size(); i++) {
+		tmpGeometry[vi] = shell[i].x;
+		tmpGeometry[vi + 1] = shell[i].y;
+		tmpGeometry[vi + 2] = 0;
+		vi += 3;
+	}
+	for (unsigned int i = 0; i < indicesOut.size(); i++) {
+		tmpIndices[i] = indicesOut[i];
+	}
+	indexCount = indicesOut.size();
+
+	//Generate VBO data and delete temporary vertex data
 	if (vertexArray > 0)glDeleteBuffers(1, &vertexArray);
 	if (indexArray > 0)glDeleteBuffers(1, &indexArray);
 
-	indexCount = 0;
+	glGenBuffers(1, &vertexArray);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexArray);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * vi, NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 3 * vi, tmpGeometry);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	if (inner->size() != outer->size()) {
-	
-		//do something!!!!
-
-	}
-
-
-	GLfloat* tmpGeometry = new GLfloat[3 * (inner->size() + 2)];
-	GLuint* tmpIndices = new GLuint[(inner->size() + 2)];
+	glGenBuffers(1, &indexArray);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexArray);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*indexCount, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*indexCount, tmpIndices);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	delete[] tmpGeometry;
 	delete[] tmpIndices;

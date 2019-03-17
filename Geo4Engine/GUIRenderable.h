@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "Triangulation.h"
 
 class GUIGradientColor {
 public:
@@ -54,19 +55,21 @@ public:
 
 /*
 TODO:
-generate shadow geometry
-generate sizeable border geometry
-border size parameters
-generate border colors
-background clipping mask
-gradient rendering
-background color parameters
-shadow parameters
-style deserialization
-foolproof input corner radiuses
+v generate shadow geometry
+v generate sizeable border geometry
+- 0 size border geometry generating (triangulation tolerances)
+- 0 size shadow geometry generating (triangulation tolerances)
+v border size parameters
+- generate border colors
+- background clipping mask
+- gradient rendering
+- background color parameters
+v shadow size parameters
+- shadow color
+- style deserialization
+- foolproof input corner radiuses
+- style resource loader class
 
-QUESTIONS:
-how styles are managed and deserialized
 
 */
 

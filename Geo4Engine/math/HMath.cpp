@@ -211,6 +211,53 @@ Vector3 Math::Trim(Vector3 v, float minf, float maxf){
            return radians;
     }
 
+	bool Math::PointInsideTriangle(Vector2 p, Vector2 a, Vector2 b, Vector2 c) {
+		Real px = p.x; 
+		Real py = p.y;
+		Real ax = a.x;
+		Real ay = a.y;
+		Real bx = b.x;
+		Real by = b.y;
+		Real cx = c.x;
+		Real cy = c.y;
+		Real v1x, v2x, v1y, v2y;
+		bool bClockwise;
+
+		v1x = bx - ax;
+		v1y = by - ay;
+
+		v2x = px - bx;
+		v2y = py - by;
+
+		// For the sake of readability
+		#define Clockwise ( v1x * v2y - v1y * v2x >= 0.0 )
+
+		bClockwise = Clockwise;
+
+		v1x = cx - bx;
+		v1y = cy - by;
+
+		v2x = px - cx;
+		v2y = py - cy;
+
+		if (Clockwise != bClockwise)
+			return false;
+
+		v1x = ax - cx;
+		v1y = ay - cy;
+
+		v2x = px - ax;
+		v2y = py - ay;
+
+		if (Clockwise != bClockwise)
+			return false;
+
+		return true;
+
+		// Clean up the #defines
+		#undef Clockwise
+	}
+
     //-----------------------------------------------------------------------
     bool Math::pointInTri2D( Real px, Real py, Real ax, Real ay, Real bx, Real by, Real cx, Real cy )
     {

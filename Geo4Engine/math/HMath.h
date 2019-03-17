@@ -194,8 +194,9 @@
        static Real AngleUnitsToRadians(Real units);
        static Real RadiansToAngleUnits(Real radians);
 
-
         static bool pointInTri2D( Real px, Real pz, Real ax, Real az, Real bx, Real bz, Real cx, Real cz );
+
+		static bool PointInsideTriangle(Vector2 p, Vector2 a, Vector2 b, Vector2 c);
 
         static std::pair<bool, Real> intersects(const Ray& ray, const Plane& plane);
 

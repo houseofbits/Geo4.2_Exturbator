@@ -4,6 +4,22 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {	
+/*
+	Triangulation triang;
+
+	vector<Vector2> points;
+	points.push_back(Vector2(-1, 1));
+	points.push_back(Vector2(-1, -1));
+	points.push_back(Vector2(1, -1));
+	points.push_back(Vector2(1, 1));
+
+	vector<unsigned int> indicesOut;
+
+	triang.EarClipTrinagulate(points, indicesOut);
+
+	return 1;
+*/
+
 #ifndef _DEBUG
 	ofstream file;
 	file.open("logfile.log");

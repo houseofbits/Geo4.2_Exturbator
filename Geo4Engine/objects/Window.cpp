@@ -119,6 +119,9 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 		height = 0;
 	}
 
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 6);
+
 	window = SDL_CreateWindow(window_title.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -131,11 +134,16 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 
 	GLenum errr = glewInit();
 
+
+
+
 	SendEvent(new WindowEvent(WindowEvent::WINDOW_CREATED, this));
 
 	SendEvent(new WindowEvent(0, 0, this));
 
 	Font::m_DefaultInstance.Load("arial.glf");
+
+	glEnable(GL_MULTISAMPLE);
 }
 
 void SDLWindow::Deserialize(CFONode* node, ResourceManager* mgr)
