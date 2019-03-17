@@ -27,8 +27,8 @@ int main(int argc, char* argv[])
 	cout.rdbuf(file.rdbuf());
 #endif
 
-	cout << RED << "GEO4 Engine" << endl;
-	cout << "Copyright: Krists Pudzens (c) 2007 - 2018" << endl;
+	cout << RED << "GEO4.4 Engine - Exturbator Prototype" << endl;
+	cout << "Copyright: Krists Pudzens (c) 2007 - 2019" << endl;
 	cout << GREEN << "========================================" << WHITE << endl;
 
 	SceneManager manager;

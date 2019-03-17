@@ -31,9 +31,9 @@ void GUIButton::Deserialize(CFONode* node, ResourceManager* mgr)
 	style.radiusTopLeft = 10;
 	style.radiusTopRight = 20;
 	style.borderSize = 10;
-	style.shadowSize = 15;
+	style.shadowSize = 25;
 	style.backgroundFill = GUIStyle::FillType::SOLID;
-	style.backgroundColor = Vector4(1,1,0,1);
+	style.backgroundColor = Vector4(1,1,0,0.7f);
 
 	renderable.size.x = 300;
 	renderable.size.y = 300;
@@ -71,7 +71,7 @@ void GUIButton::Render(Renderer* rnd)
 	glPushMatrix();
 	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//Renderer::DrawCapsule(300, 300, 100, Color::RGBAf(1,0,0,1), Color::RGBAf(0, 1, 0, 1));
 

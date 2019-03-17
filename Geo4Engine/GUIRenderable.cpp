@@ -49,17 +49,21 @@ void GUIRenderable::Draw() {
 	glColor3f(1, 1, 1);
 
 	if (shadowGeometryArray > 0) {
-		glColor3f(0, 0, 0);
+		glColor4f(0, 1, 0, 1);
 		glBindBuffer(GL_ARRAY_BUFFER, shadowGeometryArray);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowIndexArray);
 		glEnableClientState(GL_VERTEX_ARRAY);
+		//glEnableClientState(GL_COLOR_ARRAY);
 		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
+		//glColorPointer(3, GL_FLOAT, 0, (void*)cOffset);
+
 		glDrawElements(GL_TRIANGLES, shadowNumIndices, GL_UNSIGNED_INT, (void*)0);
+		//glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
+	
 	if (bodyGeometryArray > 0 && style != 0) {
 		if (style->backgroundFill = GUIStyle::FillType::SOLID) {
 			glColor4f(style->backgroundColor.x, style->backgroundColor.y, style->backgroundColor.z, style->backgroundColor.w);
@@ -90,7 +94,7 @@ void GUIRenderable::Draw() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	}
-
+	
 
 
 }
@@ -208,7 +212,6 @@ void GUIRenderable::generateGeometry() {
 	vector<Vector2> outerPoints;
 	//[shadowSize] override all other sizes
 	if (style->shadowSize > 0) {
-
 		_generateShell(outerPoints,
 			size,
 			r1, r2, r3, r4,
@@ -216,15 +219,21 @@ void GUIRenderable::generateGeometry() {
 			style->shadowSize,
 			style->shadowSize,
 			style->shadowSize);
-		_generateStripFromPointSet(&outerPoints, &bodyPoints, shadowIndexArray, shadowGeometryArray, shadowNumIndices);
-
+		_generateStripFromPointSet(&bodyPoints, &outerPoints, shadowIndexArray, shadowGeometryArray, shadowNumIndices);
 	}
 	else if(style->shadowSizeTop > 0 ||
 		style->shadowSizeBottom > 0 || 
 		style->shadowSizeLeft > 0 || 
 		style->shadowSizeRight > 0){
 
-
+		_generateShell(outerPoints,
+			size,
+			r1, r2, r3, r4,
+			style->shadowSizeLeft,
+			style->shadowSizeRight,
+			style->shadowSizeTop,
+			style->shadowSizeBottom);
+		_generateStripFromPointSet(&bodyPoints, &outerPoints, shadowIndexArray, shadowGeometryArray, shadowNumIndices);
 	}
 
 }
@@ -317,6 +326,9 @@ void GUIRenderable::_generateStripFromPointSet(vector<Vector2>* inner,
 	glBindBuffer(GL_ARRAY_BUFFER, vertexArray);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * vi, NULL, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 3 * vi, tmpGeometry);
+
+	//glBufferSubData(GL_ARRAY_BUFFER, vSize, cSize, colors);          // copy cols after norms
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &indexArray);
