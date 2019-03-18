@@ -11,10 +11,17 @@ GUIStyle::GUIStyle() : radius(0),
 	borderSizeLeft(0),
 	borderSizeRight(0),
 	shadowSize(0),
+	
+	shadowHardness(0),
+	shadowX(0),
+	shadowY(0),
+
+	//Obsolette
 	shadowSizeTop(0),
 	shadowSizeBottom(0),
 	shadowSizeLeft(0),
 	shadowSizeRight(0),
+
 	backgroundFill(FillType::NONE),
 	backgroundColor(0,0,0,1)
 {	}
@@ -25,6 +32,7 @@ GUIStyle::~GUIStyle()
 
 GUIRenderable::GUIRenderable() : style(0),
 	size(),
+	/*
 	bodyGeometryArray(0),
 	bodyIndexArray(0),
 	bodyNumIndices(0),
@@ -33,7 +41,12 @@ GUIRenderable::GUIRenderable() : style(0),
 	borderNumIndices(0),
 	shadowGeometryArray(0),
 	shadowIndexArray(0),
-	shadowNumIndices(0)
+	shadowNumIndices(0),
+	*/
+
+	vertexArrayId(0),
+	bodyIndexArrayId(0),
+	bodyNumIndices(0)
 {
 
 
@@ -48,6 +61,7 @@ void GUIRenderable::Draw() {
 	
 	glColor3f(1, 1, 1);
 
+	/*
 	if (shadowGeometryArray > 0) {
 		glColor4f(0, 1, 0, 1);
 		glBindBuffer(GL_ARRAY_BUFFER, shadowGeometryArray);
@@ -95,10 +109,128 @@ void GUIRenderable::Draw() {
 
 	}
 	
-
+	*/
 
 }
 
+void GUIRenderable::_generateGeometryData() {
+
+	Vector2 halfSize = size * 0.5;
+	Vector2 quadrant, radiusCenterPoint;
+	//float radiusBody = 0;
+	float radiusShadowOuterEdge = 0;
+	float radiusBorderInnerEdge = 0;
+	Vector2 cornerBody;
+	Vector2 cornerBorderInnerEdge;
+
+	vector<Vector2>			bodyOutline;
+	vector<Vector2>			shadowInline;
+	//vector<Vector2>			shadowOutline;
+
+	vector<Vector2>			vertexArray;
+	vector<Vector4>			colorArray;
+	vector<unsigned int>	indexArrayBody;
+	vector<unsigned int>	indexArrayBorder;
+	//vector<unsigned int>	indexArrayShadow;
+	
+	float radiusBody[] = {
+		style->radiusTopLeft,
+		style->radiusBottomLeft,
+		style->radiusBottomRight,
+		style->radiusTopRight
+	};
+	float radiusBorder[] = {
+		max(style->borderSizeTop, style->borderSizeLeft),
+		max(style->borderSizeBottom, style->borderSizeLeft),
+		max(style->borderSizeBottom, style->borderSizeRight),
+		max(style->borderSizeTop, style->borderSizeRight)
+	};
+	Vector2 corners[] = {
+		Vector2(-halfSize.x, halfSize.y),	//top left
+		Vector2(-halfSize.x, -halfSize.y),	//bottom left
+		Vector2(halfSize.x, -halfSize.y),	//bottom right
+		Vector2(halfSize.x, halfSize.y)		//top right
+	};
+	Vector2 quadrants[] = {
+		Vector2(-1, 1),
+		Vector2(-1, -1),
+		Vector2(1, -1),
+		Vector2(1, 1)
+	};
+
+	for (int i = 0; i < 4; i++) {
+
+		radiusBorderInnerEdge = radiusBody[i] - radiusBorder[i];
+
+		if (radiusBorderInnerEdge < 3)radiusBorderInnerEdge = 0;
+
+		double step = Math::HALF_PI / max(4.0f, Math::Ceil(Math::HALF_PI * radiusBody[i] / 5));
+
+		//1. Generate body siluette conventional way
+		if (radiusBody[i] > 0) {
+			radiusCenterPoint = cornerBody - Vector2(radiusBody[i] * quadrant.x, radiusBody[i] * quadrant.y);
+			for (double u = 0; u <= Math::HALF_PI; u += step) {
+				float x = (float)cos(Math::HALF_PI + u + (Math::HALF_PI * i));
+				float y = (float)sin(Math::HALF_PI + u + (Math::HALF_PI * i));
+				x = radiusCenterPoint.x + (x * radiusBody[i]);
+				y = radiusCenterPoint.y + (y * radiusBody[i]);
+				bodyOutline.push_back(Vector2(x, y));
+			}
+		}
+		else bodyOutline.push_back(cornerBody);
+
+		//2. Generate border corner cases
+		if (radiusBody > 0) {
+			if (radiusBorderInnerEdge < radiusBody[i]) {
+
+			}
+			else {
+				//solid corner
+			}
+		}
+	}
+
+	//3. Generate border side triangles
+	if (style->borderSizeLeft > 0) {
+		//vertexArray.push_back(corners[0] - Vector2(0, radiusBody[0]));	//top left
+		//vertexArray.push_back(corners[0] - Vector2(-style->borderSizeLeft, radiusBody[0]));	//top left
+		//vertexArray.push_back(corners[0] - Vector2(0, radiusBody[1]));	//bottom left
+		colorArray.push_back(Vector4(1, 0, 0, 1));	//TODO Border color
+	}
+	if (style->borderSizeRight > 0) {
+
+	}
+	if (style->borderSizeTop > 0) {
+
+	}
+	if (style->borderSizeBottom > 0) {
+
+	}
+
+	//4. Triangulate body
+	unsigned int nexti = 0;
+	unsigned int midpointIndex = vertexArray.size();
+	vertexArray.push_back(Vector2(0,0));
+	colorArray.push_back(Vector4(1, 1, 1, 1));
+	for (unsigned int i = 0; i < bodyOutline.size(); i++){
+		nexti = (i + 1) % bodyOutline.size();
+		indexArrayBody.push_back(midpointIndex);
+		indexArrayBody.push_back(i);
+		indexArrayBody.push_back(nexti);
+		vertexArray.push_back(bodyOutline[i]);
+		colorArray.push_back(Vector4(1,1,1,1));
+	}
+
+	//5. Generate shadow outline by scaling ant translating body outline
+
+
+	//6. Generate VBO data
+
+	_generateVertexBuffer(vertexArray, colorArray);
+
+
+}
+/*
 void GUIRenderable::_generateShell(vector<Vector2>& points, 
 	Vector2 size, 
 	float r1, 
@@ -154,11 +286,15 @@ void GUIRenderable::_generateShell(vector<Vector2>& points,
 		else points.push_back(corner);
 	}
 }
+*/
 
 void GUIRenderable::generateGeometry() {
 
 	if (style == 0)return;
 
+	_generateGeometryData();
+
+	/*
 	vector<Vector2> bodyPoints;
 	float r1=0, r2=0, r3=0, r4=0;
 	//[radius] overrides all other radiuses
@@ -235,9 +371,9 @@ void GUIRenderable::generateGeometry() {
 			style->shadowSizeBottom);
 		_generateStripFromPointSet(&bodyPoints, &outerPoints, shadowIndexArray, shadowGeometryArray, shadowNumIndices);
 	}
-
+	*/
 }
-
+/*
 //Generate body VBO
 void GUIRenderable::_generateSolidFromPointSet(vector<Vector2>* shell,
 	GLuint& indexArray,
@@ -339,4 +475,61 @@ void GUIRenderable::_generateStripFromPointSet(vector<Vector2>* inner,
 
 	delete[] tmpGeometry;
 	delete[] tmpIndices;
+}
+*/
+void GUIRenderable::_generateVertexBuffer(vector<Vector2>& vertices, vector<Vector4>& colors) {
+
+	if (vertexArrayId > 0)glDeleteBuffers(1, &vertexArrayId);
+
+	unsigned int vertexCount = vertices.size();
+
+	GLfloat* tmpVertexArray = new GLfloat[7 * vertexCount];
+
+	unsigned int vi = 0;
+	for (unsigned int i = 0; i < vertexCount; i++){
+		tmpVertexArray[vi] = vertices[i].x;
+		tmpVertexArray[vi + 1] = vertices[i].y;
+		tmpVertexArray[vi + 2] = 0;
+		vi += 3;
+	}
+	vi = 0;
+	for (unsigned int i = 0; i < vertexCount; i++) {
+		tmpVertexArray[vi] = colors[i].x;
+		tmpVertexArray[vi + 1] = colors[i].y;
+		tmpVertexArray[vi + 2] = colors[i].z;
+		tmpVertexArray[vi + 3] = colors[i].w;
+		vi += 4;
+	}
+
+	/*
+	glGenBuffers(1, &vertexArrayId);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 7 * vertexCount, NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 3 * vertexCount, tmpVertexArray);
+	glBufferSubData(GL_ARRAY_BUFFER, vSize, cSize, colors);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	*/
+	delete[] tmpVertexArray;
+}
+
+void GUIRenderable::_generateIndexBuffer(vector<unsigned int>& indices, GLuint& indexArrayId, unsigned int& indexCount) {
+
+	if (indexArrayId > 0)glDeleteBuffers(1, &indexArrayId);
+
+	indexCount = indices.size();
+
+	GLuint* tmpIndicesArray = new GLuint[indexCount];
+	
+	for (unsigned int i = 0; i < indexCount; i++) {
+		tmpIndicesArray[i] = indices[i];
+	}
+
+	glGenBuffers(1, &indexArrayId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexArrayId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*indexCount, NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLuint)*indexCount, tmpIndicesArray);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	delete[] tmpIndicesArray;
 }

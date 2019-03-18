@@ -24,8 +24,8 @@ public:
 		SOLID,
 		GRADIENT
 	};
-
 	virtual ~GUIStyle();
+
 	float radius;
 	float radiusTopLeft;
 	float radiusTopRight;
@@ -38,11 +38,15 @@ public:
 	float borderSizeLeft;
 	float borderSizeRight;
 
-	float shadowSize;
-	float shadowSizeTop;
-	float shadowSizeBottom;
-	float shadowSizeLeft;
-	float shadowSizeRight;
+	float shadowSize;		
+	float shadowHardness;
+	float shadowX;
+	float shadowY;
+	
+	float shadowSizeTop;//Obsolette
+	float shadowSizeBottom;//Obsolette
+	float shadowSizeLeft;//Obsolette
+	float shadowSizeRight;//Obsolette
 
 //	Vector4 shadowColor;
 
@@ -82,6 +86,12 @@ public:
 	void Draw();
 
 	void generateGeometry();
+
+	void _generateGeometryData();
+	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&);
+	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
+	
+	/*
 	void _generateShell(vector<Vector2>& points,
 		Vector2 size,
 		float r1,
@@ -101,10 +111,18 @@ public:
 		GLuint& indexarray,
 		GLuint& vertexarray,
 		unsigned int& indexcount);
+	*/
 
 	GUIStyle*	style;
 	Vector2		size;
 
+	GLuint		vertexArrayId;
+
+	GLuint			bodyIndexArrayId;
+	unsigned int	bodyNumIndices;
+
+	//obsolette
+	/*
 	GLuint			bodyGeometryArray;
 	GLuint			bodyIndexArray;
 	unsigned int	bodyNumIndices;
@@ -116,5 +134,6 @@ public:
 	GLuint			shadowGeometryArray;
 	GLuint			shadowIndexArray;
 	unsigned int	shadowNumIndices;
+	*/
 };
 
