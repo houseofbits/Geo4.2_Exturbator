@@ -42,13 +42,8 @@ public:
 	float shadowHardness;
 	float shadowX;
 	float shadowY;
-	
-	float shadowSizeTop;//Obsolette
-	float shadowSizeBottom;//Obsolette
-	float shadowSizeLeft;//Obsolette
-	float shadowSizeRight;//Obsolette
 
-//	Vector4 shadowColor;
+	Vector4 shadowColor;
 
 	//GUIGradientColor backgroundGradientColor;
 	Vector4		backgroundColor;
@@ -62,7 +57,7 @@ TODO:
 v generate shadow geometry
 v generate sizeable border geometry
 - 0 size border geometry generating (triangulation tolerances)
-- 0 size shadow geometry generating (triangulation tolerances)
+v 0 size shadow geometry generating (triangulation tolerances)
 v border size parameters
 - generate border colors
 - background clipping mask
@@ -90,28 +85,6 @@ public:
 	void _generateGeometryData();
 	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&);
 	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
-	
-	/*
-	void _generateShell(vector<Vector2>& points,
-		Vector2 size,
-		float r1,
-		float r2,
-		float r3,
-		float r4,
-		float offsetL,
-		float offsetR,
-		float offsetT,
-		float offsetB);
-	void _generateSolidFromPointSet(vector<Vector2>*,
-		GLuint& indexarray,
-		GLuint& vertexarray,
-		unsigned int& indexcount);
-	void _generateStripFromPointSet(vector<Vector2>*,
-		vector<Vector2>*,
-		GLuint& indexarray,
-		GLuint& vertexarray,
-		unsigned int& indexcount);
-	*/
 
 	GUIStyle*	style;
 	Vector2		size;
@@ -121,19 +94,10 @@ public:
 	GLuint			bodyIndexArrayId;
 	unsigned int	bodyNumIndices;
 
-	//obsolette
-	/*
-	GLuint			bodyGeometryArray;
-	GLuint			bodyIndexArray;
-	unsigned int	bodyNumIndices;
-
-	GLuint			borderGeometryArray;
-	GLuint			borderIndexArray;
-	unsigned int	borderNumIndices;
-
-	GLuint			shadowGeometryArray;
-	GLuint			shadowIndexArray;
+	GLuint			shadowIndexArrayId;
 	unsigned int	shadowNumIndices;
-	*/
+
+	GLuint			borderIndexArrayId;
+	unsigned int	borderNumIndices;
 };
 

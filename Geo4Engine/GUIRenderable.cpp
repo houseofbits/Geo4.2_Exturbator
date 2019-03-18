@@ -15,12 +15,7 @@ GUIStyle::GUIStyle() : radius(0),
 	shadowHardness(0),
 	shadowX(0),
 	shadowY(0),
-
-	//Obsolette
-	shadowSizeTop(0),
-	shadowSizeBottom(0),
-	shadowSizeLeft(0),
-	shadowSizeRight(0),
+	shadowColor(0,0,0,1),
 
 	backgroundFill(FillType::NONE),
 	backgroundColor(0,0,0,1)
@@ -32,21 +27,13 @@ GUIStyle::~GUIStyle()
 
 GUIRenderable::GUIRenderable() : style(0),
 	size(),
-	/*
-	bodyGeometryArray(0),
-	bodyIndexArray(0),
-	bodyNumIndices(0),
-	borderGeometryArray(0),
-	borderIndexArray(0),
-	borderNumIndices(0),
-	shadowGeometryArray(0),
-	shadowIndexArray(0),
-	shadowNumIndices(0),
-	*/
-
 	vertexArrayId(0),
 	bodyIndexArrayId(0),
-	bodyNumIndices(0)
+	bodyNumIndices(0),
+	shadowIndexArrayId(0),
+	shadowNumIndices(0),
+	borderIndexArrayId(0),
+	borderNumIndices(0)
 {
 
 
@@ -58,80 +45,52 @@ GUIRenderable::~GUIRenderable()
 }
 
 void GUIRenderable::Draw() {
-	
-	glColor3f(1, 1, 1);
 
-	/*
-	if (shadowGeometryArray > 0) {
-		glColor4f(0, 1, 0, 1);
-		glBindBuffer(GL_ARRAY_BUFFER, shadowGeometryArray);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowIndexArray);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		//glEnableClientState(GL_COLOR_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
-		//glColorPointer(3, GL_FLOAT, 0, (void*)cOffset);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(2, GL_FLOAT, sizeof(GLfloat) * 6, (void*)0);
+	glColorPointer(4, GL_FLOAT, sizeof(GLfloat) * 6, (float*)(sizeof(GLfloat) * 2));
 
+	if (shadowIndexArrayId > 0) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowIndexArrayId);
 		glDrawElements(GL_TRIANGLES, shadowNumIndices, GL_UNSIGNED_INT, (void*)0);
-		//glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-	
-	if (bodyGeometryArray > 0 && style != 0) {
-		if (style->backgroundFill = GUIStyle::FillType::SOLID) {
-			glColor4f(style->backgroundColor.x, style->backgroundColor.y, style->backgroundColor.z, style->backgroundColor.w);
-		}
-		else {
-			//gradient
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, bodyGeometryArray);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bodyIndexArray);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
+	if (bodyIndexArrayId > 0) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bodyIndexArrayId);
 		glDrawElements(GL_TRIANGLES, bodyNumIndices, GL_UNSIGNED_INT, (void*)0);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
-	if (borderGeometryArray > 0) {
-		glColor3f(0, 0, 1);
-
-		glBindBuffer(GL_ARRAY_BUFFER, borderGeometryArray);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, borderIndexArray);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(3, GL_FLOAT, 0, (void*)0);
+	if (borderIndexArrayId > 0) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, borderIndexArrayId);
 		glDrawElements(GL_TRIANGLES, borderNumIndices, GL_UNSIGNED_INT, (void*)0);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 	}
-	
-	*/
+
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }
 
 void GUIRenderable::_generateGeometryData() {
 
 	Vector2 halfSize = size * 0.5;
-	Vector2 quadrant, radiusCenterPoint;
-	//float radiusBody = 0;
+	Vector2 radiusCenterPoint;
 	float radiusShadowOuterEdge = 0;
 	float radiusBorderInnerEdge = 0;
-	Vector2 cornerBody;
 	Vector2 cornerBorderInnerEdge;
+
+	Vector2 shadowPos(style->shadowX, style->shadowY);
 
 	vector<Vector2>			bodyOutline;
 	vector<Vector2>			shadowInline;
-	//vector<Vector2>			shadowOutline;
+	vector<Vector2>			shadowOutline;
 
 	vector<Vector2>			vertexArray;
 	vector<Vector4>			colorArray;
 	vector<unsigned int>	indexArrayBody;
 	vector<unsigned int>	indexArrayBorder;
-	//vector<unsigned int>	indexArrayShadow;
+	vector<unsigned int>	indexArrayShadow;
 	
 	float radiusBody[] = {
 		style->radiusTopLeft,
@@ -160,25 +119,35 @@ void GUIRenderable::_generateGeometryData() {
 
 	for (int i = 0; i < 4; i++) {
 
-		radiusBorderInnerEdge = radiusBody[i] - radiusBorder[i];
-
-		if (radiusBorderInnerEdge < 3)radiusBorderInnerEdge = 0;
-
 		double step = Math::HALF_PI / max(4.0f, Math::Ceil(Math::HALF_PI * radiusBody[i] / 5));
+		
+		float shadowOuterSize = style->shadowSize;
+		float shadowInnerSize = (style->shadowSize * style->shadowHardness) - 1.0f;
 
 		//1. Generate body siluette conventional way
 		if (radiusBody[i] > 0) {
-			radiusCenterPoint = cornerBody - Vector2(radiusBody[i] * quadrant.x, radiusBody[i] * quadrant.y);
+			radiusCenterPoint = corners[i] - Vector2(radiusBody[i] * quadrants[i].x, radiusBody[i] * quadrants[i].y);
 			for (double u = 0; u <= Math::HALF_PI; u += step) {
-				float x = (float)cos(Math::HALF_PI + u + (Math::HALF_PI * i));
-				float y = (float)sin(Math::HALF_PI + u + (Math::HALF_PI * i));
-				x = radiusCenterPoint.x + (x * radiusBody[i]);
-				y = radiusCenterPoint.y + (y * radiusBody[i]);
+				float ux = (float)cos(Math::HALF_PI + u + (Math::HALF_PI * i));
+				float uy = (float)sin(Math::HALF_PI + u + (Math::HALF_PI * i));
+				float x = radiusCenterPoint.x + (ux * radiusBody[i]);
+				float y = radiusCenterPoint.y + (uy * radiusBody[i]);
 				bodyOutline.push_back(Vector2(x, y));
+
+				x = radiusCenterPoint.x + (ux * (radiusBody[i] + shadowInnerSize));
+				y = radiusCenterPoint.y + (uy * (radiusBody[i] + shadowInnerSize));
+				shadowInline.push_back(Vector2(x,y) + shadowPos);
+
+				x = radiusCenterPoint.x + (ux * (radiusBody[i] + shadowOuterSize));
+				y = radiusCenterPoint.y + (uy * (radiusBody[i] + shadowOuterSize));
+				shadowOutline.push_back(Vector2(x, y) + shadowPos);
 			}
 		}
-		else bodyOutline.push_back(cornerBody);
-
+		else {
+			bodyOutline.push_back(corners[i]);
+			shadowInline.push_back(Vector2((halfSize.x + shadowInnerSize) * quadrants[i].x, (halfSize.y + shadowInnerSize) * quadrants[i].y) + shadowPos);
+			shadowOutline.push_back(Vector2((halfSize.x + shadowOuterSize) * quadrants[i].x, (halfSize.y + shadowOuterSize) * quadrants[i].y) + shadowPos);
+		}
 		//2. Generate border corner cases
 		if (radiusBody > 0) {
 			if (radiusBorderInnerEdge < radiusBody[i]) {
@@ -192,13 +161,44 @@ void GUIRenderable::_generateGeometryData() {
 
 	//3. Generate border side triangles
 	if (style->borderSizeLeft > 0) {
-		//vertexArray.push_back(corners[0] - Vector2(0, radiusBody[0]));	//top left
-		//vertexArray.push_back(corners[0] - Vector2(-style->borderSizeLeft, radiusBody[0]));	//top left
-		//vertexArray.push_back(corners[0] - Vector2(0, radiusBody[1]));	//bottom left
-		colorArray.push_back(Vector4(1, 0, 0, 1));	//TODO Border color
+		unsigned int offset = vertexArray.size();
+		vertexArray.push_back(corners[0] - Vector2(0, radiusBody[0]));
+		vertexArray.push_back(corners[0] - Vector2(-style->borderSizeLeft, radiusBody[0]));
+		vertexArray.push_back(corners[1] - Vector2(-style->borderSizeLeft, -radiusBody[1]));
+		vertexArray.push_back(corners[1] - Vector2(0, -radiusBody[1]));
+		
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+
+		indexArrayBorder.push_back(offset);
+		indexArrayBorder.push_back(offset + 2);
+		indexArrayBorder.push_back(offset + 3);
+
+		indexArrayBorder.push_back(offset);
+		indexArrayBorder.push_back(offset + 1);
+		indexArrayBorder.push_back(offset + 2);
 	}
 	if (style->borderSizeRight > 0) {
+		unsigned int offset = vertexArray.size();
+		vertexArray.push_back(corners[2] - Vector2(0, radiusBody[0]));
+		vertexArray.push_back(corners[2] - Vector2(style->borderSizeLeft, radiusBody[0]));
+		vertexArray.push_back(corners[3] - Vector2(style->borderSizeLeft, radiusBody[1]));
+		vertexArray.push_back(corners[3] - Vector2(0, radiusBody[1]));
 
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+		colorArray.push_back(Vector4(0, 0, 1, 1));
+
+		indexArrayBorder.push_back(offset);
+		indexArrayBorder.push_back(offset + 2);
+		indexArrayBorder.push_back(offset + 3);
+
+		indexArrayBorder.push_back(offset);
+		indexArrayBorder.push_back(offset + 1);
+		indexArrayBorder.push_back(offset + 2);
 	}
 	if (style->borderSizeTop > 0) {
 
@@ -206,29 +206,54 @@ void GUIRenderable::_generateGeometryData() {
 	if (style->borderSizeBottom > 0) {
 
 	}
-
 	//4. Triangulate body
-	unsigned int nexti = 0;
-	unsigned int midpointIndex = vertexArray.size();
-	vertexArray.push_back(Vector2(0,0));
-	colorArray.push_back(Vector4(1, 1, 1, 1));
-	for (unsigned int i = 0; i < bodyOutline.size(); i++){
-		nexti = (i + 1) % bodyOutline.size();
-		indexArrayBody.push_back(midpointIndex);
-		indexArrayBody.push_back(i);
-		indexArrayBody.push_back(nexti);
-		vertexArray.push_back(bodyOutline[i]);
-		colorArray.push_back(Vector4(1,1,1,1));
+	if (style->backgroundFill != GUIStyle::FillType::NONE) {
+		unsigned int offset = vertexArray.size();
+		unsigned int nexti = 0;
+		unsigned int midpointIndex = offset;
+		vertexArray.push_back(Vector2(0, 0));
+		colorArray.push_back(Vector4(1, 1, 1, 1));
+		for (unsigned int i = 0; i < bodyOutline.size(); i++) {
+			nexti = (i + 1) % bodyOutline.size();
+			indexArrayBody.push_back(midpointIndex);
+			indexArrayBody.push_back(midpointIndex + i + 1);
+			indexArrayBody.push_back(midpointIndex + nexti + 1);
+			vertexArray.push_back(bodyOutline[i]);
+			colorArray.push_back(Vector4(1, 1, Math::RangeRandom(0, 1), 1));
+		}
+		_generateIndexBuffer(indexArrayBody, bodyIndexArrayId, bodyNumIndices);
 	}
 
-	//5. Generate shadow outline by scaling ant translating body outline
+	//5. Generate shadow geometry
+	if (style->shadowSize > 0) {
+		unsigned int nexti = 0;
+		unsigned int midpointIndex = vertexArray.size();
+		vertexArray.push_back(Vector2(0, 0));
+		colorArray.push_back(Vector4(1, 1, 1, 1));
+		unsigned int offset = vertexArray.size();
+		for (unsigned int i = 0; i < shadowInline.size(); i++) {
+			vertexArray.push_back(shadowInline[i]);
+			vertexArray.push_back(shadowOutline[i]);
+			colorArray.push_back(style->shadowColor);
+			colorArray.push_back(Vector4(style->shadowColor.xyz(), 0));
+			nexti = (i + 1) % bodyOutline.size();
+			indexArrayShadow.push_back(midpointIndex);
+			indexArrayShadow.push_back(offset + (i * 2));
+			indexArrayShadow.push_back(offset + (nexti * 2));
+			indexArrayShadow.push_back(offset + (i * 2));
+			indexArrayShadow.push_back(offset + (nexti * 2));
+			indexArrayShadow.push_back(offset + (i * 2) + 1);
+			indexArrayShadow.push_back(offset + (nexti * 2));
+			indexArrayShadow.push_back(offset + (i * 2) + 1);
+			indexArrayShadow.push_back(offset + (nexti * 2) + 1);
+		}
+		_generateIndexBuffer(indexArrayShadow, shadowIndexArrayId, shadowNumIndices);
+	}
 
+	_generateIndexBuffer(indexArrayBorder, borderIndexArrayId, borderNumIndices);
 
 	//6. Generate VBO data
-
 	_generateVertexBuffer(vertexArray, colorArray);
-
-
 }
 /*
 void GUIRenderable::_generateShell(vector<Vector2>& points, 
@@ -483,33 +508,25 @@ void GUIRenderable::_generateVertexBuffer(vector<Vector2>& vertices, vector<Vect
 
 	unsigned int vertexCount = vertices.size();
 
-	GLfloat* tmpVertexArray = new GLfloat[7 * vertexCount];
+	GLfloat* tmpVertexArray = new GLfloat[6 * vertexCount];
 
 	unsigned int vi = 0;
 	for (unsigned int i = 0; i < vertexCount; i++){
 		tmpVertexArray[vi] = vertices[i].x;
 		tmpVertexArray[vi + 1] = vertices[i].y;
-		tmpVertexArray[vi + 2] = 0;
-		vi += 3;
-	}
-	vi = 0;
-	for (unsigned int i = 0; i < vertexCount; i++) {
-		tmpVertexArray[vi] = colors[i].x;
-		tmpVertexArray[vi + 1] = colors[i].y;
-		tmpVertexArray[vi + 2] = colors[i].z;
-		tmpVertexArray[vi + 3] = colors[i].w;
-		vi += 4;
+		tmpVertexArray[vi + 2] = colors[i].x;
+		tmpVertexArray[vi + 3] = colors[i].y;
+		tmpVertexArray[vi + 4] = colors[i].z;
+		tmpVertexArray[vi + 5] = colors[i].w;
+		vi += 6;
 	}
 
-	/*
 	glGenBuffers(1, &vertexArrayId);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 7 * vertexCount, NULL, GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 3 * vertexCount, tmpVertexArray);
-	glBufferSubData(GL_ARRAY_BUFFER, vSize, cSize, colors);
-
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * vertexCount, NULL, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 6 * vertexCount, tmpVertexArray);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	*/
+
 	delete[] tmpVertexArray;
 }
 

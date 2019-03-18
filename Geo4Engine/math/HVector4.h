@@ -3,10 +3,10 @@
 #define __Vector4_H__
 
 #include "HPrerequisites.h"
+#include "HVector2.h"
 #include "HVector3.h"
 #include "HMatrix4.h"
 
-//##ModelId=42BA535A03D8
     class Vector4
     {
     public:
@@ -18,18 +18,15 @@
         };
 
     public:
-	//##ModelId=42BA535A03D9
         inline Vector4()
         {
         }
 
-	//##ModelId=42BA535A03DA
         inline Vector4( Real fX, Real fY, Real fZ, Real fW ) 
             : x( fX ), y( fY ), z( fZ ), w( fW)
         {
         }
 
-	//##ModelId=42BA535B0004
         inline Vector4( Real afCoordinate[4] )
             : x( afCoordinate[0] ),
               y( afCoordinate[1] ),
@@ -38,7 +35,6 @@
         {
         }
 
-	//##ModelId=42BA535B0006
         inline Vector4( int afCoordinate[4] )
         {
             x = (Real)afCoordinate[0];
@@ -47,19 +43,22 @@
             w = (Real)afCoordinate[3];
         }
 
-	//##ModelId=42BA535B0008
         inline Vector4( const Real* const r )
             : x( r[0] ), y( r[1] ), z( r[2] ), w( r[3] )
         {
         }
 
-	//##ModelId=42BA535B000A
         inline Vector4( const Vector4& rkVector )
             : x( rkVector.x ), y( rkVector.y ), z( rkVector.z ), w (rkVector.w)
         {
         }
 
-	//##ModelId=42BA535B000C
+		inline Vector4(const Vector3& rkVector, Real fW)
+			: x(rkVector.x), y(rkVector.y), z(rkVector.z), w(fW)
+		{
+		}
+
+
         inline Real operator [] ( unsigned i ) const
         {
             assert( i < 4 );
@@ -67,7 +66,6 @@
             return *(&x+i);
         }
 
-	//##ModelId=42BA535B000F
 		inline Real& operator [] ( unsigned i )
         {
             assert( i < 4 );
@@ -75,7 +73,6 @@
             return *(&x+i);
         }
 
-	//##ModelId=42BA535B0011
         inline Vector4& operator = ( const Vector4& rkVector )
         {
             x = rkVector.x;
@@ -86,7 +83,6 @@
             return *this;
         }
 
-	//##ModelId=42BA535B0013
         inline bool operator == ( const Vector4& rkVector ) const
         {
             return ( x == rkVector.x && 
@@ -95,7 +91,6 @@
                 w == rkVector.w );
         }
 
-	//##ModelId=42BA535B0016
         inline bool operator != ( const Vector4& rkVector ) const
         {
             return ( x != rkVector.x || 
@@ -104,7 +99,6 @@
                 w != rkVector.w );
         }
 
-	//##ModelId=42BA535B0019
         inline Vector4& operator = (const Vector3& rhs)
         {
             x = rhs.x;
@@ -114,7 +108,6 @@
             return *this;
         }
 
-	//##ModelId=42BA535B001B
         inline Vector4 operator * (const Matrix4& mat) const
         {
             return Vector4(
@@ -125,11 +118,18 @@
                 );
         }
 
-	//##ModelId=42BA535B001E
         inline Real dotProduct(const Vector4& vec) const
         {
             return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
         }
+
+		inline Vector2 xy(){
+			return Vector2(x,y);
+		}
+
+		inline Vector3 xyz() {
+			return Vector3(x, y, z);
+		}
 
     };
 
