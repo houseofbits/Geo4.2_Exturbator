@@ -26,19 +26,27 @@ void GUIButton::Deserialize(CFONode* node, ResourceManager* mgr)
 {
 	GUIEntity::Deserialize(node, mgr);
 
-	style.radiusBottomLeft = 70;
-	style.radiusBottomRight = 25;
-	style.radiusTopLeft = 10;
+	style.radiusBottomLeft = 50;
+	style.radiusBottomRight = 0;
+	style.radiusTopLeft = 0;
 	style.radiusTopRight = 0;
 
 	style.borderSize = 10;
-	style.borderSizeLeft = 5;
-	style.borderSizeRight = 10;
+	style.borderSizeLeft = 10;
+	style.borderSizeRight = 5;
+	style.borderSizeTop = 20;
+	style.borderSizeBottom = 15;
+
+	style.borderColorBottom = Vector4(0, 0, 1, 1);
+	style.borderColorTop = Vector4(0, 0.6, 0, 1);
+	style.borderColorRight = Vector4(0.6, 0, 0, 1);
+	style.borderColorLeft = Vector4(0.6, 0, 0.6, 1);
 
 	style.shadowSize = 15;
 	style.shadowHardness = 0;
 	style.shadowX = 5;
 	style.shadowY = 10;
+	style.shadowColor = Vector4(0.4,0.4,0.5,1);
 
 	style.backgroundFill = GUIStyle::FillType::SOLID;
 	style.backgroundColor = Vector4(1,1,0,0.7f);

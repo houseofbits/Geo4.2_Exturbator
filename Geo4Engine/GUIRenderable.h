@@ -26,23 +26,28 @@ public:
 	};
 	virtual ~GUIStyle();
 
-	float radius;
+	float radius;				//ONLY FOR SERIALIZER. MIGHT BE REMOVED
 	float radiusTopLeft;
 	float radiusTopRight;
 	float radiusBottomLeft;
 	float radiusBottomRight;
 	
-	float borderSize;
+	float borderSize;			//ONLY FOR SERIALIZER. MIGHT BE REMOVED
 	float borderSizeTop;
 	float borderSizeBottom;
 	float borderSizeLeft;
 	float borderSizeRight;
 
+	Vector4 borderColor;		//ONLY FOR SERIALIZER. MIGHT BE REMOVED
+	Vector4 borderColorLeft;
+	Vector4 borderColorRight;
+	Vector4 borderColorTop;
+	Vector4 borderColorBottom;
+
 	float shadowSize;		
 	float shadowHardness;
 	float shadowX;
 	float shadowY;
-
 	Vector4 shadowColor;
 
 	//GUIGradientColor backgroundGradientColor;
