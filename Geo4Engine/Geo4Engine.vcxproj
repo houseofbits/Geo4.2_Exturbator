@@ -165,6 +165,7 @@
     <ClCompile Include="events\InputEvent.cpp" />
     <ClCompile Include="events\SceneManagerEvent.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="GUIStyleResource.cpp" />
     <ClCompile Include="HColor.cpp" />
     <ClCompile Include="GUIRenderable.cpp" />
     <ClCompile Include="GUIButton.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="GUIEntity.h" />
     <ClInclude Include="GUIEvent.h" />
     <ClInclude Include="GUISlider.h" />
+    <ClInclude Include="GUIStyleResource.h" />
     <ClInclude Include="GUIViewport.h" />
     <ClInclude Include="Hardware.h" />
     <ClInclude Include="math\HAxisAlignedBox.h" />

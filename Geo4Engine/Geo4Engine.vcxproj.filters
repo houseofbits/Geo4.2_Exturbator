@@ -144,6 +144,9 @@
     <ClCompile Include="Triangulation.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="GUIStyleResource.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\HAxisAlignedBox.h">
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="Triangulation.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIStyleResource.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

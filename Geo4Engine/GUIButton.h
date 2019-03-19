@@ -1,5 +1,6 @@
 #pragma once
 #include "GUIEntity.h"
+#include "GUIStyleResource.h"
 class GUIButton :
 	public GUIEntity,
 	public EventHandler
@@ -22,10 +23,12 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
-	int			window_width;
-	int			window_height;
-
 	GUIRenderable	renderable;
-	GUIStyle		style;
+
+	GUIStyleResourceHandle styleSheet;
+
+	std::string styleActiveName;
+	std::string styleHoverName;
+	std::string stylePressedName;
 };
 

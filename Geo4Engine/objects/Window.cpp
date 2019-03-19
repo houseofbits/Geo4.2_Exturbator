@@ -122,6 +122,8 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 6);
 
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
 	window = SDL_CreateWindow(window_title.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -144,6 +146,8 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 	Font::m_DefaultInstance.Load("arial.glf");
 
 	glEnable(GL_MULTISAMPLE);
+
+	glClearStencil(0);
 }
 
 void SDLWindow::Deserialize(CFONode* node, ResourceManager* mgr)

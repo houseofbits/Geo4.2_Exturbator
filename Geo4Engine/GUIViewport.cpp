@@ -43,7 +43,8 @@ void GUIViewport::PreRender(Renderer*)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glDisable(GL_CULL_FACE);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClearStencil(0);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void GUIViewport::Render(Renderer* rnd)

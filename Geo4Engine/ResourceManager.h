@@ -33,9 +33,8 @@ public:
 	void	setName(std::string n){name = n;}
 	std::string	getName(){return name;}
 	bool operator () (Resource* obj){ return obj->name == name; } 
-private:
-	Resource(std::string n):name(n), refcount(0){}
 
+	Resource(std::string n):name(n), refcount(0){}
 	std::string		name;
 	int			refcount;
 };

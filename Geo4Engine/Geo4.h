@@ -53,11 +53,7 @@ Geo4 engine
 #include "GUIViewport.h"
 #include "GUIButton.h"
 #include "GUISlider.h"
-//#include "GUISound.h"
-//#include "SoundDevice.h"
-
 #include "Hardware.h"
 
-
-
 #include "Font.h"
+#include "GUIStyleResource.h"
