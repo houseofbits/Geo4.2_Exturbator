@@ -39,7 +39,7 @@ void GUIViewport::PreRender(Renderer*)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glOrtho(0.0, window_width, window_height, 0.0, -1.0, 10.0);
+	glOrtho(0.0, window_width, 0, window_height, -1.0, 10.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glDisable(GL_CULL_FACE);

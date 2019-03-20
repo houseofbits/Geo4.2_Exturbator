@@ -1,0 +1,100 @@
+#include "Geo4.h"
+
+CLASS_DECLARATION(GUIWindow);
+
+GUIWindow::GUIWindow() : renderableTitle(),
+	renderableBody(),
+	renderableShadow(),
+	styleSheet(),
+	titleBarSize(30)
+{	}
+
+GUIWindow::~GUIWindow()
+{	}
+
+void GUIWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
+{
+	event_manager->RegisterEventHandler(this);
+	event_manager->RegisterEventReceiver(this, &GUIWindow::OnInputEvent);
+	event_manager->RegisterEventReceiver(this, &GUIWindow::OnWindowEvent);
+}
+
+void GUIWindow::Deserialize(CFONode* node, ResourceManager* mgr)
+{
+	GUIEntity::Deserialize(node, mgr);
+
+	mgr->Get(styleSheet, "styles.cfo");
+
+	node->getValueBool("showOverlay", showOverlay);
+
+	string styleTitleName = "windowDefaultTitle";
+	string styleBodyName = "windowDefaultBody";
+	string styleShadowName = "windowDefaultShadow";
+
+	node->getValueString("styleTitle", styleTitleName);
+	node->getValueString("styleBody", styleBodyName);
+	node->getValueString("styleShadow", styleShadowName);
+
+	renderableTitle.size = m_Size;
+	renderableTitle.size.y = titleBarSize;
+	renderableTitle.style = &styleSheet->get(styleTitleName);
+
+	renderableBody.size = m_Size;
+	renderableBody.size.y = m_Size.y - titleBarSize;
+	renderableBody.style = &styleSheet->get(styleBodyName);
+
+	renderableShadow.size = m_Size;
+	renderableShadow.style = &styleSheet->get(styleShadowName);
+}
+
+bool GUIWindow::OnWindowEvent(WindowEvent*const event)
+{
+	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+
+		renderableTitle.generateGeometry();
+		renderableBody.generateGeometry();
+		renderableShadow.generateGeometry();
+
+	}
+	return 1;
+}
+
+bool GUIWindow::OnInputEvent(InputEvent*const event)
+{
+	if (isVisible() == 0)return 1;
+
+	return 1;
+}
+
+void GUIWindow::PreRender(Renderer*)
+{
+
+}
+
+void GUIWindow::Render(Renderer* rnd)
+{
+	if (isVisible() == 0)return
+
+	glEnable(GL_BLEND);
+
+	glPushMatrix();
+	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+	renderableShadow.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(m_LocalPos.x, m_LocalPos.y + (m_Size.y * 0.5f) - (titleBarSize * 0.5f), 0);
+	renderableTitle.Draw(m_Title);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(m_LocalPos.x, m_LocalPos.y - (titleBarSize * 0.5f), 0);
+	renderableBody.Draw();
+	glPopMatrix();
+
+}
+
+void GUIWindow::PostRender()
+{
+
+}

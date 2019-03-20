@@ -1,8 +1,10 @@
 #include "Geo4.h"
 
-GUIGradientColor::GUIGradientColor() : vertexArrayId(0),
+GUIGradientColor::GUIGradientColor() : points(), 
+	vertexArrayId(0),
 	indexArrayId(0),
-	numIndices(0)
+	numIndices(0),
+	angle(0)
 {	}
 
 void GUIGradientColor::draw() {
@@ -21,7 +23,7 @@ void GUIGradientColor::draw() {
 	}
 }
 
-void GUIGradientColor::generate(Vector2& size) {
+void GUIGradientColor::generate() {
 
 	//0.Sort
 	std::sort(points.begin(), points.end(),
@@ -45,8 +47,8 @@ void GUIGradientColor::generate(Vector2& size) {
 	//2.scale/translate/rotate
 	for (unsigned int i = 0; i < verts.size(); i++) {
 		verts[i] = Vector2(
-			(0.5f - verts[i].x),// * size.x,
-			(0.5f - verts[i].y)// * size.y
+			(0.5f - verts[i].x),
+			(0.5f - verts[i].y)
 		);
 	}
 
@@ -110,12 +112,18 @@ GUIStyle::GUIStyle() : radius(0),
 	borderColorBottom(0, 0, 0, 1),
 	shadowSize(0),	
 	shadowHardness(0),
-	shadowX(0),
-	shadowY(0),
+	shadowPosition(0,0),
 	shadowColor(0,0,0,1),
-
 	backgroundFill(FillType::NONE),
-	backgroundColor(0,0,0,1)
+	backgroundColor(0,0,0,1),
+	font(),
+	fontSize(12),
+	fontColor(1,1,1,1),
+	fontShadowPosition(),
+	fontShadowColor(0,0,0,1),
+
+	_fontValid(0),
+	_fontHasShadow(0)
 
 {	}
 
@@ -125,13 +133,17 @@ GUIStyle::~GUIStyle()
 
 void GUIGradientColor::Deserialize(CFONode* node)
 {
+	node->getValueFloat("angle", angle);
+
 	CFONode* object = node->GetFirstChild();
 	while (object) {
 		string classname = object->GetName();
-		string value = object->GetValue();
-		Vector4 color = Utils::StringToVector4(value);
-		float pos = (float)atof(classname.c_str());
-		add(color, pos);
+		if (classname != "angle") {
+			string value = object->GetValue();
+			Vector4 color = Utils::StringToVector4(value);
+			float pos = (float)atof(classname.c_str());
+			add(color, pos);
+		}
 		object = object->GetNextNode();
 	}
 
@@ -142,37 +154,33 @@ void GUIStyle::Deserialize(CFONode* node)
 	if (node->getValueFloat("radius", radius)) {
 		radiusTopLeft = radiusTopRight = radiusBottomLeft = radiusBottomRight = radius;
 	}
-	else {
-		node->getValueFloat("radiusTopLeft", radiusTopLeft);
-		node->getValueFloat("radiusTopRight", radiusTopRight);
-		node->getValueFloat("radiusBottomLeft", radiusBottomLeft);
-		node->getValueFloat("radiusBottomRight", radiusBottomRight);
-	}
+
+	node->getValueFloat("radiusTopLeft", radiusTopLeft);
+	node->getValueFloat("radiusTopRight", radiusTopRight);
+	node->getValueFloat("radiusBottomLeft", radiusBottomLeft);
+	node->getValueFloat("radiusBottomRight", radiusBottomRight);
 
 	if (node->getValueFloat("borderSize", borderSize)) {
 		borderSizeTop = borderSizeBottom = borderSizeLeft = borderSizeRight = borderSize;
 	}
-	else {
-		node->getValueFloat("borderSizeTop", borderSizeTop);
-		node->getValueFloat("borderSizeBottom", borderSizeBottom);
-		node->getValueFloat("borderSizeLeft", borderSizeLeft);
-		node->getValueFloat("borderSizeRight", borderSizeRight);
-	}
+
+	node->getValueFloat("borderSizeTop", borderSizeTop);
+	node->getValueFloat("borderSizeBottom", borderSizeBottom);
+	node->getValueFloat("borderSizeLeft", borderSizeLeft);
+	node->getValueFloat("borderSizeRight", borderSizeRight);
 
 	if (node->getValueVector4("borderColor", borderColor)) {
 		borderColorLeft = borderColorRight = borderColorTop = borderColorBottom = borderColor;
 	}
-	else {
-		node->getValueVector4("borderColorLeft", borderColorLeft);
-		node->getValueVector4("borderColorRight", borderColorRight);
-		node->getValueVector4("borderColorTop", borderColorTop);
-		node->getValueVector4("borderColorBottom", borderColorBottom);
-	}
+
+	node->getValueVector4("borderColorLeft", borderColorLeft);
+	node->getValueVector4("borderColorRight", borderColorRight);
+	node->getValueVector4("borderColorTop", borderColorTop);
+	node->getValueVector4("borderColorBottom", borderColorBottom);
 
 	node->getValueFloat("shadowSize", shadowSize);
 	node->getValueFloat("shadowHardness", shadowHardness);
-	node->getValueFloat("shadowX", shadowX);
-	node->getValueFloat("shadowY", shadowY);
+	node->getValueVector2("shadowPosition", shadowPosition);
 	node->getValueVector4("shadowColor", shadowColor);
 
 	if (node->getValueVector4("backgroundColor", backgroundColor)) {
@@ -184,6 +192,18 @@ void GUIStyle::Deserialize(CFONode* node)
 	}
 	else {
 		backgroundFill = FillType::NONE;
+	}
+	string fontName;
+	if (node->getValueString("fontName", fontName)) {
+		node->getValueFloat("fontSize", fontSize);
+		if (font.Load(fontName, fontSize)) {
+			node->getValueVector4("fontColor", fontColor);
+			node->getValueVector2("fontShadowPosition", fontShadowPosition);
+			if (node->getValueVector4("fontShadowColor", fontShadowColor)) {
+				_fontHasShadow = true;
+			}
+			_fontValid = true;
+		}
 	}
 }
 
@@ -204,21 +224,18 @@ GUIRenderable::GUIRenderable() : style(0),
 
 }
 
-
 GUIRenderable::~GUIRenderable()
 {
 }
 
-void GUIRenderable::Draw() {
+void GUIRenderable::Draw(string text) {
 
 	if (bodyIndexArrayId > 0 && style->backgroundFill == GUIStyle::FillType::GRADIENT) {
 
 		if (stencilIndex == 0) {
 			stencilIndex = createStencilIndex();
 		}
-		//GLuint stencilIndex = createStencilIndex();
 
-		//Disable rendering to the color buffer
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, stencilIndex, stencilIndex);
@@ -244,7 +261,6 @@ void GUIRenderable::Draw() {
 			glStencilFunc(GL_NOTEQUAL, stencilIndex, stencilIndex);
 			glStencilMask(0x00);
 			glDisable(GL_DEPTH_TEST);
-			//Keep the pixel
 			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 			glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -312,6 +328,14 @@ void GUIRenderable::Draw() {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+	if (style->_fontValid && text.length() > 0) {
+		if (style->_fontHasShadow) {
+			style->font.setColor(style->fontShadowColor);
+			style->font.drawCenter(text, style->fontShadowPosition);
+		}
+		style->font.setColor(style->fontColor);
+		style->font.drawCenter(text, Vector2(0, 0));
+	}
 }
 
 void GUIRenderable::_generateGeometryData() {
@@ -321,8 +345,6 @@ void GUIRenderable::_generateGeometryData() {
 	float radiusShadowOuterEdge = 0;
 	float radiusBorderInnerEdge = 0;
 	Vector2 cornerBorderInnerEdge;
-
-	Vector2 shadowPos(style->shadowX, style->shadowY);
 
 	vector<Vector2>			bodyOutline;
 	vector<Vector2>			shadowInline;
@@ -404,12 +426,12 @@ void GUIRenderable::_generateGeometryData() {
 				//Shadow inner edge
 				x = radiusCenterPoint.x + (ux * (radiusBody[i] + shadowInnerSize));
 				y = radiusCenterPoint.y + (uy * (radiusBody[i] + shadowInnerSize));
-				shadowInline.push_back(Vector2(x, y) + shadowPos);
+				shadowInline.push_back(Vector2(x, y) + style->shadowPosition);
 
 				//Shadow outer edge
 				x = radiusCenterPoint.x + (ux * (radiusBody[i] + shadowOuterSize));
 				y = radiusCenterPoint.y + (uy * (radiusBody[i] + shadowOuterSize));
-				shadowOutline.push_back(Vector2(x, y) + shadowPos);
+				shadowOutline.push_back(Vector2(x, y) + style->shadowPosition);
 			}
 		}
 		else {
@@ -417,8 +439,8 @@ void GUIRenderable::_generateGeometryData() {
 			borderInline.push_back(Vector2(borderInnerTranslate.x + (corners[i].x * borderInnerScale.x),
 				borderInnerTranslate.y + (corners[i].y * borderInnerScale.y)));
 			borderChangeColor.push_back(true);
-			shadowInline.push_back(Vector2((halfSize.x + shadowInnerSize) * quadrants[i].x, (halfSize.y + shadowInnerSize) * quadrants[i].y) + shadowPos);
-			shadowOutline.push_back(Vector2((halfSize.x + shadowOuterSize) * quadrants[i].x, (halfSize.y + shadowOuterSize) * quadrants[i].y) + shadowPos);
+			shadowInline.push_back(Vector2((halfSize.x + shadowInnerSize) * quadrants[i].x, (halfSize.y + shadowInnerSize) * quadrants[i].y) + style->shadowPosition);
+			shadowOutline.push_back(Vector2((halfSize.x + shadowOuterSize) * quadrants[i].x, (halfSize.y + shadowOuterSize) * quadrants[i].y) + style->shadowPosition);
 		}
 	}
 
@@ -476,7 +498,7 @@ void GUIRenderable::_generateGeometryData() {
 		style->borderSizeRight > 0) {
 		unsigned int offset = vertexArray.size();
 		unsigned int nexti = 0;
-		unsigned int colorIndex = 0;
+		unsigned int colorIndex = 3;
 		for (unsigned int i = 0; i < bodyOutline.size(); i++) {
 			if (borderChangeColor[i]) {
 				colorIndex = (colorIndex + 1) % 4;
@@ -507,7 +529,7 @@ void GUIRenderable::_generateGeometryData() {
 	_generateVertexBuffer(vertexArray, colorArray);
 
 	if (style->backgroundFill == GUIStyle::FillType::GRADIENT) {
-		style->backgroundGradientColor.generate(size); //TODO other params
+		style->backgroundGradientColor.generate();
 	}
 }
 

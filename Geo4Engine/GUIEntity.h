@@ -39,6 +39,7 @@ public:
 	bool					m_Visible;
 	bool					m_Disabled;
 	float					m_ZIndex;
+	string					m_Title;
 	Vector2					m_WorldPos;
 	Vector2					m_LocalPos;
 	Vector2					m_Size;

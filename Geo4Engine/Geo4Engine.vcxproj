@@ -73,6 +73,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <TargetName>$(ProjectName)_D</TargetName>
+    <IncludePath>..\Lib\freetype\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -166,6 +167,7 @@
     <ClCompile Include="events\SceneManagerEvent.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GUIStyleResource.cpp" />
+    <ClCompile Include="GUIWindow.cpp" />
     <ClCompile Include="HColor.cpp" />
     <ClCompile Include="GUIRenderable.cpp" />
     <ClCompile Include="GUIButton.cpp" />
@@ -186,6 +188,7 @@
     <ClCompile Include="objects\SceneManager.cpp" />
     <ClCompile Include="objects\Viewport.cpp" />
     <ClCompile Include="objects\Window.cpp" />
+    <ClCompile Include="TTFont.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Serial.cpp" />
@@ -207,6 +210,7 @@
     <ClInclude Include="GUISlider.h" />
     <ClInclude Include="GUIStyleResource.h" />
     <ClInclude Include="GUIViewport.h" />
+    <ClInclude Include="GUIWindow.h" />
     <ClInclude Include="Hardware.h" />
     <ClInclude Include="math\HAxisAlignedBox.h" />
     <ClInclude Include="math\HColor.h" />
@@ -227,6 +231,7 @@
     <ClInclude Include="objects\SceneManager.h" />
     <ClInclude Include="objects\Viewport.h" />
     <ClInclude Include="objects\Window.h" />
+    <ClInclude Include="TTFont.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Serial.h" />

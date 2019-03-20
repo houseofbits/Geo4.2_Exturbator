@@ -74,6 +74,11 @@ bool Viewport::OnWindowEvent(WindowEvent*const event)
 	window_width = event->window->width;
 	window_height = event->window->height;
 
+	mYaw += 10 * event->frametime;
+
+	if (mYaw < 0)mYaw = 360.0f - fabs(mYaw);
+	CalculatePosition();
+
 	return 1;
 }
 

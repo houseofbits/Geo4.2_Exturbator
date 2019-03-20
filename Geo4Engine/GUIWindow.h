@@ -3,14 +3,14 @@
 #include "GUIRenderable.h"
 #include "GUIStyleResource.h"
 
-class GUIButton :
+class GUIWindow :
 	public GUIEntity,
 	public EventHandler
 {
-CLASS_PROTOTYPE(GUIButton);
+CLASS_PROTOTYPE(GUIWindow);
 public:
-	GUIButton();
-	~GUIButton();
+	GUIWindow();
+	~GUIWindow();
 
 	void	Initialise(EventManager*const, SceneManager*);
 	void	Deinitialise(EventManager*const, SceneManager*) {};
@@ -25,9 +25,12 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
-	GUIRenderable	renderableActive;
-	GUIRenderable	renderableHover;
-	GUIRenderable	renderablePressed;
+	GUIRenderable	renderableTitle;
+	GUIRenderable	renderableBody;
+	GUIRenderable	renderableShadow;
+
+	float			titleBarSize;
+	bool			showOverlay;
 
 	GUIStyleResourceHandle styleSheet;
 };

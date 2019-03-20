@@ -5,7 +5,8 @@ GUIEntity::GUIEntity() : m_Visible(true),
 	m_ZIndex(-1.0f),
 	m_WorldPos(),
 	m_LocalPos(0.0f, 0.0f),
-	m_Size()
+	m_Size(),
+	m_Title()
 {	}
 
 
@@ -19,6 +20,7 @@ void GUIEntity::Deserialize(CFONode* node, ResourceManager* mgr)
 	node->getValueBool("visible", m_Visible);
 	node->getValueBool("disabled", m_Disabled);
 	node->getValueVector2("size", m_Size);
+	node->getValueString("title", m_Title);
 	if (node->getValueVector2("pos", m_LocalPos))
 		m_WorldPos = getWorldSpace(m_LocalPos);
 }

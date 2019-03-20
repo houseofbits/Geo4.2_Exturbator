@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	cout.rdbuf(file.rdbuf());
 #endif
 
-	cout << RED << "GEO4.4 Engine - Exturbator Prototype" << endl;
+	cout << RED << "GEO4.2 Engine - Exturbator Prototype" << endl;
 	cout << "Copyright: Krists Pudzens (c) 2007 - 2019" << endl;
 	cout << GREEN << "========================================" << WHITE << endl;
 
@@ -23,9 +23,9 @@ int main(int argc, char* argv[])
 
 	manager.RegisterObjectType(SDLWindow());
 	manager.RegisterObjectType(Viewport());
-	//manager.RegisterObjectType(ViewportGLES2());
 	manager.RegisterObjectType(GUIViewport());
 	manager.RegisterObjectType(GUISlider());
+	manager.RegisterObjectType(GUIWindow());
 	manager.RegisterObjectType(GUIButton());
 	manager.RegisterObjectType(Hardware());
 
