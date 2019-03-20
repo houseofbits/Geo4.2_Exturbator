@@ -46,10 +46,13 @@ bool GUIButton::OnWindowEvent(WindowEvent*const event)
 {
 	if (event->event_type == WindowEvent::WINDOW_CREATED) {
 
-		renderableActive.generateGeometry();
-		renderableHover.generateGeometry();
-		renderablePressed.generateGeometry();
+		renderableActive.update();
+		renderableHover.update();
+		renderablePressed.update();
 
+		renderableActive.setText(m_Title);
+		renderableHover.setText(m_Title);
+		renderablePressed.setText(m_Title);
 	}
 	return 1;
 }
@@ -74,7 +77,8 @@ bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 
 void GUIButton::PreRender(Renderer*)
 {
-
+	glPushMatrix();
+	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 }
 
 void GUIButton::Render(Renderer* rnd)
@@ -82,17 +86,12 @@ void GUIButton::Render(Renderer* rnd)
 	if (isVisible() == 0)return
 
 	glEnable(GL_BLEND);
-
-	glPushMatrix();
-
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);	
 	
-	renderableActive.Draw(m_Title);
+	renderableActive.Draw();
 
-	glPopMatrix();
 }
 
 void GUIButton::PostRender()
 {
-
+	glPopMatrix();
 }

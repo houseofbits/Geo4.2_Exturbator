@@ -2159,6 +2159,13 @@ public:
 
 		}
 	}
+	Vector2 measure(string text) {
+		if (oglftFilled) {
+			OGLFT::BBox bbox = oglftFilled->measure(text.c_str());
+			return Vector2((bbox.x_max_ - bbox.x_min_), (bbox.y_max_ - bbox.y_min_));
+		}
+		return Vector2();
+	}
 	void setColor(Vector4 color) {
 		if (oglftFilled)oglftFilled->setForegroundColor(color.x, color.y, color.z, color.w);
 	}

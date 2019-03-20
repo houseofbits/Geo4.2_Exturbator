@@ -156,6 +156,9 @@
     <ClCompile Include="GUIInputEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
+    <ClCompile Include="GUIText.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\HAxisAlignedBox.h">
@@ -286,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="GUIInputEvent.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIText.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

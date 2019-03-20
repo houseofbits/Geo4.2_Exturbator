@@ -193,6 +193,9 @@ void GUIStyle::Deserialize(CFONode* node)
 	else {
 		backgroundFill = FillType::NONE;
 	}
+
+	node->getValueFloat("lineHeight", lineHeight);
+
 	string fontName;
 	if (node->getValueString("fontName", fontName)) {
 		node->getValueFloat("fontSize", fontSize);
@@ -228,7 +231,7 @@ GUIRenderable::~GUIRenderable()
 {
 }
 
-void GUIRenderable::Draw(string text) {
+void GUIRenderable::Draw() {
 
 	if (bodyIndexArrayId > 0 && style->backgroundFill == GUIStyle::FillType::GRADIENT) {
 
@@ -328,13 +331,18 @@ void GUIRenderable::Draw(string text) {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-	if (style->_fontValid && text.length() > 0) {
-		if (style->_fontHasShadow) {
-			style->font.setColor(style->fontShadowColor);
-			style->font.drawCenter(text, style->fontShadowPosition);
+	if (style->_fontValid && splitText.size() > 0) {
+		float offset = 0;
+		float line = max(style->lineHeight, textLineHeight);
+		for (unsigned int i = 0; i < splitText.size(); i++) {
+			if (style->_fontHasShadow) {
+				style->font.setColor(style->fontShadowColor);
+				style->font.drawCenter(splitText[i], style->fontShadowPosition - Vector2(0, offset));
+			}
+			style->font.setColor(style->fontColor);
+			style->font.drawCenter(splitText[i], Vector2(0, -offset));
+			offset += line;
 		}
-		style->font.setColor(style->fontColor);
-		style->font.drawCenter(text, Vector2(0, 0));
 	}
 }
 
@@ -533,7 +541,7 @@ void GUIRenderable::_generateGeometryData() {
 	}
 }
 
-void GUIRenderable::generateGeometry() {
+void GUIRenderable::update() {
 
 	if (style == 0)return;
 
@@ -587,4 +595,41 @@ void GUIRenderable::_generateIndexBuffer(vector<unsigned int>& indices, GLuint& 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	delete[] tmpIndicesArray;
+}
+
+//TODO Split long words
+void GUIRenderable::setText(string text) {
+	//cout << "set text: "<<text << endl;
+	if(style && style->_fontValid){
+		vector<string> words;
+		int count = Utils::Explode(' ', text, words);
+		if (count > 1) {
+			float counter = 0;
+			string line = "";
+			for (unsigned int i = 0; i < words.size(); i++) {
+				Vector2 s = style->font.measure(words[i]);
+				textLineHeight = s.y;
+				//cout << words[i] << " / " << Utils::VectorToString(s) <<" / "<< size.x << endl;
+				if (counter + s.x > size.x) {
+					splitText.push_back(line);
+					line = words[i];
+					counter = s.x;
+				}
+				else {
+					counter += s.x;
+					if (line.size() > 0)line = line + " " + words[i];
+					else line = line + words[i];
+				}
+			}
+			if (line.length() > 0)splitText.push_back(line);
+		}
+		else {
+			splitText.push_back(text);
+		}
+
+		for (unsigned int i = 0; i < splitText.size(); i++)
+		{
+		//	cout << splitText[i] << endl;
+		}
+	}
 }

@@ -51,10 +51,11 @@ bool GUIWindow::OnWindowEvent(WindowEvent*const event)
 {
 	if (event->event_type == WindowEvent::WINDOW_CREATED) {
 
-		renderableTitle.generateGeometry();
-		renderableBody.generateGeometry();
-		renderableShadow.generateGeometry();
+		renderableTitle.update();
+		renderableBody.update();
+		renderableShadow.update();
 
+		renderableTitle.setText(m_Title);
 	}
 	return 1;
 }
@@ -79,7 +80,8 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 
 void GUIWindow::PreRender(Renderer*)
 {
-
+	glPushMatrix();
+	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 }
 
 void GUIWindow::Render(Renderer* rnd)
@@ -88,24 +90,20 @@ void GUIWindow::Render(Renderer* rnd)
 
 	glEnable(GL_BLEND);
 
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 	renderableShadow.Draw();
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(m_LocalPos.x, m_LocalPos.y + (m_Size.y * 0.5f) - (titleBarSize * 0.5f), 0);
-	renderableTitle.Draw(m_Title);
+	renderableTitle.Draw();
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(m_LocalPos.x, m_LocalPos.y - (titleBarSize * 0.5f), 0);
 	renderableBody.Draw();
-	glPopMatrix();
-
 }
 
 void GUIWindow::PostRender()
 {
-
+	glPopMatrix();
 }

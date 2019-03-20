@@ -54,6 +54,7 @@ Geo4 engine
 #include "GUIViewport.h"
 #include "GUIWindow.h"
 #include "GUIButton.h"
+#include "GUIText.h"
 #include "GUISlider.h"
 
 #include "Hardware.h"

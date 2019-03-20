@@ -1,0 +1,95 @@
+SDLWindow={
+	name="window";
+	title="Exturbator Prototype";
+	fullscreen=0; width=800; height=600;
+	//fullscreen=FULL; width=1024; height=768;
+	//fullscreen=FULL; width=1600; height=900;
+
+
+	Viewport={
+		pos=0,25;
+		size=600,220;
+		name=cam1;
+		viewmode=tps;
+		cam_pos=100,100,0;
+		pitch=-45;
+		yaw = 60;
+		distance=150;
+		fov=60;	
+		clear_color=0.1,0.1,0.1,1.0;
+	}
+	
+	GUIViewport={
+	    /*
+	    Hardware={
+	      serial_port="COM4";
+	      baud_rate="115200";
+	      pos=200,415;
+	    }*/
+	    
+	    GUIButton={
+	      name="button";
+	      title="Cancel";
+	      pos=70,40;
+	      size=100,40;
+	      styleActive="buttonDefaultActive";
+	    }
+	    GUIButton={
+	      name="button";
+	      title="Submit";
+	      pos=180,40;
+	      size=100,40;
+	      styleActive="buttonDefaultHover";      
+	    }
+	    GUIButton={
+			name="button";
+			title="Load";
+			pos=310,40;
+			size=140,40;
+			styleActive="buttonDefaultPressed";      
+	    }
+	    GUIWindow={
+			name="window";
+			title="Zone1 PID";
+			pos=400,300;
+			size=500,300;
+
+		    GUIText={
+		      name="button";
+		      title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
+		      size=300,100;
+		      pos=0,80;
+		    }
+
+		    GUIButton={
+		      name="button";
+		      title="Cancel";
+		      pos=-170,-80;
+		      size=100,40;
+		      styleActive="buttonDefaultActive";
+		    }
+		    GUIButton={
+		      name="button";
+		      title="Submit";
+		      pos=0,-80;
+		      size=100,40;
+		      styleActive="buttonDefaultHover";      
+		    }
+		    GUIButton={
+				name="button";
+				title="Ok";
+				pos=170,-80;
+				size=140,40;
+				styleActive="buttonDefaultPressed";      
+		    }
+	    } 
+	    GUIWindow={
+	      visible=0;
+	      name="window";
+	      title="Main window";
+	      pos=500,400;
+	      size=500,300;
+	    }     
+
+	}
+}

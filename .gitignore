@@ -1,6 +1,8 @@
 Lib/
-bin/
 Obj/
 .vs/
 Geo4Engine/Debug/
 Geo4Engine/Release/
+bin/*
+!bin/conf.cfo
+!bin/styles.cfo

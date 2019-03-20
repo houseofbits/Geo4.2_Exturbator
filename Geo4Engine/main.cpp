@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
 	manager.RegisterObjectType(GUISlider());
 	manager.RegisterObjectType(GUIWindow());
 	manager.RegisterObjectType(GUIButton());
+	manager.RegisterObjectType(GUIText());
 	manager.RegisterObjectType(Hardware());
 
 	manager.LoadCFO("conf.cfo");

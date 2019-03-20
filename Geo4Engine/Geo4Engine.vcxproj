@@ -168,6 +168,7 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GUIInputEvent.cpp" />
     <ClCompile Include="GUIStyleResource.cpp" />
+    <ClCompile Include="GUIText.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
     <ClCompile Include="HColor.cpp" />
     <ClCompile Include="GUIRenderable.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="GUIEvent.h" />
     <ClInclude Include="GUISlider.h" />
     <ClInclude Include="GUIStyleResource.h" />
+    <ClInclude Include="GUIText.h" />
     <ClInclude Include="GUIViewport.h" />
     <ClInclude Include="GUIWindow.h" />
     <ClInclude Include="Hardware.h" />

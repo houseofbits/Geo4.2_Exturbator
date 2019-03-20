@@ -86,6 +86,12 @@ public:
 		SOLID,
 		GRADIENT
 	};
+	enum TextJusify {
+		LEFT,
+		CENTER,
+		RIGHT
+	};
+
 	virtual ~GUIStyle();
 
 	float radius;				//ONLY FOR SERIALIZER. MIGHT BE REMOVED
@@ -120,12 +126,16 @@ public:
 	Vector4	fontColor;
 	Vector2	fontShadowPosition;
 	Vector4	fontShadowColor;
-	
+	float	lineHeight;
+
+	TextJusify justify;	//TODO
+
 	bool	_fontValid;
 	bool	_fontHasShadow;
 
 	void Deserialize(CFONode*);
 };
+
 
 /*
 TODO:
@@ -144,7 +154,8 @@ v style resource loader class
 - 0 size border geometry generating (triangulation tolerances)
 - gradient orientation
 - foolproof input corner radiuses
-
+- text wordwrap
+- text justification
 
 */
 
@@ -154,8 +165,11 @@ public:
 	GUIRenderable();
 	virtual ~GUIRenderable();
 
-	void Draw(string text = "");
-	void generateGeometry();
+	void Draw();
+	
+	void update();
+	void setText(string);
+
 	void _generateGeometryData();
 	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&);
 	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
@@ -168,9 +182,14 @@ public:
 		return stencilIndexCounter;
 	}
 
+	vector<string> splitText;
+
+	float		textLineHeight;
+
 	GLuint		stencilIndex;
 
 	GUIStyle*	style;
+
 	Vector2		size;
 
 	GLuint		vertexArrayId;
