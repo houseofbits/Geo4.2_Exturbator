@@ -42,6 +42,7 @@ Geo4 engine
 #include "events/SceneManagerEvent.h"
 #include "events/InputEvent.h"
 #include "GUIEvent.h"
+#include "GUIInputEvent.h"
 
 #include "objects/SceneManager.h"
 #include "objects/Window.h"

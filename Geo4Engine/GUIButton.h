@@ -19,7 +19,7 @@ public:
 	void	Deserialize(CFONode*, ResourceManager*);
 
 	bool	OnWindowEvent(WindowEvent*const);
-	bool	OnInputEvent(InputEvent*const);
+	bool	OnGUIInputEvent(GUIInputEvent*const);
 
 	void	PreRender(Renderer*);
 	void	Render(Renderer*);

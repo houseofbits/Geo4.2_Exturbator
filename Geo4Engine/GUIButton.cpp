@@ -14,7 +14,7 @@ GUIButton::~GUIButton()
 void GUIButton::Initialise(EventManager*const event_manager, SceneManager* mgr)
 {
 	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUIButton::OnInputEvent);
+	event_manager->RegisterEventReceiver(this, &GUIButton::OnGUIInputEvent);
 	event_manager->RegisterEventReceiver(this, &GUIButton::OnWindowEvent);
 }
 
@@ -54,10 +54,21 @@ bool GUIButton::OnWindowEvent(WindowEvent*const event)
 	return 1;
 }
 
-bool GUIButton::OnInputEvent(InputEvent*const event)
+bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 {
 	if (isVisible() == 0)return 1;
 
+	switch (event->type) {
+	case GUIInputEvent::EventType::CLICK:
+
+		break;
+	case GUIInputEvent::EventType::HOVER:
+
+		break;
+	case GUIInputEvent::EventType::LEAVE:
+
+		break;
+	};
 	return 1;
 }
 

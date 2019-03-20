@@ -166,6 +166,7 @@
     <ClCompile Include="events\InputEvent.cpp" />
     <ClCompile Include="events\SceneManagerEvent.cpp" />
     <ClCompile Include="Font.cpp" />
+    <ClCompile Include="GUIInputEvent.cpp" />
     <ClCompile Include="GUIStyleResource.cpp" />
     <ClCompile Include="GUIWindow.cpp" />
     <ClCompile Include="HColor.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="events\SceneManagerEvent.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Geo4.h" />
+    <ClInclude Include="GUIInputEvent.h" />
     <ClInclude Include="GUIRenderable.h" />
     <ClInclude Include="GUIButton.h" />
     <ClInclude Include="GUIEntity.h" />

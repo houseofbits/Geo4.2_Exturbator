@@ -15,7 +15,7 @@ GUIWindow::~GUIWindow()
 void GUIWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 {
 	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUIWindow::OnInputEvent);
+	event_manager->RegisterEventReceiver(this, &GUIWindow::OnGUIInputEvent);
 	event_manager->RegisterEventReceiver(this, &GUIWindow::OnWindowEvent);
 }
 
@@ -59,10 +59,21 @@ bool GUIWindow::OnWindowEvent(WindowEvent*const event)
 	return 1;
 }
 
-bool GUIWindow::OnInputEvent(InputEvent*const event)
+bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 {
 	if (isVisible() == 0)return 1;
 
+	switch (event->type) {
+	case GUIInputEvent::EventType::CLICK:
+
+		break;
+	case GUIInputEvent::EventType::HOVER:
+
+		break;
+	case GUIInputEvent::EventType::LEAVE:
+
+		break;
+	};
 	return 1;
 }
 
