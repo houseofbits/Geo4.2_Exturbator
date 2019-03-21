@@ -4,7 +4,8 @@ CLASS_DECLARATION(GUIViewport);
 
 GUIViewport::GUIViewport() :
 	window_width(800),
-	window_height(600)
+	window_height(600),
+	hoverObject(0)
 {	}
 
 
@@ -34,11 +35,34 @@ void GUIViewport::keyDownEvent(unsigned int keysym) {
 void GUIViewport::keyUpEvent(unsigned int keysym) {
 	SendEvent(new GUIInputEvent(GUIInputEvent::EventType::KEYUP, keysym));
 }
-void GUIViewport::mouseMoveEvent(Vector2 mousePos) {
-	//SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEMOVE, sdlevent->key.keysym.sym));
-	//1.Get mouse cursor pos
-	//2.Get object under mouse cursor
-	//3.Send events
+void GUIViewport::mouseMoveEvent(Vector2 mousePos, Vector2 mouseRel, bool leftButton, bool rightButton) {
+
+	SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEMOVE, mousePos, mouseRel, leftButton, rightButton));
+
+	Entity* ent = getObjectAtPoint(mousePos);
+	if (ent) {
+		if (ent != hoverObject) {
+			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, mouseRel, leftButton, rightButton), hoverObject);
+			hoverObject = ent;
+			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEENTER, mousePos, mouseRel, leftButton, rightButton), ent);
+		}
+	}
+	else {
+		if(hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, mouseRel, leftButton, rightButton), hoverObject);
+		hoverObject = 0;
+	}
+}
+void GUIViewport::mouseButtonDownEvent(Vector2 mousePos, bool leftButton, bool rightButton) {
+	Entity* ent = getObjectAtPoint(mousePos);
+	if (ent) {
+		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEDOWN, mousePos, leftButton, rightButton), ent);
+	}
+}
+void GUIViewport::mouseButtonUpEvent(Vector2 mousePos, bool leftButton, bool rightButton) {
+	Entity* ent = getObjectAtPoint(mousePos);
+	if (ent) {
+		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEUP, mousePos, leftButton, rightButton), ent);
+	}
 }
 
 bool GUIViewport::OnWindowEvent(WindowEvent*const event)

@@ -62,14 +62,18 @@ bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 	if (isVisible() == 0)return 1;
 
 	switch (event->type) {
-	case GUIInputEvent::EventType::CLICK:
-
+	case GUIInputEvent::EventType::MOUSEUP:
+		clickState = 0;
+		break;
+	case GUIInputEvent::EventType::MOUSEDOWN:
+		clickState = 1;
 		break;
 	case GUIInputEvent::EventType::MOUSEENTER:
-
+		hoverState = 1;
 		break;
 	case GUIInputEvent::EventType::MOUSELEAVE:
-
+		hoverState = 0;
+		clickState = 0;
 		break;
 	};
 	return 1;
@@ -87,7 +91,9 @@ void GUIButton::Render(Renderer* rnd)
 
 	glEnable(GL_BLEND);
 	
-	renderableActive.Draw();
+	if (!hoverState && !clickState)renderableActive.Draw();
+	else if (hoverState && !clickState)renderableHover.Draw();
+	else if (clickState)renderablePressed.Draw();
 
 }
 

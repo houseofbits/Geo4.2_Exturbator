@@ -65,7 +65,12 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 	if (isVisible() == 0)return 1;
 
 	switch (event->type) {
-	case GUIInputEvent::EventType::CLICK:
+	case GUIInputEvent::EventType::MOUSEMOVE:
+
+		if(event->mouseButtonLeft)m_LocalPos += event->mouseMotion;
+
+		break;
+	case GUIInputEvent::EventType::MOUSEDOWN:
 
 		break;
 	case GUIInputEvent::EventType::MOUSEENTER:

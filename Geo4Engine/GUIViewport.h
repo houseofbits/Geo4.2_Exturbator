@@ -24,7 +24,11 @@ public:
 	void	keyPressedEvent(unsigned int);
 	void	keyDownEvent(unsigned int);
 	void	keyUpEvent(unsigned int);
-	void	mouseMoveEvent(Vector2);
+	void	mouseMoveEvent(Vector2, Vector2, bool, bool);
+	void	mouseButtonDownEvent(Vector2, bool, bool);
+	void	mouseButtonUpEvent(Vector2, bool, bool);
+
+	Entity* hoverObject;
 
 	int			window_width;
 	int			window_height;

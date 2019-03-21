@@ -30,5 +30,8 @@ public:
 	GUIRenderable	renderablePressed;
 
 	GUIStyleResourceHandle styleSheet;
+
+	bool	hoverState;
+	bool	clickState;
 };
 

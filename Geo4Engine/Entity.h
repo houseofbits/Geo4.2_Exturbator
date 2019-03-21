@@ -98,6 +98,7 @@ public:
 	unsigned int	getObjectsByClassName(std::string className, std::vector<Entity*>& out) {
 		Entity*	got_root = getRootObject();
 		if (got_root) {
+			
 			got_root->_recursiveFingObjectByClassName(className, out);
 			return out.size();
 		}

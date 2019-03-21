@@ -137,9 +137,6 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 
 	GLenum errr = glewInit();
 
-
-
-
 	SendEvent(new WindowEvent(WindowEvent::WINDOW_CREATED, this));
 
 	SendEvent(new WindowEvent(0, 0, this));
@@ -149,6 +146,8 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 	glEnable(GL_MULTISAMPLE);
 
 	glClearStencil(0);
+
+	getObjectsByClassName(guiViewports);
 }
 
 void SDLWindow::Deserialize(CFONode* node, ResourceManager* mgr)
@@ -158,9 +157,7 @@ void SDLWindow::Deserialize(CFONode* node, ResourceManager* mgr)
 	node->getValueString("fullscreen", fullscreen);
 	node->getValueInt("width", width);
 	node->getValueInt("height", height);
-	node->getValueString("title", window_title);
-
-	getObjectsByClassName(guiViewports);
+	node->getValueString("title", window_title);	
 }
 
 bool SDLWindow::OnWindowEvent(WindowEvent*const event)
@@ -232,8 +229,10 @@ bool SDLWindow::OnWindowEvent(WindowEvent*const event)
 
 void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
 
+	Vector2 mouse_pos;
 	for (unsigned int i = 0; i < guiViewports.size(); i++) {
-		
+		bool leftButton = false;
+		bool rightButton = false;
 		switch (sdlevent->type) {
 		case SDL_KEYDOWN:
 			guiViewports[i]->keyDownEvent(sdlevent->key.keysym.sym);			
@@ -242,14 +241,22 @@ void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
 			guiViewports[i]->keyUpEvent(sdlevent->key.keysym.sym);			
 			break;
 		case SDL_MOUSEMOTION:
-
-
+			if (sdlevent->button.button == SDL_BUTTON_LEFT)leftButton = true;
+			if (sdlevent->button.button == SDL_BUTTON_RIGHT)rightButton = true;
+			guiViewports[i]->mouseMoveEvent(Vector2((float)sdlevent->motion.x, height - (float)sdlevent->motion.y),
+				Vector2((float)sdlevent->motion.xrel, -(float)sdlevent->motion.yrel),
+				leftButton, 
+				rightButton);
 			break;
-		case SDL_MOUSEBUTTONDOWN:
-
+		case SDL_MOUSEBUTTONDOWN:			
+			if (sdlevent->button.button == SDL_BUTTON_LEFT)leftButton = true;
+			if (sdlevent->button.button == SDL_BUTTON_RIGHT)rightButton = true;
+			guiViewports[i]->mouseButtonDownEvent(Vector2((float)sdlevent->motion.x, height - (float)sdlevent->motion.y), leftButton, rightButton);
 			break;
 		case SDL_MOUSEBUTTONUP:
-
+			if (sdlevent->button.button == SDL_BUTTON_LEFT)leftButton = true;
+			if (sdlevent->button.button == SDL_BUTTON_RIGHT)rightButton = true;
+			guiViewports[i]->mouseButtonUpEvent(Vector2((float)sdlevent->motion.x, height - (float)sdlevent->motion.y), leftButton, rightButton);
 			break;
 		};
 	}
