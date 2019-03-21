@@ -190,6 +190,7 @@
     <ClCompile Include="objects\SceneManager.cpp" />
     <ClCompile Include="objects\Viewport.cpp" />
     <ClCompile Include="objects\Window.cpp" />
+    <ClCompile Include="TrueTypeFont.cpp" />
     <ClCompile Include="TTFont.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="objects\SceneManager.h" />
     <ClInclude Include="objects\Viewport.h" />
     <ClInclude Include="objects\Window.h" />
+    <ClInclude Include="TrueTypeFont.h" />
     <ClInclude Include="TTFont.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />

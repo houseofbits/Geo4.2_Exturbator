@@ -3818,17 +3818,24 @@ namespace OGLFT {
 
     glGenTextures( 1, &texture_info.texture_name_ );
     glBindTexture( GL_TEXTURE_2D, texture_info.texture_name_ );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    
+	//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    //glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 0);
 
     // Texture maps have be a power of 2 in size (is 1 a power of 2?), so
     // pad it out while flipping it over
     int width, height;
     GLubyte* inverted_pixmap =
       invertPixmap( face->glyph->bitmap, &width, &height );
-
+	/*
     glPushAttrib( GL_PIXEL_MODE_BIT );
     glPixelTransferf( GL_RED_SCALE, foreground_color_[R] - background_color_[R] );
     glPixelTransferf( GL_GREEN_SCALE, foreground_color_[G]-background_color_[G] );
@@ -3838,11 +3845,11 @@ namespace OGLFT {
     glPixelTransferf( GL_GREEN_BIAS, background_color_[G] );
     glPixelTransferf( GL_BLUE_BIAS, background_color_[B] );
     glPixelTransferf( GL_ALPHA_BIAS, background_color_[A] );
-
+	*/
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height,
 		  0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, inverted_pixmap );
 
-    glPopAttrib();
+    //glPopAttrib();
 
     // Save a good bit of the data about this glyph
     texture_info.left_bearing_ = face->glyph->bitmap_left;
@@ -3852,6 +3859,10 @@ namespace OGLFT {
     texture_info.texture_s_ = (GLfloat)texture_info.width_ / width;
     texture_info.texture_t_ = (GLfloat)texture_info.height_ / height;
     texture_info.advance_ = face->glyph->advance;
+
+	//cout << "gluph: " << glyph_index<<endl;
+	//cout << texture_info.texture_s_ << ", " << texture_info.texture_t_ << endl;
+	//cout << texture_info.width_ << ", " << texture_info.height_ << endl;
 
     glyph_texobjs_[ glyph_index ] = texture_info;
 

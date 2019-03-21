@@ -39,14 +39,12 @@ SDLWindow={
 	      title="Submit";
 	      pos=180,40;
 	      size=100,40;
-	      styleActive="buttonDefaultHover";      
 	    }
 	    GUIButton={
 			name="button";
 			title="Load";
 			pos=310,40;
 			size=140,40;
-			styleActive="buttonDefaultPressed";      
 	    }
 	    GUIWindow={
 			name="window";
@@ -73,14 +71,12 @@ SDLWindow={
 		      title="Submit";
 		      pos=0,-80;
 		      size=100,40;
-		      styleActive="buttonDefaultHover";      
 		    }
 		    GUIButton={
 				name="button";
 				title="Ok";
 				pos=170,-80;
 				size=140,40;
-				styleActive="buttonDefaultPressed";      
 		    }
 	    } 
 	    GUIWindow={

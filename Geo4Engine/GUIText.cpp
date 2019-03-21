@@ -46,11 +46,7 @@ bool GUIText::OnGUIInputEvent(GUIInputEvent*const event)
 {
 	if (isVisible() == 0)return 1;
 
-	switch (event->type) {
-	case GUIInputEvent::EventType::CLICK:
 
-		break;
-	};
 	return 1;
 }
 

@@ -235,10 +235,10 @@ void GUIRenderable::Draw() {
 
 	if (bodyIndexArrayId > 0 && style->backgroundFill == GUIStyle::FillType::GRADIENT) {
 
-		if (stencilIndex == 0) {
-			stencilIndex = createStencilIndex();
-		}
-
+		//if (stencilIndex == 0) {
+		//	stencilIndex = createStencilIndex();
+		//}
+		/*
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		glEnable(GL_STENCIL_TEST);
 		glStencilFunc(GL_ALWAYS, stencilIndex, stencilIndex);
@@ -258,13 +258,13 @@ void GUIRenderable::Draw() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
+		*/
 
 		if (shadowIndexArrayId > 0) {
-			glStencilFunc(GL_NOTEQUAL, stencilIndex, stencilIndex);
-			glStencilMask(0x00);
-			glDisable(GL_DEPTH_TEST);
-			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+			//glStencilFunc(GL_NOTEQUAL, stencilIndex, stencilIndex);
+			//glStencilMask(0x00);
+			//glDisable(GL_DEPTH_TEST);
+			//glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 			glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
@@ -278,19 +278,19 @@ void GUIRenderable::Draw() {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 
-		glStencilFunc(GL_EQUAL, stencilIndex, stencilIndex);
-		glStencilMask(0x00);
-		glDisable(GL_DEPTH_TEST);
+		//glStencilFunc(GL_EQUAL, stencilIndex, stencilIndex);
+		//glStencilMask(0x00);
+		//glDisable(GL_DEPTH_TEST);
 		//Keep the pixel
-		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		//glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 
 		glPushMatrix();
 		glScalef(size.x, size.y, 1.0f);
 		style->backgroundGradientColor.draw();
 		glPopMatrix();
 
-		glDisable(GL_STENCIL_TEST);
-
+		//glDisable(GL_STENCIL_TEST);
+		/*
 		if (borderIndexArrayId > 0) {
 			glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
 			glEnableClientState(GL_VERTEX_ARRAY);
@@ -303,7 +303,7 @@ void GUIRenderable::Draw() {
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		}
+		}*/
 	}
 	else {
 

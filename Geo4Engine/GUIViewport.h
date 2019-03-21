@@ -1,5 +1,7 @@
 #pragma once
 #include "GUIEntity.h"
+#include "TrueTypeFont.h"
+
 class GUIViewport :
 	public GUIEntity,
 	public EventHandler
@@ -32,5 +34,7 @@ public:
 
 	int			window_width;
 	int			window_height;
+
+	TrueTypeFontFace ttfont;
 };
 

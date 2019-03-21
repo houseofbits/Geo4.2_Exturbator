@@ -2127,10 +2127,13 @@ public:
 	TTFont() : oglftFilled(0){}
 	~TTFont(void) {}
 
-	OGLFT::Filled* oglftFilled;
+//	OGLFT::Filled* oglftFilled;
+
+	OGLFT::TranslucentTexture* oglftFilled;
 
 	bool Load(string filename, float size) {		
-		oglftFilled = new OGLFT::Filled(filename.c_str(), size);
+		//oglftFilled = new OGLFT::Filled(filename.c_str(), size);
+		oglftFilled = new OGLFT::TranslucentTexture(filename.c_str(), size);
 		if (oglftFilled == 0 || !oglftFilled->isValid()) {
 			cerr << "Could not construct font from " << filename << endl;
 			return false;
@@ -2150,13 +2153,24 @@ public:
 		if (oglftFilled) {
 			
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glDisable(GL_TEXTURE_2D);
+
+			glEnable(GL_TEXTURE_2D);
 
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 			oglftFilled->draw(position.x, position.y, text.c_str());			
 
+			glDisable(GL_TEXTURE_2D);
 		}
 	}
 	Vector2 measure(string text) {

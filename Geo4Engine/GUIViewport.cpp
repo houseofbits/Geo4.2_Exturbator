@@ -18,6 +18,8 @@ void GUIViewport::Initialise(EventManager*const event_manager, SceneManager* mgr
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &GUIViewport::OnWindowEvent);
 
+
+	ttfont.Load("fonts/exo1/Exo-SemiBold.ttf", 32);
 }
 
 void GUIViewport::Deserialize(CFONode* node, ResourceManager* mgr)
