@@ -21,6 +21,11 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
+	void	keyPressedEvent(unsigned int);
+	void	keyDownEvent(unsigned int);
+	void	keyUpEvent(unsigned int);
+	void	mouseMoveEvent(Vector2);
+
 	int			window_width;
 	int			window_height;
 };

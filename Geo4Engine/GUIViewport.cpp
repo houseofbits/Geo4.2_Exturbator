@@ -22,8 +22,23 @@ void GUIViewport::Initialise(EventManager*const event_manager, SceneManager* mgr
 void GUIViewport::Deserialize(CFONode* node, ResourceManager* mgr)
 {
 	GUIEntity::Deserialize(node, mgr);
+}
 
+void GUIViewport::keyPressedEvent(unsigned int keysym) {
+	SendEvent(new GUIInputEvent(GUIInputEvent::EventType::KEYPRESS, keysym));
+}
 
+void GUIViewport::keyDownEvent(unsigned int keysym) {
+	SendEvent(new GUIInputEvent(GUIInputEvent::EventType::KEYDOWN, keysym));
+}
+void GUIViewport::keyUpEvent(unsigned int keysym) {
+	SendEvent(new GUIInputEvent(GUIInputEvent::EventType::KEYUP, keysym));
+}
+void GUIViewport::mouseMoveEvent(Vector2 mousePos) {
+	//SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEMOVE, sdlevent->key.keysym.sym));
+	//1.Get mouse cursor pos
+	//2.Get object under mouse cursor
+	//3.Send events
 }
 
 bool GUIViewport::OnWindowEvent(WindowEvent*const event)

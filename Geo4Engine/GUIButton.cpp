@@ -65,10 +65,10 @@ bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 	case GUIInputEvent::EventType::CLICK:
 
 		break;
-	case GUIInputEvent::EventType::HOVER:
+	case GUIInputEvent::EventType::MOUSEENTER:
 
 		break;
-	case GUIInputEvent::EventType::LEAVE:
+	case GUIInputEvent::EventType::MOUSELEAVE:
 
 		break;
 	};

@@ -2,6 +2,7 @@
 
 #include "../Entity.h"
 #include "../Events.h"
+#include "../GUIViewport.h"
 
 #include "../../Lib/SDL2/include/SDL.h"  
 
@@ -24,6 +25,8 @@ public:
 
 	bool	OnWindowEvent(WindowEvent*const);
 
+	void	processGUIEvents(SDL_Event*);
+
 	int				width;
 	int				height;
 	std::string		fullscreen;
@@ -37,4 +40,6 @@ public:
 	float			frame_time;
 
 	SDL_Joystick*	joystick;
+
+	vector<GUIViewport*> guiViewports;
 };

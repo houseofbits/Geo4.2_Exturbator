@@ -50,12 +50,6 @@ bool GUIText::OnGUIInputEvent(GUIInputEvent*const event)
 	case GUIInputEvent::EventType::CLICK:
 
 		break;
-	case GUIInputEvent::EventType::HOVER:
-
-		break;
-	case GUIInputEvent::EventType::LEAVE:
-
-		break;
 	};
 	return 1;
 }

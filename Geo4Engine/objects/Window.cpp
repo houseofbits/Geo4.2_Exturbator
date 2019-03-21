@@ -71,7 +71,8 @@ SDLWindow::SDLWindow(void) : Entity(),
 	glcontext(),
 	time(0),
 	frame_time(0),
-	joystick(0)
+	joystick(0),
+	guiViewports()
 { 
 
 }
@@ -159,6 +160,7 @@ void SDLWindow::Deserialize(CFONode* node, ResourceManager* mgr)
 	node->getValueInt("height", height);
 	node->getValueString("title", window_title);
 
+	getObjectsByClassName(guiViewports);
 }
 
 bool SDLWindow::OnWindowEvent(WindowEvent*const event)
@@ -180,6 +182,8 @@ bool SDLWindow::OnWindowEvent(WindowEvent*const event)
 	while (SDL_PollEvent(&sdlevent)) {
 
 		//cout << sdlevent.type << endl;
+		
+		processGUIEvents(&sdlevent);
 
 		switch(sdlevent.type) {
 			case SDL_WINDOWEVENT:
@@ -208,7 +212,47 @@ bool SDLWindow::OnWindowEvent(WindowEvent*const event)
 		};
 	};
 
+	//Get all pressed keys
+	if (guiViewports.size() > 0) {
+		int numKeys;
+		const Uint8 *state = SDL_GetKeyboardState(&numKeys);
+		if (numKeys > 0) {
+			for (int i = 0; i < numKeys; i++) {
+				if (state[i] > 0) {
+					//cout << "keydown: " << i << endl;
+					for (unsigned int i = 0; i < guiViewports.size(); i++) {
+						guiViewports[i]->keyPressedEvent(i);
+					}
+				}
+			}
+		}
+	}
 	return true;
+}
+
+void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
+
+	for (unsigned int i = 0; i < guiViewports.size(); i++) {
+		
+		switch (sdlevent->type) {
+		case SDL_KEYDOWN:
+			guiViewports[i]->keyDownEvent(sdlevent->key.keysym.sym);			
+			break;
+		case SDL_KEYUP:
+			guiViewports[i]->keyUpEvent(sdlevent->key.keysym.sym);			
+			break;
+		case SDL_MOUSEMOTION:
+
+
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+
+			break;
+		case SDL_MOUSEBUTTONUP:
+
+			break;
+		};
+	}
 }
 
 void SDLWindow::PreRender(Renderer*){		}

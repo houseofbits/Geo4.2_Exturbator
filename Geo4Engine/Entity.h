@@ -95,6 +95,24 @@ public:
 		return obj;
 	}
 	
+	unsigned int	getObjectsByClassName(std::string className, std::vector<Entity*>& out) {
+		Entity*	got_root = getRootObject();
+		if (got_root) {
+			got_root->_recursiveFingObjectByClassName(className, out);
+			return out.size();
+		}
+		return 0;
+	}
+	template<class T>
+	unsigned int	getObjectsByClassName(std::vector<T*>& out) {
+		Entity*	got_root = getRootObject();
+		if (got_root) {
+			got_root->_recursiveFingObjectByClassName(T::TypeName(), out);
+			return out.size();
+		}
+		return 0;
+	}
+
 	void	CreateObjects(CFONode*);
 	void	SaveObjects(CFONode*, bool include_parent=0);
 
@@ -106,8 +124,19 @@ protected:
 	void	_RecursiveInitialiseChilds(Entity*, SceneManager*, TEntityArray* init_a=0);
 	void	_RecursiveSerializeObject(CFONode* node, Entity* parent, SceneManager* mgr);
 
+	template<class T>
+	void	_recursiveFingObjectByClassName(std::string& className, std::vector<T*>& out) {
+		if (getTypename() == className) {
+			out.push_back((T*)this);
+		}
+		std::list<Entity*>::iterator pos = m_Childs.begin();
+		while (pos != m_Childs.end()) {
+			(*pos)->_recursiveFingObjectByClassName(className, out);
+			pos++;
+		}
+	}
+
 	void	recursiveFindObjectByName(Entity* &obj, const std::string& name, bool& found){
-	//	
 		if(found)return;
 		if(getName()==name){
 			obj = this;
