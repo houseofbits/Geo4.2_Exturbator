@@ -5,7 +5,7 @@ using namespace std;
 
 unsigned int Entity::GLOBAL_OBJECT_TYPE_COUNTER = 0;
 
-void Entity::Deserialize(CFONode* node, ResourceManager*)
+void Entity::Deserialize(CFONode* node)
 {	
 	node->getValueString("name", m_Name);
 }
@@ -25,7 +25,7 @@ void	Entity::SaveObjects(CFONode* node, bool include_parent)
 	if(!mgr || !node)return;
 	if(include_parent){
 		CFONode* n = node->CreateChildNode(getTypename(), "");
-		Serialize(n,&mgr->resource_manager);
+		Serialize(n);
 		_RecursiveSerializeObject(n, this, mgr);
 	}else{
 		_RecursiveSerializeObject(node, this, mgr);
@@ -45,7 +45,7 @@ void	Entity::CreateObjects(CFONode* node)
 			//cout<<"Root object "<<obj<<endl;
 			obj->setParent(this);
 			addChildObject(obj);
-			obj->Deserialize(node, &mgr->resource_manager);
+			obj->Deserialize(node);
 			//cout<<"Deserialize "<<obj<<endl;
 			//save created objects for initiation
 			obj_init_array.push_back(obj);
@@ -74,7 +74,7 @@ void	Entity::_RecursiveDeserializeChilds(CFONode* node, Entity* parent, SceneMan
 		if(obj){
 			obj->setParent(parent);
 			parent->addChildObject(obj);
-			obj->Deserialize(object, &mgr->resource_manager);
+			obj->Deserialize(object);
 			//save created objects for initiation
 			if(init_a)init_a->push_back(obj);
 			cout<<"'"<<classname<<"'"<<endl;	
@@ -94,7 +94,7 @@ void	Entity::_RecursiveSerializeObject(CFONode* node, Entity* parent, SceneManag
 	while(pos!=parent->m_Childs.end())
 	{	
 		CFONode* n = node->CreateChildNode((*pos)->getTypename(), "");
-		(*pos)->Serialize(n, &mgr->resource_manager);
+		(*pos)->Serialize(n);
 		_RecursiveSerializeObject(n, (*pos), mgr);
 		pos++;	
 	}
@@ -108,7 +108,7 @@ void	Entity::_RecursiveInitialiseChilds(Entity* parent, SceneManager* mgr, TEnti
 	if(init_a){	
 		for(unsigned int i=0; i<init_a->size(); i++){
 		//	cout<<" Init "<<(*init_a)[i]<<endl;
-			(*init_a)[i]->Initialise(&mgr->event_dispatcher, mgr);
+			(*init_a)[i]->Initialise(&mgr->event_dispatcher, &mgr->resource_manager);
 		}
 		return;
 	}
@@ -117,7 +117,7 @@ void	Entity::_RecursiveInitialiseChilds(Entity* parent, SceneManager* mgr, TEnti
 	list<Entity*>::iterator pos = parent->m_Childs.begin();
 	while(pos!=parent->m_Childs.end())
 	{
-		(*pos)->Initialise(&mgr->event_dispatcher, mgr);
+		(*pos)->Initialise(&mgr->event_dispatcher, &mgr->resource_manager);
 		_RecursiveInitialiseChilds((*pos), mgr);
 		pos++;	
 	}

@@ -13,9 +13,9 @@ GUIEntity::GUIEntity() : m_Visible(true),
 GUIEntity::~GUIEntity()
 {	}
 
-void GUIEntity::Deserialize(CFONode* node, ResourceManager* mgr)
+void GUIEntity::Deserialize(CFONode* node)
 {	
-	Entity::Deserialize(node, mgr);
+	Entity::Deserialize(node);
 	node->getValueFloat("zindex", m_ZIndex);
 	node->getValueBool("visible", m_Visible);
 	node->getValueBool("disabled", m_Disabled);

@@ -30,13 +30,14 @@ public:
 	virtual std::string		getExtensionStr(unsigned int n=0){return "";}
 	virtual unsigned int	getNumExt(){return 0;}
 
-	void	setName(std::string n){name = n;}
-	std::string	getName(){return name;}
+	void					setName(std::string n){name = n;}
+	std::string				getName(){return name;}
 	bool operator () (Resource* obj){ return obj->name == name; } 
 
-	Resource(std::string n):name(n), refcount(0){}
-	std::string		name;
-	int			refcount;
+	Resource(std::string n):name(n), refcount(0), resourceManager(0){}
+	std::string			name;
+	int					refcount;
+	ResourceManager*	resourceManager;
 };
 
 template<class T>
@@ -100,7 +101,7 @@ public:
 	template<class T>
 		bool	Get(T& hand, std::string name){
 			if(hand.isValid())hand.Invalidate();
-				
+
 				std::list<Resource*>::iterator pos = find_if (resources.begin(), resources.end(), Resource(name));  
 				if(pos!=resources.end()){ //found, return 1
 
@@ -116,6 +117,7 @@ public:
 						cout<<"Could not find resource constructor associated with '"<<ext<<"'"<<endl;
 						return 0;
 					}
+					res->resourceManager = this;
 					if(res->Load(name)){
 							res->setName(name);
 							resources.push_back(res);

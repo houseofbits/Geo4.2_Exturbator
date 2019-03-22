@@ -22,7 +22,7 @@ Hardware::~Hardware(void)
 	
 }
 
-void Hardware::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void Hardware::Initialise(EventManager*const event_manager, ResourceManager*const resourceManager)
 {	
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &Hardware::OnInputEvent);
@@ -30,7 +30,7 @@ void Hardware::Initialise(EventManager*const event_manager, SceneManager* mgr)
 	event_manager->RegisterEventReceiver(this, &Hardware::OnGUIEvent);
 }
 
-void Hardware::Deserialize(CFONode* node, ResourceManager* mgr)
+void Hardware::Deserialize(CFONode* node)
 {	
 
 	outputMapping[0] = 0;
@@ -42,7 +42,7 @@ void Hardware::Deserialize(CFONode* node, ResourceManager* mgr)
 	outputMapping[6] = 6;
 	outputMapping[7] = 7;
 
-	GUIEntity::Deserialize(node, mgr);
+	GUIEntity::Deserialize(node);
 
 	node->getValueInt("fader_mode", faderMode);
 

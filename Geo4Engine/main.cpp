@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
 	SceneManager manager;
 
-	manager.resource_manager.RegisterResourceType(Font());
+	manager.resource_manager.RegisterResourceType(TrueTypeFontFace());
 	manager.resource_manager.RegisterResourceType(GUIStyleResource());
 
 	manager.RegisterObjectType(SDLWindow());

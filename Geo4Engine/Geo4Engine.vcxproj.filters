@@ -108,9 +108,6 @@
     <ClCompile Include="GUISlider.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="GUIEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
@@ -145,9 +142,6 @@
       <Filter>Source Files\Math</Filter>
     </ClCompile>
     <ClCompile Include="GUIStyleResource.cpp">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="TTFont.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="GUIWindow.cpp">
@@ -242,9 +236,6 @@
     <ClInclude Include="GUISlider.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="GUIEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -282,9 +273,6 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="GUIStyleResource.h">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="TTFont.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="GUIWindow.h">

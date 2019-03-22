@@ -15,7 +15,7 @@ public:
 	std::string		getExtenionStr(unsigned int n = 0) { return "cfo"; }
 	unsigned int	getNumExt() { return 1; }
 
-	typedef std::pair<string, GUIStyle> StyleEntry;
+	typedef std::pair<string, GUIStyle*> StyleEntry;
 
 	GUIStyle& get(string);
 

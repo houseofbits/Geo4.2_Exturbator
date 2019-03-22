@@ -54,23 +54,34 @@ Rendering
 6.Render vbo (numIndices = char count)
 */
 
-class TrueTypeFontFace
+class TrueTypeFontFace : public Resource
 {
 public:
 	TrueTypeFontFace();
 	virtual ~TrueTypeFontFace();
 
 	bool Load(std::string filename);
-	void Draw(std::string, float);
+	void	Unload() {
+		if (glIsTexture(faceTextureMap)) {
+			glDeleteTextures(1, &faceTextureMap);
+		}
+	}
+
+	std::string		getExtenionStr(unsigned int n = 0) { return "ttf"; }
+	unsigned int	getNumExt() { return 1; }
+
+	void Draw(std::string, unsigned int);
 	void DrawCached();
 
-	Vector2 getSize(std::string, float);
+	float getWidth(std::string, unsigned int);
 
-	bool _addGlyph(unsigned int charIndex, TrueTypeActiveGlyph&);
-	bool _getGlyph(unsigned int charIndex, TrueTypeActiveGlyph& out);
+	bool _addGlyph(unsigned int charIndex, unsigned int size, TrueTypeActiveGlyph&);
+	bool _getGlyph(unsigned int charIndex, unsigned int size, TrueTypeActiveGlyph& out);
 	void _createEmptyTextureMap();
 	void _createBufferObjects();
 	void _setSize(unsigned int);
+
+	void _drawCharacterMap();
 
 	//Glyph map
 	std::vector<TrueTypeActiveGlyph> activeGlyphs;	
@@ -90,5 +101,8 @@ public:
 	const static unsigned int textureMapWidth;
 	const static unsigned int textureMapHeight;
 	const static unsigned int fontMapPadding;
+
+	static TrueTypeFontFace m_DefaultInstance;
 };
 
+typedef ResourceHandle<TrueTypeFontFace> TrueTypeFontFaceHandle;

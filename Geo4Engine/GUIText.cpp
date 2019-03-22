@@ -3,31 +3,34 @@
 CLASS_DECLARATION(GUIText);
 
 GUIText::GUIText() : renderable(),
-	styleSheet()
+	styleSheet(),
+	styleName()
 {	}
 
 GUIText::~GUIText()
 {	}
 
-void GUIText::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void GUIText::Initialise(EventManager*const eventManager, ResourceManager*const resourceManager)
 {
-	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUIText::OnGUIInputEvent);
-	event_manager->RegisterEventReceiver(this, &GUIText::OnWindowEvent);
+	eventManager->RegisterEventHandler(this);
+	eventManager->RegisterEventReceiver(this, &GUIText::OnGUIInputEvent);
+	eventManager->RegisterEventReceiver(this, &GUIText::OnWindowEvent);
+
+	resourceManager->Get(styleSheet, "styles.cfo");
+
+	renderable.style = &styleSheet->get(styleName);
+
 }
 
-void GUIText::Deserialize(CFONode* node, ResourceManager* mgr)
+void GUIText::Deserialize(CFONode* node)
 {
-	GUIEntity::Deserialize(node, mgr);
+	GUIEntity::Deserialize(node);	
 
-	mgr->Get(styleSheet, "styles.cfo");
+	styleName = "textDefault";
 
-	string style = "textDefault";
-
-	node->getValueString("style", style);
+	node->getValueString("style", styleName);
 
 	renderable.size = m_Size;
-	renderable.style = &styleSheet->get(style);
 }
 
 bool GUIText::OnWindowEvent(WindowEvent*const event)

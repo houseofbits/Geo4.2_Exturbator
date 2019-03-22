@@ -48,11 +48,11 @@ public:
 	Entity() : m_Name(""), m_Parent(0), m_Childs() {}
 	virtual ~Entity(){}
 	
-	virtual void	Initialise(EventManager*const, SceneManager*){};
-	virtual void	Deinitialise(EventManager*const, SceneManager*){};
+	virtual void	Initialise(EventManager*const, ResourceManager*const){};
+	virtual void	Deinitialise(EventManager*const, SceneManager*const){};
 
-	virtual void	Serialize(CFONode*, ResourceManager*){}
-	virtual void	Deserialize(CFONode*, ResourceManager*);
+	virtual void	Serialize(CFONode*){}
+	virtual void	Deserialize(CFONode*);
 	
 	virtual void	PreRender(Renderer*){}
 	virtual void	Render(Renderer*){}

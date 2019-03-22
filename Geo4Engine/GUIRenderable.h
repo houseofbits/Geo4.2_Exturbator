@@ -1,7 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "TTFont.h"
+#include "ResourceManager.h"
+#include "TrueTypeFont.h"
 
 /*
 CFO example:
@@ -121,7 +122,7 @@ public:
 	Vector4			backgroundColor;
 	FillType		backgroundFill;
 	
-	TTFont	font;
+	std::string	fontName;
 	float	fontSize;
 	Vector4	fontColor;
 	Vector2	fontShadowPosition;
@@ -130,10 +131,12 @@ public:
 
 	TextJusify justify;	//TODO
 
+	TrueTypeFontFaceHandle fontHandle;
+
 	bool	_fontValid;
 	bool	_fontHasShadow;
 
-	void Deserialize(CFONode*);
+	void Deserialize(CFONode*, ResourceManager*);
 };
 
 

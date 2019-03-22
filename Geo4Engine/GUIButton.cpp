@@ -5,41 +5,48 @@ CLASS_DECLARATION(GUIButton);
 GUIButton::GUIButton() : renderableActive(),
 	renderableHover(),
 	renderablePressed(),
-	styleSheet()
+	styleSheet(),
+	styleActiveName(),
+	styleHoverName(),
+	stylePressedName()
 {	}
 
 GUIButton::~GUIButton()
 {	}
 
-void GUIButton::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void GUIButton::Initialise(EventManager*const eventManager, ResourceManager*const resourceManager)
 {
-	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUIButton::OnGUIInputEvent);
-	event_manager->RegisterEventReceiver(this, &GUIButton::OnWindowEvent);
+	resourceManager->Get(styleSheet, "styles.cfo");
+
+	eventManager->RegisterEventHandler(this);
+	eventManager->RegisterEventReceiver(this, &GUIButton::OnGUIInputEvent);
+	eventManager->RegisterEventReceiver(this, &GUIButton::OnWindowEvent);
+
+	//renderableActive.size = m_Size;
+	renderableActive.style = &styleSheet->get(styleActiveName);
+
+	//renderableHover.size = m_Size;
+	renderableHover.style = &styleSheet->get(styleHoverName);
+
+	//renderablePressed.size = m_Size;
+	renderablePressed.style = &styleSheet->get(stylePressedName);
 }
 
-void GUIButton::Deserialize(CFONode* node, ResourceManager* mgr)
+void GUIButton::Deserialize(CFONode* node)
 {
-	GUIEntity::Deserialize(node, mgr);
+	GUIEntity::Deserialize(node);
 
-	mgr->Get(styleSheet, "styles.cfo");
-
-	string styleActiveName = "buttonDefaultActive";
-	string styleHoverName = "buttonDefaultHover";
-	string stylePressedName = "buttonDefaultPressed";
+	styleActiveName = "buttonDefaultActive";
+	styleHoverName = "buttonDefaultHover";
+	stylePressedName = "buttonDefaultPressed";
 
 	node->getValueString("styleActive", styleActiveName);
 	node->getValueString("styleHover", styleHoverName);
 	node->getValueString("stylePressed", stylePressedName);
 
 	renderableActive.size = m_Size;
-	renderableActive.style = &styleSheet->get(styleActiveName);
-
 	renderableHover.size = m_Size;
-	renderableHover.style = &styleSheet->get(styleHoverName);
-
 	renderablePressed.size = m_Size;
-	renderablePressed.style = &styleSheet->get(stylePressedName);
 }
 
 bool GUIButton::OnWindowEvent(WindowEvent*const event)

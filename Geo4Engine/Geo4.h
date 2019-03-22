@@ -59,7 +59,7 @@ Geo4 engine
 
 #include "Hardware.h"
 
-#include "Font.h"
-#include "TTFont.h"
+//#include "Font.h"
+//#include "TTFont.h"
 #include "TrueTypeFont.h"
 #include "GUIStyleResource.h"

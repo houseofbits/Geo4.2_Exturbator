@@ -6,30 +6,37 @@ GUIWindow::GUIWindow() : renderableTitle(),
 	renderableBody(),
 	renderableShadow(),
 	styleSheet(),
-	titleBarSize(30)
+	titleBarSize(30),
+	styleTitleName(),
+	styleBodyName(),
+	styleShadowName()
 {	}
 
 GUIWindow::~GUIWindow()
 {	}
 
-void GUIWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void GUIWindow::Initialise(EventManager*const eventManager, ResourceManager*const resourceManager)
 {
-	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUIWindow::OnGUIInputEvent);
-	event_manager->RegisterEventReceiver(this, &GUIWindow::OnWindowEvent);
+	eventManager->RegisterEventHandler(this);
+	eventManager->RegisterEventReceiver(this, &GUIWindow::OnGUIInputEvent);
+	eventManager->RegisterEventReceiver(this, &GUIWindow::OnWindowEvent);
+
+	resourceManager->Get(styleSheet, "styles.cfo");
+
+	renderableTitle.style = &styleSheet->get(styleTitleName);
+	renderableBody.style = &styleSheet->get(styleBodyName);
+	renderableShadow.style = &styleSheet->get(styleShadowName);
 }
 
-void GUIWindow::Deserialize(CFONode* node, ResourceManager* mgr)
+void GUIWindow::Deserialize(CFONode* node)
 {
-	GUIEntity::Deserialize(node, mgr);
-
-	mgr->Get(styleSheet, "styles.cfo");
+	GUIEntity::Deserialize(node);
 
 	node->getValueBool("showOverlay", showOverlay);
 
-	string styleTitleName = "windowDefaultTitle";
-	string styleBodyName = "windowDefaultBody";
-	string styleShadowName = "windowDefaultShadow";
+	styleTitleName = "windowDefaultTitle";
+	styleBodyName = "windowDefaultBody";
+	styleShadowName = "windowDefaultShadow";
 
 	node->getValueString("styleTitle", styleTitleName);
 	node->getValueString("styleBody", styleBodyName);
@@ -37,14 +44,9 @@ void GUIWindow::Deserialize(CFONode* node, ResourceManager* mgr)
 
 	renderableTitle.size = m_Size;
 	renderableTitle.size.y = titleBarSize;
-	renderableTitle.style = &styleSheet->get(styleTitleName);
-
 	renderableBody.size = m_Size;
 	renderableBody.size.y = m_Size.y - titleBarSize;
-	renderableBody.style = &styleSheet->get(styleBodyName);
-
 	renderableShadow.size = m_Size;
-	renderableShadow.style = &styleSheet->get(styleShadowName);
 }
 
 bool GUIWindow::OnWindowEvent(WindowEvent*const event)

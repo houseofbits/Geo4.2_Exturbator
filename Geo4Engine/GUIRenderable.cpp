@@ -116,14 +116,16 @@ GUIStyle::GUIStyle() : radius(0),
 	shadowColor(0,0,0,1),
 	backgroundFill(FillType::NONE),
 	backgroundColor(0,0,0,1),
-	font(),
+	fontName(""),
 	fontSize(12),
 	fontColor(1,1,1,1),
 	fontShadowPosition(),
 	fontShadowColor(0,0,0,1),
 
 	_fontValid(0),
-	_fontHasShadow(0)
+	_fontHasShadow(0),
+
+	fontHandle()
 
 {	}
 
@@ -149,7 +151,7 @@ void GUIGradientColor::Deserialize(CFONode* node)
 
 }
 
-void GUIStyle::Deserialize(CFONode* node)
+void GUIStyle::Deserialize(CFONode* node, ResourceManager* resourceManager)
 {
 	if (node->getValueFloat("radius", radius)) {
 		radiusTopLeft = radiusTopRight = radiusBottomLeft = radiusBottomRight = radius;
@@ -196,18 +198,21 @@ void GUIStyle::Deserialize(CFONode* node)
 
 	node->getValueFloat("lineHeight", lineHeight);
 
-	string fontName;
 	if (node->getValueString("fontName", fontName)) {
+
+		resourceManager->Get(fontHandle, fontName);
+
 		node->getValueFloat("fontSize", fontSize);
-		if (font.Load(fontName, fontSize)) {
-			node->getValueVector4("fontColor", fontColor);
-			node->getValueVector2("fontShadowPosition", fontShadowPosition);
-			if (node->getValueVector4("fontShadowColor", fontShadowColor)) {
-				_fontHasShadow = true;
-			}
-			_fontValid = true;
+		node->getValueVector4("fontColor", fontColor);
+		node->getValueVector2("fontShadowPosition", fontShadowPosition);
+		if (node->getValueVector4("fontShadowColor", fontShadowColor)) {
+			_fontHasShadow = true;
 		}
+		
+		_fontValid = true;
+
 	}
+
 }
 
 GLuint GUIRenderable::stencilIndexCounter = 0;
@@ -333,17 +338,29 @@ void GUIRenderable::Draw() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	if (style->_fontValid && splitText.size() > 0) {
+		glEnable(GL_TEXTURE_2D);
 		float offset = 0;
 		float line = max(style->lineHeight, textLineHeight);
 		for (unsigned int i = 0; i < splitText.size(); i++) {
 			if (style->_fontHasShadow) {
-				style->font.setColor(style->fontShadowColor);
-				style->font.drawCenter(splitText[i], style->fontShadowPosition - Vector2(0, offset));
+				glPushMatrix();
+				glTranslatef(style->fontShadowPosition.x, style->fontShadowPosition.y - offset, 0);
+				glColor4f(style->fontShadowColor.x, style->fontShadowColor.y, style->fontShadowColor.z, style->fontShadowColor.w);
+				style->fontHandle->Draw(splitText[i], (unsigned int)style->fontSize);
+//				style->font.setColor(style->fontShadowColor);
+//				style->font.drawCenter(splitText[i], style->fontShadowPosition - Vector2(0, offset));
+				glPopMatrix();
 			}
-			style->font.setColor(style->fontColor);
-			style->font.drawCenter(splitText[i], Vector2(0, -offset));
+			glPushMatrix();
+			glTranslatef(0, -offset, 0);
+			glColor4f(style->fontColor.x, style->fontColor.y, style->fontColor.z, style->fontColor.w);
+			style->fontHandle->Draw(splitText[i], (unsigned int)style->fontSize);
+//			style->font.setColor(style->fontColor);
+//			style->font.drawCenter(splitText[i], Vector2(0, -offset));
+			glPopMatrix();
 			offset += line;
 		}
+		glDisable(GL_TEXTURE_2D);
 	}
 }
 
@@ -608,16 +625,17 @@ void GUIRenderable::setText(string text) {
 			float counter = 0;
 			string line = "";
 			for (unsigned int i = 0; i < words.size(); i++) {
-				Vector2 s = style->font.measure(words[i]);
-				textLineHeight = s.y;
+				//Vector2 s = Vector2();	// style->font.measure(words[i]);
+				//textLineHeight = s.y;
+				float width = style->fontHandle->getWidth(words[i], (unsigned int)style->fontSize);
 				//cout << words[i] << " / " << Utils::VectorToString(s) <<" / "<< size.x << endl;
-				if (counter + s.x > size.x) {
+				if (counter + width > size.x) {
 					splitText.push_back(line);
 					line = words[i];
-					counter = s.x;
+					counter = width;
 				}
 				else {
-					counter += s.x;
+					counter += width;
 					if (line.size() > 0)line = line + " " + words[i];
 					else line = line + words[i];
 				}

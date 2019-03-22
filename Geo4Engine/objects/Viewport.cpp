@@ -30,16 +30,16 @@ Viewport::Viewport() : Entity(),
 Viewport::~Viewport(void)
 { }
 
-void Viewport::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void Viewport::Initialise(EventManager*const event_manager, ResourceManager*const resourceManager)
 {	
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &Viewport::OnWindowEvent);
 	event_manager->RegisterEventReceiver(this, &Viewport::OnInputEvent);
 }
 
-void Viewport::Deserialize(CFONode* node, ResourceManager* mgr)
+void Viewport::Deserialize(CFONode* node)
 {	
-	Entity::Deserialize(node, mgr);
+	Entity::Deserialize(node);
 
 	string val;
 	if(node->getValueString("viewmode", val)){

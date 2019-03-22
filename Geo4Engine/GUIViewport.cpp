@@ -13,18 +13,17 @@ GUIViewport::~GUIViewport()
 {	}
 
 
-void GUIViewport::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void GUIViewport::Initialise(EventManager*const eventManager, ResourceManager*const resourceManager)
 {
-	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUIViewport::OnWindowEvent);
+	eventManager->RegisterEventHandler(this);
+	eventManager->RegisterEventReceiver(this, &GUIViewport::OnWindowEvent);
 
-
-	ttfont.Load("fonts/exo1/Exo-SemiBold.ttf");
+//	ttfont.Load("fonts/exo1/Exo-SemiBold.ttf");
 }
 
-void GUIViewport::Deserialize(CFONode* node, ResourceManager* mgr)
+void GUIViewport::Deserialize(CFONode* node)
 {
-	GUIEntity::Deserialize(node, mgr);
+	GUIEntity::Deserialize(node);
 }
 
 void GUIViewport::keyPressedEvent(unsigned int keysym) {
@@ -99,31 +98,13 @@ void GUIViewport::PostRender()
 {
 	/*
 	glPushMatrix();
-	glTranslatef(300,300,0);
-	glBindTexture(GL_TEXTURE_2D, ttfont.faceTextureMap);
-	glColor4f(1, 1, 0, 1);
-	glEnable(GL_TEXTURE_2D);
-	glBegin(GL_QUADS);
-	glTexCoord2f(0, 0);
-	glVertex2f(-300, -300);
-	glTexCoord2f(0, 1);
-	glVertex2f(-300, 300);
-	glTexCoord2f(1, 1);
-	glVertex2f(300, 300);
-	glTexCoord2f(1, 0);
-	glVertex2f(300, -300);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-	*/
-
-	glPushMatrix();
 	glTranslatef(0, 300, 0);
 	glEnable(GL_TEXTURE_2D);
 	glColor4f(0, 1, 0, 1);
 	ttfont.Draw("Parish so enable innate in formed missed. Hand two was eat busy fail.", 10);
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
+	*/
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();

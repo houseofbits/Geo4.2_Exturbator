@@ -165,7 +165,6 @@
     <ClCompile Include="events\WindowEvent.cpp" />
     <ClCompile Include="events\InputEvent.cpp" />
     <ClCompile Include="events\SceneManagerEvent.cpp" />
-    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GUIInputEvent.cpp" />
     <ClCompile Include="GUIStyleResource.cpp" />
     <ClCompile Include="GUIText.cpp" />
@@ -191,7 +190,6 @@
     <ClCompile Include="objects\Viewport.cpp" />
     <ClCompile Include="objects\Window.cpp" />
     <ClCompile Include="TrueTypeFont.cpp" />
-    <ClCompile Include="TTFont.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Serial.cpp" />
@@ -204,7 +202,6 @@
     <ClInclude Include="events\WindowEvent.h" />
     <ClInclude Include="events\InputEvent.h" />
     <ClInclude Include="events\SceneManagerEvent.h" />
-    <ClInclude Include="Font.h" />
     <ClInclude Include="Geo4.h" />
     <ClInclude Include="GUIInputEvent.h" />
     <ClInclude Include="GUIRenderable.h" />
@@ -237,7 +234,6 @@
     <ClInclude Include="objects\Viewport.h" />
     <ClInclude Include="objects\Window.h" />
     <ClInclude Include="TrueTypeFont.h" />
-    <ClInclude Include="TTFont.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Serial.h" />

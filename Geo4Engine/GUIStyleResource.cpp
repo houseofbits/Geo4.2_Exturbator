@@ -24,8 +24,8 @@ bool GUIStyleResource::Load(std::string filename) {
 		while (object) {
 			string classname = object->GetName();
 
-			GUIStyle style;
-			style.Deserialize(object);
+			GUIStyle* style = new GUIStyle();
+			style->Deserialize(object, resourceManager);
 
 			styles.push_back(StyleEntry(classname, style));
 
@@ -37,7 +37,7 @@ bool GUIStyleResource::Load(std::string filename) {
 
 GUIStyle& GUIStyleResource::get(string name) {
 	for (unsigned int i = 0; i < styles.size(); i++){
-		if (styles[i].first == name)return styles[i].second;
+		if (styles[i].first == name)return (*styles[i].second);
 	}
 	return defaultStyle;
 }

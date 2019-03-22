@@ -12,11 +12,11 @@ public:
 	GUIText();
 	~GUIText();
 
-	void	Initialise(EventManager*const, SceneManager*);
-	void	Deinitialise(EventManager*const, SceneManager*) {};
+	void	Initialise(EventManager*const, ResourceManager*const);
+	void	Deinitialise(EventManager*const, ResourceManager*const) {};
 
-	void	Serialize(CFONode*, ResourceManager*) {}
-	void	Deserialize(CFONode*, ResourceManager*);
+	void	Serialize(CFONode*) {}
+	void	Deserialize(CFONode*);
 
 	bool	OnWindowEvent(WindowEvent*const);
 	bool	OnGUIInputEvent(GUIInputEvent*const);
@@ -28,5 +28,7 @@ public:
 	GUIRenderable	renderable;
 
 	GUIStyleResourceHandle styleSheet;
+
+	string styleName;
 };
 

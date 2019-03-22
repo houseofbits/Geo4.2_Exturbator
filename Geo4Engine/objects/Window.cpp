@@ -83,7 +83,7 @@ SDLWindow::~SDLWindow(void)
 	SDL_Quit();
 }
 
-void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
+void SDLWindow::Initialise(EventManager*const event_manager, ResourceManager*const resourceManager)
 {	
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &SDLWindow::OnWindowEvent);
@@ -141,7 +141,7 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 
 	SendEvent(new WindowEvent(0, 0, this));
 
-	Font::m_DefaultInstance.Load("arial.glf");
+//	Font::m_DefaultInstance.Load("arial.glf");
 
 	glEnable(GL_MULTISAMPLE);
 
@@ -158,9 +158,9 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 	getObjectsByClassName(guiViewports);
 }
 
-void SDLWindow::Deserialize(CFONode* node, ResourceManager* mgr)
+void SDLWindow::Deserialize(CFONode* node)
 {	
-	Entity::Deserialize(node, mgr);
+	Entity::Deserialize(node);
 
 	node->getValueString("fullscreen", fullscreen);
 	node->getValueInt("width", width);

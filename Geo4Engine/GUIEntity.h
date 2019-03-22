@@ -9,7 +9,7 @@ public:
 	GUIEntity();
 	virtual ~GUIEntity();
 
-	virtual void			Deserialize(CFONode*, ResourceManager*);
+	virtual void			Deserialize(CFONode*);
 
 	Vector2					getWorldSpace(Vector2&);
 

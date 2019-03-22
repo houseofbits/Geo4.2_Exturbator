@@ -24,16 +24,16 @@ inputJoystickAxis(0)
 GUISlider::~GUISlider(void)
 { }
 
-void GUISlider::Initialise(EventManager* const event_manager, SceneManager* mgr)
+void GUISlider::Initialise(EventManager* const eventManager, ResourceManager*const resourceManagerr)
 {	
-	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &GUISlider::OnInputEvent);
-	event_manager->RegisterEventReceiver(this, &GUISlider::OnWindowEvent);
+	eventManager->RegisterEventHandler(this);
+	eventManager->RegisterEventReceiver(this, &GUISlider::OnInputEvent);
+	eventManager->RegisterEventReceiver(this, &GUISlider::OnWindowEvent);
 }
 
-void GUISlider::Deserialize(CFONode* node, ResourceManager* mgr)
+void GUISlider::Deserialize(CFONode* node)
 {
-	GUIEntity::Deserialize(node, mgr);
+	GUIEntity::Deserialize(node);
 
 	node->getValueString("caption",text);
 	node->getValueInt("ticks", ticks);
@@ -175,7 +175,7 @@ glPushMatrix();
 			if (inputJoystickPresent) {
 				title = text + "(input:" + Utils::IntToString(inputJoystickAxis) + ")";
 			}
-			Font::m_DefaultInstance.DrawCenter(title, font_size);
+//			Font::m_DefaultInstance.DrawCenter(title, font_size);
 		}
 		glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
@@ -210,7 +210,7 @@ glPushMatrix();
 		glColor3f(1,1,0);
 		glEnable(GL_TEXTURE_2D);
 		//if(!text.empty() && font.isValid())
-		Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)value),font_size);
+//		Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)value),font_size);
 		glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 	//marks
@@ -219,7 +219,7 @@ glPushMatrix();
 		glColor3f(1,1,1);
 		glEnable(GL_TEXTURE_2D);
 		//if(!text.empty() && font.isValid())
-		Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)value_minmax.x),font_size);
+//		Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)value_minmax.x),font_size);
 		glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 	glPushMatrix();
@@ -227,7 +227,7 @@ glPushMatrix();
 		glColor3f(1,1,1);
 		glEnable(GL_TEXTURE_2D);
 		//if(!text.empty() && font.isValid())
-		Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)value_minmax.y),font_size);
+//		Font::m_DefaultInstance.DrawCenter(Utils::IntToString((int)value_minmax.y),font_size);
 		glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 
