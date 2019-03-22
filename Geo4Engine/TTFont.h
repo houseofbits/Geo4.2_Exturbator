@@ -2143,9 +2143,9 @@ public:
 
 	void drawCenter(string text, Vector2 position) {
 		if (oglftFilled) {
-			OGLFT::BBox bbox = oglftFilled->measure(text.c_str());
+			//OGLFT::BBox bbox = oglftFilled->measure(text.c_str());
 		
-			draw(text, position - Vector2((bbox.x_max_ - bbox.x_min_)/2, (bbox.y_max_ - bbox.y_min_) / 2));
+			//draw(text, position - Vector2((bbox.x_max_ - bbox.x_min_)/2, (bbox.y_max_ - bbox.y_min_) / 2));
 		}
 	}
 
@@ -2168,7 +2168,7 @@ public:
 			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 			//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-			oglftFilled->draw(position.x, position.y, text.c_str());			
+			//oglftFilled->draw(position.x, position.y, text.c_str());			
 
 			glDisable(GL_TEXTURE_2D);
 		}

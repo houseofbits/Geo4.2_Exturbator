@@ -21,17 +21,17 @@ void Triangulation::EarClipTrinagulate(const std::vector<Vector2>& pointsIn,
 
 	//Generate clockwise indices
 	if (areVerticesCW(pointsIn)) {
-		for (int i = 0; i < pointsIn.size(); i++){
+		for (unsigned int i = 0; i < pointsIn.size(); i++){
 			pointIndices.push_back(PointIndex(i, pointsIn[i]));
 		}
 	}else {
-		for (int i = pointsIn.size() - 1; i >= 0; i--) {
+		for (unsigned int i = pointsIn.size() - 1; i >= 0; i--) {
 			pointIndices.push_back(PointIndex(i, pointsIn[i]));
 		}
 	}
 	//Classify points - inside angle or outside angle (concave or convex)
 	//cout << "------ classify points ------------" << endl;
-	for (int i = 0; i < pointIndices.size(); i++) {
+	for (unsigned int i = 0; i < pointIndices.size(); i++) {
 		pointIndices[i].type = classifyPoint(i);
 		//cout << pointIndices[i].index<<" / "<<Utils::VectorToString(pointIndices[i].point)<<" / "<<pointIndices[i].type << endl;
 	}
@@ -41,7 +41,7 @@ void Triangulation::EarClipTrinagulate(const std::vector<Vector2>& pointsIn,
 		unsigned int eari = findEar();
 		sliceEar(eari);
 		
-		for (int i = 0; i < pointIndices.size(); i++) {
+		for (unsigned int i = 0; i < pointIndices.size(); i++) {
 			pointIndices[i].type = classifyPoint(i);
 		}
 	}
@@ -61,14 +61,14 @@ void Triangulation::EarClipTrinagulate(const std::vector<Vector2>& pointsIn,
 }
 
 unsigned int Triangulation::findEar() {
-	for (int i = 0; i < pointIndices.size(); i++) {
+	for (unsigned int i = 0; i < pointIndices.size(); i++) {
 		//Consider only CONVEX points
 		if (pointIndices[i].type == PointType::CONCAVE)continue;
 
 		unsigned int previ = previousPoint(i);
 		unsigned int nexti = nextPoint(i);
 		//Check if point is in triangle
-		for (int a = 0; a < pointIndices.size(); a++) {
+		for (unsigned int a = 0; a < pointIndices.size(); a++) {
 			if (a != i && a != previ && a != nexti && pointIndices[a].type != PointType::CONVEX) {
 				if (Math::PointInsideTriangle(pointIndices[a].point,
 					pointIndices[previ].point,
@@ -81,7 +81,7 @@ unsigned int Triangulation::findEar() {
 		return i;
 	}
 	//If nothing is found, get first which is convex or paralel
-	for (int i = 0; i < pointIndices.size(); i++) {
+	for (unsigned int i = 0; i < pointIndices.size(); i++) {
 		if (pointIndices[i].type != PointType::CONCAVE)return i;
 	}
 	return 0;

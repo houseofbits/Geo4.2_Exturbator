@@ -147,6 +147,14 @@ void SDLWindow::Initialise(EventManager*const event_manager, SceneManager* mgr)
 
 	glClearStencil(0);
 
+	cout << GREEN;
+	cout << "OpenGL" << endl;
+	cout << " vendor: " << glGetString(GL_VENDOR) << endl;
+	cout << " version: " << glGetString(GL_VERSION) << endl;
+	cout << " shading language version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+	cout << " renderer: " << glGetString(GL_RENDERER) << endl;
+	cout << WHITE;
+
 	getObjectsByClassName(guiViewports);
 }
 

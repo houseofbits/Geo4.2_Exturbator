@@ -303,7 +303,8 @@ void GUIRenderable::Draw() {
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		}*/
+		}
+		*/
 	}
 	else {
 
@@ -498,7 +499,7 @@ void GUIRenderable::_generateGeometryData() {
 		}
 		_generateIndexBuffer(indexArrayShadow, shadowIndexArrayId, shadowNumIndices);
 	}
-
+	
 	//6. Triangulate border geometry
 	if (style->borderSizeBottom > 0 || 
 		style->borderSizeTop > 0 || 

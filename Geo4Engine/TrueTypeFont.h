@@ -8,6 +8,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "Math/HVector2.h"
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
@@ -16,58 +18,77 @@
 
 class TrueTypeActiveGlyph {
 public:
-	TrueTypeActiveGlyph() {}
-
+	TrueTypeActiveGlyph():charIndex(0),
+		uvPos(0,0),
+		uvSize(0,0),
+		size(0,0),
+		bearing(0,0),
+		advance(0)
+	{	}
+	TrueTypeActiveGlyph(unsigned int charIndex) : charIndex(charIndex){
+		TrueTypeActiveGlyph();
+	}
+	unsigned int fontSize;		//TODO different size fonts in one character map
 	unsigned int charIndex;
-	float offsetU;
-	float offsetV;
-	float width;
-	float height;
+	Vector2 uvPos;
+	Vector2 uvSize;
+	Vector2 size;
+	Vector2 bearing;
+	float	advance;
 };
 
 /*
+Init
+1.Load true type font face
+2.Create empty texture of predefined size (white, opaque)
+3.Initialize vertex and index buffers
 
-Init font
-1.Load ttface
-2.Create empty texture of predefined size
-3.Create vertex and index buffers of predefinde size
-
-Each time draving font
-1.Generate text checksum
-2.If checksum is same as before draw the font
-3.If text has changed:
-4.Generate nonexisting characters and save into texture
-5.Regenerate vertex array vbo
-6.Draw
-7.Save checksum
-
-
+Rendering
+1.Get text char indexes
+2.Get character from cache
+3.Add character to cache
+	3.1 Render true type gluph
+	3.2 Convert it to texture alpha
+	3.3 Blit it into texture and increment position
+5.Update vertex vbo
+6.Render vbo (numIndices = char count)
 */
+
 class TrueTypeFontFace
 {
 public:
 	TrueTypeFontFace();
 	virtual ~TrueTypeFontFace();
 
-	bool Load(std::string filename,unsigned int size);
+	bool Load(std::string filename);
+	void Draw(std::string, float);
+	void DrawCached();
 
-	std::vector<TrueTypeActiveGlyph> activeGlyphs;
-	unsigned int textureMapCurrentLineU;
-	unsigned int textureMapCurrentLineV;
-	GLuint		faceTextureMap;
-	FT_Face		ftFace;
+	Vector2 getSize(std::string, float);
+
+	bool _addGlyph(unsigned int charIndex, TrueTypeActiveGlyph&);
+	bool _getGlyph(unsigned int charIndex, TrueTypeActiveGlyph& out);
+	void _createEmptyTextureMap();
+	void _createBufferObjects();
+	void _setSize(unsigned int);
+
+	//Glyph map
+	std::vector<TrueTypeActiveGlyph> activeGlyphs;	
+	unsigned int	textureMapCurrentLineU;
+	unsigned int	textureMapCurrentLineV;
+	unsigned int	textureMapNextLineV;
+	GLuint			faceTextureMap;
+	FT_Face			ftFace;
+
+	//Text rendering
+	unsigned int	currentIndexCount;
+	GLuint			indexArrayId;
+	GLuint			vertexArrayId;
+	GLfloat*		tmpVertexArray;
+	
+	const static unsigned int maxCharactersCount;
+	const static unsigned int textureMapWidth;
+	const static unsigned int textureMapHeight;
+	const static unsigned int fontMapPadding;
 };
-
-class TrueTypeTextRenderable {
-public:
-
-	void Draw(std::string, TrueTypeFontFace& font) {}
-
-	GLuint	vertexBufferId;
-	GLuint	indexBufferId;
-
-	unsigned int textChecksum;
-};
-
-
 
