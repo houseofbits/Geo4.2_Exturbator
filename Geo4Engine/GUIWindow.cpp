@@ -51,6 +51,9 @@ void GUIWindow::Deserialize(CFONode* node)
 
 bool GUIWindow::OnWindowEvent(WindowEvent*const event)
 {
+	windowWidth = event->window->width;
+	windowHeight = event->window->height;
+
 	if (event->event_type == WindowEvent::WINDOW_CREATED) {
 
 		renderableTitle.update();
@@ -88,6 +91,16 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 
 void GUIWindow::PreRender(Renderer*)
 {
+	/*
+	glColor4f(0, 0, 0, 0.4f);
+	glBegin(GL_QUADS);
+	glVertex2f(0, 0);
+	glVertex2f(0, windowHeight);
+	glVertex2f(windowWidth, windowHeight);
+	glVertex2f(windowWidth, 0);
+	glEnd();
+	*/
+
 	glPushMatrix();
 	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 }
@@ -97,6 +110,7 @@ void GUIWindow::Render(Renderer* rnd)
 	if (isVisible() == 0)return
 
 	glEnable(GL_BLEND);
+
 
 	renderableShadow.Draw();
 	

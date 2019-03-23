@@ -37,5 +37,8 @@ public:
 	string styleTitleName;
 	string styleBodyName;
 	string styleShadowName;
+
+	unsigned int			windowWidth;
+	unsigned int			windowHeight;
 };
 
