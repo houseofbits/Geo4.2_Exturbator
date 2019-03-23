@@ -22,14 +22,10 @@ void GUIButton::Initialise(EventManager*const eventManager, ResourceManager*cons
 	eventManager->RegisterEventReceiver(this, &GUIButton::OnGUIInputEvent);
 	eventManager->RegisterEventReceiver(this, &GUIButton::OnWindowEvent);
 
-	//renderableActive.size = m_Size;
 	renderableActive.style = &styleSheet->get(styleActiveName);
-
-	//renderableHover.size = m_Size;
 	renderableHover.style = &styleSheet->get(styleHoverName);
-
-	//renderablePressed.size = m_Size;
 	renderablePressed.style = &styleSheet->get(stylePressedName);
+
 }
 
 void GUIButton::Deserialize(CFONode* node)
@@ -60,6 +56,8 @@ bool GUIButton::OnWindowEvent(WindowEvent*const event)
 		renderableActive.setText(m_Title);
 		renderableHover.setText(m_Title);
 		renderablePressed.setText(m_Title);
+
+		
 	}
 	return 1;
 }

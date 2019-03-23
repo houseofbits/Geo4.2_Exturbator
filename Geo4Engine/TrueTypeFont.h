@@ -28,7 +28,7 @@ public:
 	TrueTypeActiveGlyph(unsigned int charIndex) : charIndex(charIndex){
 		TrueTypeActiveGlyph();
 	}
-	unsigned int fontSize;		//TODO different size fonts in one character map
+	unsigned int fontSize;
 	unsigned int charIndex;
 	Vector2 uvPos;
 	Vector2 uvSize;
@@ -60,6 +60,13 @@ public:
 	TrueTypeFontFace();
 	virtual ~TrueTypeFontFace();
 
+	enum VecticalAlignment{
+		BASELINE,
+		BOTTOM,
+		TOP,
+		AVERAGE_CENTER,
+	};
+
 	bool Load(std::string filename);
 	void	Unload() {
 		if (glIsTexture(faceTextureMap)) {
@@ -74,6 +81,7 @@ public:
 	void DrawCached();
 
 	float getWidth(std::string, unsigned int);
+	float getVerticalOffset(std::string, unsigned int, VecticalAlignment);
 
 	bool _addGlyph(unsigned int charIndex, unsigned int size, TrueTypeActiveGlyph&);
 	bool _getGlyph(unsigned int charIndex, unsigned int size, TrueTypeActiveGlyph& out);

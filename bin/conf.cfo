@@ -26,13 +26,11 @@ SDLWindow={
 	      baud_rate="115200";
 	      pos=200,415;
 	    }*/
-	    
 	    GUIButton={
 	      name="button";
 	      title="Cancel";
 	      pos=70,40;
 	      size=100,40;
-	      styleActive="buttonDefaultActive";
 	    }
 	    GUIButton={
 	      name="button";
@@ -80,7 +78,7 @@ SDLWindow={
 		    }
 	    } 
 	    GUIWindow={
-	      visible=0;
+	      visible=1;
 	      name="window";
 	      title="Main window";
 	      pos=500,400;

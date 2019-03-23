@@ -53,12 +53,6 @@ bool TrueTypeFontFace::Load(std::string filename) {
 
 	_createEmptyTextureMap();
 
-	//Draw("Test 1", 30);
-
-	//cout << "size: " << getWidth("Test 1", 30) << endl;
-
-	//Draw("Test", 15);
-
 	return true;
 }
 
@@ -69,7 +63,8 @@ void TrueTypeFontFace::Draw(std::string text, unsigned int fontSize) {
 	unsigned int vertexCounter = 0;
 	float positionX = 0;
 
-	float offset = getWidth(text, fontSize) * 0.5f;
+	float offsetx = getWidth(text, fontSize) * 0.5f;
+	float offsety = getVerticalOffset(text, fontSize, VecticalAlignment::AVERAGE_CENTER);
 
 	for (unsigned int i = 0; i < text.length(); i++){
 		
@@ -93,26 +88,26 @@ void TrueTypeFontFace::Draw(std::string text, unsigned int fontSize) {
 
 		//Add glyph to vertex array data
 		//LU
-		tmpVertexArray[vertexCounter] = (positionX + bearingX) - offset;					//x
-		tmpVertexArray[vertexCounter + 1] = bearingY;							//y
+		tmpVertexArray[vertexCounter] = (positionX + bearingX) - offsetx;					//x
+		tmpVertexArray[vertexCounter + 1] = bearingY - offsety;							//y
 		tmpVertexArray[vertexCounter + 2] = glyph.uvPos.x;						//u
 		tmpVertexArray[vertexCounter + 3] = glyph.uvPos.y + glyph.uvSize.y;		//v
 		vertexCounter += 4;
 		//LD
-		tmpVertexArray[vertexCounter] = (positionX + bearingX) - offset;				//x
-		tmpVertexArray[vertexCounter + 1] = bearingY - height;				//y
+		tmpVertexArray[vertexCounter] = (positionX + bearingX) - offsetx;				//x
+		tmpVertexArray[vertexCounter + 1] = bearingY - height - offsety;				//y
 		tmpVertexArray[vertexCounter + 2] = glyph.uvPos.x;					//u
 		tmpVertexArray[vertexCounter + 3] = glyph.uvPos.y;					//v
 		vertexCounter += 4;
 		//RD
-		tmpVertexArray[vertexCounter] = (positionX + width + bearingX) - offset;		//x
-		tmpVertexArray[vertexCounter + 1] = bearingY - height;				//y
+		tmpVertexArray[vertexCounter] = (positionX + width + bearingX) - offsetx;		//x
+		tmpVertexArray[vertexCounter + 1] = bearingY - height - offsety;				//y
 		tmpVertexArray[vertexCounter + 2] = glyph.uvPos.x + glyph.uvSize.x;	//u
 		tmpVertexArray[vertexCounter + 3] = glyph.uvPos.y;	//v
 		vertexCounter += 4;
 		//RU
-		tmpVertexArray[vertexCounter] = (positionX + width + bearingX) - offset;		//x
-		tmpVertexArray[vertexCounter + 1] = bearingY;						//y
+		tmpVertexArray[vertexCounter] = (positionX + width + bearingX) - offsetx;		//x
+		tmpVertexArray[vertexCounter + 1] = bearingY - offsety;						//y
 		tmpVertexArray[vertexCounter + 2] = glyph.uvPos.x + glyph.uvSize.x;	//u
 		tmpVertexArray[vertexCounter + 3] = glyph.uvPos.y + glyph.uvSize.y;	//v
 		vertexCounter += 4;
@@ -134,6 +129,8 @@ void TrueTypeFontFace::Draw(std::string text, unsigned int fontSize) {
 //This is useful for repeated text with multiple effect layers
 void TrueTypeFontFace::DrawCached() {
 	if (currentIndexCount > 0) {
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, faceTextureMap);
 		//Render vbo
 		glBindBuffer(GL_ARRAY_BUFFER, vertexArrayId);
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -146,6 +143,7 @@ void TrueTypeFontFace::DrawCached() {
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glDisable(GL_TEXTURE_2D);
 	}
 }
 
@@ -309,31 +307,88 @@ void TrueTypeFontFace::_createEmptyTextureMap() {
 }
 
 float TrueTypeFontFace::getWidth(std::string text, unsigned int fontSize) {
-
+	
 	_setSize(fontSize);
 
 	float width = 0;
-
-	FT_UInt glyph_index = 0;
-
+	FT_UInt charIndex = 0;
+	TrueTypeActiveGlyph glyph;
 	for (unsigned int i = 0; i < text.length(); i++)
 	{
-		glyph_index = FT_Get_Char_Index(ftFace, text[i]);
+		charIndex = FT_Get_Char_Index(ftFace, text[i]);
 		
-		if (glyph_index == 0)continue;
+		if (charIndex == 0)continue;
 
-		FT_Error error = FT_Load_Glyph(ftFace, glyph_index, FT_LOAD_DEFAULT);
-		if (error != 0)continue;
+		if (!_getGlyph(charIndex, fontSize, glyph)) {
 
-		FT_Glyph glyph;
-		error = FT_Get_Glyph(ftFace->glyph, &glyph);
-		if (error != 0)continue;
+			FT_Error error = FT_Load_Glyph(ftFace, charIndex, FT_LOAD_DEFAULT);
+			if (error != 0)continue;
 
-		width += ftFace->glyph->metrics.horiAdvance / 64.0f;
+			FT_Glyph glyph;
+			error = FT_Get_Glyph(ftFace->glyph, &glyph);
+			if (error != 0)continue;
 
-		FT_Done_Glyph(glyph);
+			width += ftFace->glyph->metrics.horiAdvance / 64.0f;
+
+			FT_Done_Glyph(glyph);
+		}
+		else {
+			width += glyph.advance;
+		}
 	}
 	return width;
+}
+
+float TrueTypeFontFace::getVerticalOffset(std::string text, unsigned int fontSize, VecticalAlignment alignment) {
+
+	float min = 1000;
+	float max = 0;
+	FT_UInt charIndex = 0;
+	TrueTypeActiveGlyph glyph;
+	for (unsigned int i = 0; i < text.length(); i++)
+	{
+		charIndex = FT_Get_Char_Index(ftFace, text[i]);
+
+		if (charIndex == 0)continue;
+
+		if (!_getGlyph(charIndex, fontSize, glyph)) {
+
+			FT_Error error = FT_Load_Glyph(ftFace, charIndex, FT_LOAD_DEFAULT);
+			if (error != 0)continue;
+
+			FT_Glyph glyph;
+			error = FT_Get_Glyph(ftFace->glyph, &glyph);
+			if (error != 0)continue;
+
+			float bearing = ftFace->glyph->metrics.horiBearingY / 64.0f;
+			float height = ftFace->glyph->metrics.height / 64.0f;
+
+			if (bearing > max)max = bearing;
+			if (bearing - height < min)min = bearing - height;
+
+			FT_Done_Glyph(glyph);
+		}
+		else {
+			if (glyph.bearing.y > max)max = glyph.bearing.y;
+			if (glyph.bearing.y - glyph.size.y < min)min = glyph.bearing.y - glyph.size.y;
+		}
+	}
+	float offset = 0;
+	switch (alignment) {
+	case VecticalAlignment::BASELINE:
+		offset = 0;
+		break;
+	case VecticalAlignment::AVERAGE_CENTER:
+		offset = -(((max - min) / 2) - max);
+		break;
+	case VecticalAlignment::TOP:
+		offset = max;
+		break;
+	case VecticalAlignment::BOTTOM:
+		offset = min;
+		break;
+	};
+	return offset;
 }
 
 void TrueTypeFontFace::_drawCharacterMap() 

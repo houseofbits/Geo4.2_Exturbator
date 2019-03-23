@@ -31,6 +31,8 @@ void GUIText::Deserialize(CFONode* node)
 	node->getValueString("style", styleName);
 
 	renderable.size = m_Size;
+
+	setDisabled(true);	//Do not react to events
 }
 
 bool GUIText::OnWindowEvent(WindowEvent*const event)

@@ -67,15 +67,27 @@ public:
 		Vector4 color;
 		float	position;
 	};
+	void add(Vector4 c, float p) { points.push_back(GradientPoint(c,p)); }
+	void draw();
+	void generate();
+	void Deserialize(CFONode*);
+
+	Vector4 _getColor(float f);
+
 	vector<GradientPoint> points;
 	GLuint			vertexArrayId;
 	GLuint			indexArrayId;
 	unsigned int	numIndices;
 	float			angle;
-	void add(Vector4 c, float p) { points.push_back(GradientPoint(c,p)); }
-	void draw();
-	void generate();
-	void Deserialize(CFONode*);
+
+	float			textureU;
+	float			textureU1;
+
+	static GLuint gradientTextureMap;
+	static unsigned int gradientMapPositionIterator;
+	const static unsigned int gradientMapWidth;
+	const static unsigned int gradientMapHeight;
+	const static unsigned int gradientEntryWidth;
 };
 
 class GUIStyle {
@@ -174,7 +186,7 @@ public:
 	void setText(string);
 
 	void _generateGeometryData();
-	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&);
+	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&, vector<Vector2>&);
 	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
 
 

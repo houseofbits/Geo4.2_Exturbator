@@ -40,28 +40,38 @@ void GUIViewport::mouseMoveEvent(Vector2 mousePos, Vector2 mouseRel, bool leftBu
 
 	SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEMOVE, mousePos, mouseRel, leftButton, rightButton));
 
-	Entity* ent = getObjectAtPoint(mousePos);
-	if (ent) {
-		if (ent != hoverObject) {
-			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, mouseRel, leftButton, rightButton), hoverObject);
-			hoverObject = ent;
-			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEENTER, mousePos, mouseRel, leftButton, rightButton), ent);
-		}
+	//Drag event
+	if (hoverObject && leftButton) {
+
+		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::DRAG, mousePos, mouseRel, leftButton, rightButton), hoverObject);
+
 	}
 	else {
-		if(hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, mouseRel, leftButton, rightButton), hoverObject);
-		hoverObject = 0;
+		Entity* ent = getObjectAtPoint(mousePos);
+		if (ent) {
+			if (ent != hoverObject) {
+				if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, mouseRel, leftButton, rightButton), hoverObject);
+				hoverObject = ent;
+				if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEENTER, mousePos, mouseRel, leftButton, rightButton), ent);
+			}
+		}
+		else {
+			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, mouseRel, leftButton, rightButton), hoverObject);
+			hoverObject = 0;
+		}
 	}
 }
 void GUIViewport::mouseButtonDownEvent(Vector2 mousePos, bool leftButton, bool rightButton) {
 	Entity* ent = getObjectAtPoint(mousePos);
 	if (ent) {
+		hoverObject = ent;
 		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEDOWN, mousePos, leftButton, rightButton), ent);
 	}
 }
 void GUIViewport::mouseButtonUpEvent(Vector2 mousePos, bool leftButton, bool rightButton) {
 	Entity* ent = getObjectAtPoint(mousePos);
 	if (ent) {
+		hoverObject = ent;
 		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEUP, mousePos, leftButton, rightButton), ent);
 	}
 }

@@ -12,7 +12,8 @@ public:
 		MOUSEMOVE,
 		KEYDOWN,
 		KEYUP,
-		KEYPRESS
+		KEYPRESS,
+		DRAG,
 	};
 
 	GUIInputEvent();

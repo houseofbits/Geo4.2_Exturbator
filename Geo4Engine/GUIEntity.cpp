@@ -116,7 +116,7 @@ void	GUIEntity::_RecursiveFindObjectByPosition(Entity* e, Entity* &obj, const Ve
 	
 	if (e->isInstanceOf("GUIEntity")) {
 		GUIEntity* guie = (GUIEntity*)e;
-		if (!guie->m_Visible)return;
+		if (!guie->m_Visible || guie->m_Disabled)return;
 		if (guie->Clip(p)) {
 			obj = e;
 		}

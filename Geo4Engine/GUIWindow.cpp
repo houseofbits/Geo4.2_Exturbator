@@ -67,19 +67,20 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 	if (isVisible() == 0)return 1;
 
 	switch (event->type) {
+	case GUIInputEvent::EventType::DRAG:
+
+		m_LocalPos += event->mouseMotion;
+
+		break;
 	case GUIInputEvent::EventType::MOUSEMOVE:
-
-		if(event->mouseButtonLeft)m_LocalPos += event->mouseMotion;
-
 		break;
 	case GUIInputEvent::EventType::MOUSEDOWN:
-
+		break;
+	case GUIInputEvent::EventType::MOUSEUP:
 		break;
 	case GUIInputEvent::EventType::MOUSEENTER:
-
 		break;
 	case GUIInputEvent::EventType::MOUSELEAVE:
-
 		break;
 	};
 	return 1;
@@ -98,16 +99,16 @@ void GUIWindow::Render(Renderer* rnd)
 	glEnable(GL_BLEND);
 
 	renderableShadow.Draw();
-	glPopMatrix();
-
+	
 	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y + (m_Size.y * 0.5f) - (titleBarSize * 0.5f), 0);
+	glTranslatef(0, (m_Size.y * 0.5f) - (titleBarSize * 0.5f), 0);
 	renderableTitle.Draw();
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y - (titleBarSize * 0.5f), 0);
+	glTranslatef(0,  - (titleBarSize * 0.5f), 0);
 	renderableBody.Draw();
+	glPopMatrix();
 }
 
 void GUIWindow::PostRender()
