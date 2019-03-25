@@ -1,8 +1,8 @@
 SDLWindow={
 	name="window";
 	title="Exturbator Prototype";
-	fullscreen=0; width=800; height=600;
-	//fullscreen=FULL; width=1024; height=768;
+	//fullscreen=0; width=800; height=600;
+	fullscreen=0; width=1024; height=768;
 	//fullscreen=FULL; width=1600; height=900;
 
 
@@ -27,11 +27,22 @@ SDLWindow={
 	      pos=200,415;
 	    }*/
 
+	    GUILayer={  
+	    	name="layerZone1";	
+			pos=420,480;
+			size=200,500;
+	    }
+	    GUILayer={  
+	    	name="layerOutputLog";	
+			pos=420,120;
+			size=900,230;
+	    }
+
 	    GUIList={
 			name="presetsList";
 			title="Presets";
-			pos=160,440;
-			size=300,300;
+			pos=160,505;
+			size=300,500;
 		    GUIListItem={
 		    	name="1";
 		    	title="1.75mm PLA default preset";

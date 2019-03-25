@@ -57,6 +57,7 @@ Geo4 engine
 #include "gui/GUIText.h"
 #include "gui/GUIList.h"
 #include "gui/GUIListItem.h"
+#include "gui/GUILayer.h"
 
 #include "gui/GUISlider.h"
 

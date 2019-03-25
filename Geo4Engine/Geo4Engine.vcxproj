@@ -169,6 +169,7 @@
     <ClCompile Include="gui\GUIEntity.cpp" />
     <ClCompile Include="gui\GUIEvent.cpp" />
     <ClCompile Include="gui\GUIInputEvent.cpp" />
+    <ClCompile Include="gui\GUILayer.cpp" />
     <ClCompile Include="gui\GUIList.cpp" />
     <ClCompile Include="gui\GUIListItem.cpp" />
     <ClCompile Include="gui\GUIRenderable.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="gui\GUIEntity.h" />
     <ClInclude Include="gui\GUIEvent.h" />
     <ClInclude Include="gui\GUIInputEvent.h" />
+    <ClInclude Include="gui\GUILayer.h" />
     <ClInclude Include="gui\GUIList.h" />
     <ClInclude Include="gui\GUIListItem.h" />
     <ClInclude Include="gui\GUIRenderable.h" />

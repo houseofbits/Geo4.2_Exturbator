@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 	manager.RegisterObjectType(GUIButton());
 	manager.RegisterObjectType(GUIText());
 	manager.RegisterObjectType(GUIList());
+	manager.RegisterObjectType(GUILayer());
 	manager.RegisterObjectType(GUIListItem());
 	manager.RegisterObjectType(Hardware());
 

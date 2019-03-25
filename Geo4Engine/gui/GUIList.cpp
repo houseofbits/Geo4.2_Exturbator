@@ -117,7 +117,7 @@ void GUIList::DeselectAll() {
 }
 
 void GUIList::reorderItems() {
-	float top = (m_Size.x * 0.5f) - (itemHeight * 0.5f) - titleBarSize;
+	float top = (m_Size.y * 0.5f) - (itemHeight * 0.5f) - titleBarSize;
 	std::list<Entity*>::iterator pos = m_Childs.begin();
 	while (pos != m_Childs.end()) {
 		if ((*pos)->getTypename() == "GUIListItem") {
@@ -139,5 +139,5 @@ void GUIList::addItem(string name, string title) {
 	SendEvent(new SceneManagerEvent(SceneManager::LOAD_OBJECTS_FROM_NODE, this, node));
 }
 void GUIList::deleteItem(string name) {
-
+	//TODO
 }

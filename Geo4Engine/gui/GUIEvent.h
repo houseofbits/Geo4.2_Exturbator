@@ -4,20 +4,15 @@
 class GUIEvent : public BaseEvent {
 	CLASS_PROTOTYPE(GUIEvent);
 public:
-	GUIEvent(std::string n, unsigned int t) :name(n), type(t), value(0.0f) {}
-	GUIEvent(std::string n, unsigned int t, float val) :name(n), type(t), value(val) {}
-	virtual ~GUIEvent(void) {}
-
-	enum {
+	enum Type{
 		BUTTON_PRESSED = 1,
-		HIDE,
-		SHOW,
-		POT_CHANGED,
-		POT_VALUE_SET,
-		SET_TEXT
+		LIST_SELECTED,
+		WINDOW_SHOWN,
+		WINDOW_HIDDEN,
 	};
 
-	unsigned int	type;
-	float			value;
-	std::string		name;
+	GUIEvent(std::string n, Type t) : type(t){}
+	virtual ~GUIEvent(void) {}
+
+	Type			type;
 };

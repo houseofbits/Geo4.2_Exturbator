@@ -12,5 +12,13 @@ GUIStyle={
     fontShadowColor=1,1,1,0.5;
     lineHeight=20;
   }
+  layer={
+    radius=5;
+    backgroundGradientColor={
+      1=0.498, 0.545, 0.6, 0.2;
+      0=0.737, 0.756, 0.780, 0.3;
+    }
+  }
+
 
 }
