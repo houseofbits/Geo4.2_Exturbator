@@ -3,6 +3,8 @@
 #include "GUIRenderable.h"
 #include "GUIStyleResource.h"
 
+class GUIList;
+
 class GUIListItem :
 	public GUIEntity,
 	public EventHandler
@@ -31,8 +33,10 @@ public:
 
 	GUIStyleResourceHandle styleSheet;
 
+	GUIList* parentList;
+
 	bool	hoverState;
-	bool	clickState;
+	bool	selected;
 
 	string styleActiveName;
 	string styleHoverName;

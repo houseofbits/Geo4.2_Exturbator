@@ -16,7 +16,7 @@ void GUIText::Initialise(EventManager*const eventManager, ResourceManager*const 
 	eventManager->RegisterEventReceiver(this, &GUIText::OnGUIInputEvent);
 	eventManager->RegisterEventReceiver(this, &GUIText::OnWindowEvent);
 
-	resourceManager->Get(styleSheet, "styles.cfo");
+	resourceManager->Get(styleSheet, "style/styles.cfo");
 
 	renderable.style = &styleSheet->get(styleName);
 

@@ -28,18 +28,26 @@ SDLWindow={
 	    }*/
 
 	    GUIList={
-			name="button";
-			title="list";
+			name="presetsList";
+			title="Presets";
 			pos=160,440;
 			size=300,300;
 		    GUIListItem={
+		    	name="1";
 		    	title="1.75mm PLA default preset";
-				pos=0,0;
 		    }
 		    GUIListItem={
+		    	name="2";		    	
 		    	title="2.85mm PLA default preset";
-				pos=0,40;
 		    }	
+		    GUIListItem={
+		    	name="3";		    	
+		    	title="1.75mm PLA black";
+		    }	
+		    GUIListItem={
+		    	name="4";		    	
+		    	title="1.75mm PLA white";
+		    }			    		    
 	    }
 
 	    GUIButton={

@@ -39,27 +39,29 @@ void	Entity::CreateObjects(CFONode* node)
 	if(!mgr || !node)return;
 	TEntityArray	obj_init_array;
 	//cout<<"Scene Mgr "<<mgr<<endl;
-		string classname = node->GetName();
-		Entity* obj = mgr->object_factory.ConstructObjectFromName(classname);
-		if(obj){
-			//cout<<"Root object "<<obj<<endl;
-			obj->setParent(this);
-			addChildObject(obj);
-			obj->Deserialize(node);
-			//cout<<"Deserialize "<<obj<<endl;
-			//save created objects for initiation
-			obj_init_array.push_back(obj);
-			//cout<<"'"<<classname<<"'"<<endl;	
-			_RecursiveDeserializeChilds(node, obj, mgr, &obj_init_array);
-		}else if(classname=="require"){
-			_RecursiveDeserializeChilds(&CFODocument(node->GetValue()), this, mgr, &obj_init_array);
-		}else{
-			//cout<<"Child object"<<endl;
-			_RecursiveDeserializeChilds(node, this, mgr, &obj_init_array);
-		}
-	//	cout<<"Start init"<<endl;
-		_RecursiveInitialiseChilds(this, mgr, &obj_init_array);
-		//_RecursiveSortByZIndex();
+	string classname = node->GetName();
+	Entity* obj = mgr->object_factory.ConstructObjectFromName(classname);
+	if(obj){
+		//cout<<"Root object "<<obj<<endl;
+		obj->setParent(this);
+		addChildObject(obj);
+		obj->Deserialize(node);
+		//cout<<"Deserialize "<<obj<<endl;
+		//save created objects for initiation
+		obj_init_array.push_back(obj);
+		//cout<<"'"<<classname<<"'"<<endl;	
+		_RecursiveDeserializeChilds(node, obj, mgr, &obj_init_array);
+	//}else if(classname=="require"){	//Obsolette
+	//	_RecursiveDeserializeChilds(&CFODocument(node->GetValue()), this, mgr, &obj_init_array);
+	}else{
+		//cout<<"Child object"<<endl;
+		_RecursiveDeserializeChilds(node, this, mgr, &obj_init_array);
+	}
+//	cout<<"Start init"<<endl;
+	_RecursiveInitialiseChilds(this, mgr, &obj_init_array);
+	//_RecursiveSortByZIndex();
+
+	//TODO Send [Object created] event
 }
 
 void	Entity::_RecursiveDeserializeChilds(CFONode* node, Entity* parent, SceneManager* mgr, TEntityArray* init_a)

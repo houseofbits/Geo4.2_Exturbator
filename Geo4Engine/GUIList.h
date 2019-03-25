@@ -25,10 +25,22 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
+	void	DeselectAll();	
+	void	addItem(string name, string title);
+	void	deleteItem(string name);
+	void	reorderItems();
+
 	float	itemHeight;
+	bool	multiSelect;
 
 	GUIStyleResourceHandle styleSheet;
 
+	GUIRenderable	renderableTitle;
 	GUIRenderable	renderableBody;
+
+	float			titleBarSize;
+
+	vector<CFONode*> listItemNodes;
+	
 };
 

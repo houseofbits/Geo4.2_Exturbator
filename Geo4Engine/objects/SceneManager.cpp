@@ -58,7 +58,7 @@ bool	SceneManager::ProcessEvents()
 	if (!object_manager_stack.empty()) {
 		while (!object_manager_stack.empty()) {
 			switch (object_manager_stack.top()->type) {
-			case LOAD_OBJECTS_FROM_NODE:
+			case LOAD_OBJECTS_FROM_NODE:				
 				if (object_manager_stack.top()->node && object_manager_stack.top()->entity) {
 					object_manager_stack.top()->entity->CreateObjects(object_manager_stack.top()->node);
 				}

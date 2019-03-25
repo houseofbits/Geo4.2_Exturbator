@@ -4,6 +4,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {	
+/*
+	CFODocument * doc = new CFODocument("test1.cfo");
+	doc->PrintDebug();
+	return 1;
+*/
 
 #ifndef _DEBUG
 	ofstream file;

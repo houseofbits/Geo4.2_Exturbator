@@ -1,0 +1,16 @@
+GUIStyle={
+  
+  include="style/button.cfo";
+  include="style/window.cfo";  
+  include="style/list.cfo";
+ 
+  textDefault={
+    fontName="fonts/exo1/Exo-SemiBold.ttf";
+    fontSize=13;
+    fontColor=0,0,0,1;
+    fontShadowPosition=0,-1;
+    fontShadowColor=1,1,1,0.5;
+    lineHeight=20;
+  }
+
+}

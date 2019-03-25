@@ -21,7 +21,7 @@ void GUIWindow::Initialise(EventManager*const eventManager, ResourceManager*cons
 	eventManager->RegisterEventReceiver(this, &GUIWindow::OnGUIInputEvent);
 	eventManager->RegisterEventReceiver(this, &GUIWindow::OnWindowEvent);
 
-	resourceManager->Get(styleSheet, "styles.cfo");
+	resourceManager->Get(styleSheet, "style/styles.cfo");
 
 	renderableTitle.style = &styleSheet->get(styleTitleName);
 	renderableBody.style = &styleSheet->get(styleBodyName);

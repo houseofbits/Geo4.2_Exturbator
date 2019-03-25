@@ -162,6 +162,8 @@ uint CFONode::_ParseRecursive(string& buff,int start)
 			{	
 				child = new CFONode("","",this);	
 				
+//				cout << "name: " << name << endl;
+
 				if(!name.empty()){
 					child->_mName = name;
 					name = "";
@@ -192,9 +194,25 @@ uint CFONode::_ParseRecursive(string& buff,int start)
 				{
 					param = line;
 					
+					//cout << name << " = " << param << endl;
+
 					if(!name.empty()){
-						_InsertNode(new CFONode(name,param, this));
-						//mNodes.push_back(new CFGNode(name,param));
+
+						if (name == "include") {
+							CFODocument* doc = new CFODocument();
+							if (doc->ReadFile(param)) {
+								for (unsigned int i = 0; i < doc->_mNodes.size(); i++){
+									doc->_mNodes[i]->_mParentNode = this;
+									_InsertNode(doc->_mNodes[i]);
+								}
+								doc->_mNodes.clear();
+							}
+							delete doc;
+						}
+						else {
+							_InsertNode(new CFONode(name, param, this));
+							//mNodes.push_back(new CFGNode(name,param));
+						}
 						name = "";
 						param = "";
 					}

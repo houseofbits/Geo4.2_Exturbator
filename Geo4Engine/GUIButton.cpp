@@ -16,7 +16,7 @@ GUIButton::~GUIButton()
 
 void GUIButton::Initialise(EventManager*const eventManager, ResourceManager*const resourceManager)
 {
-	resourceManager->Get(styleSheet, "styles.cfo");
+	resourceManager->Get(styleSheet, "style/styles.cfo");
 
 	eventManager->RegisterEventHandler(this);
 	eventManager->RegisterEventReceiver(this, &GUIButton::OnGUIInputEvent);
