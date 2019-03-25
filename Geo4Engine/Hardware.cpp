@@ -9,12 +9,9 @@ CLASS_DECLARATION(Hardware);
 
 Hardware::Hardware(void) : GUIEntity(),
 						EventHandler(),
-						CSerialEx(),
-	fader(0),
-	faderMode(1),
-	sendTimer(0)
+						CSerialEx()
 { 
-	memset(faders, 0, 8);
+
 }
 
 Hardware::~Hardware(void)
@@ -25,26 +22,12 @@ Hardware::~Hardware(void)
 void Hardware::Initialise(EventManager*const event_manager, ResourceManager*const resourceManager)
 {	
 	event_manager->RegisterEventHandler(this);
-	event_manager->RegisterEventReceiver(this, &Hardware::OnInputEvent);
 	event_manager->RegisterEventReceiver(this, &Hardware::OnWindowEvent);
-	event_manager->RegisterEventReceiver(this, &Hardware::OnGUIEvent);
 }
 
 void Hardware::Deserialize(CFONode* node)
 {	
-
-	outputMapping[0] = 0;
-	outputMapping[1] = 1;
-	outputMapping[2] = 2;
-	outputMapping[3] = 3;
-	outputMapping[4] = 4;
-	outputMapping[5] = 5;
-	outputMapping[6] = 6;
-	outputMapping[7] = 7;
-
 	GUIEntity::Deserialize(node);
-
-	node->getValueInt("fader_mode", faderMode);
 
 	string str;
 	if(node->getValueString("serial_port", str)){
@@ -101,48 +84,14 @@ void Hardware::Deserialize(CFONode* node)
 	}
 }
 
-bool Hardware::OnInputEvent(InputEvent*const event)
-{
-
-	switch (event->sdl->type) {
-	case SDL_KEYDOWN:
-		if (event->sdl->key.keysym.sym == SDLK_UP) {
-			fader+=5;
-			cout << "val: " << (unsigned int)fader << endl;
-		}
-		if (event->sdl->key.keysym.sym == SDLK_DOWN) {
-			fader-=5;
-			cout << "val: " << (unsigned int)fader << endl;
-		}
-	};
-
-	return true;
-}
-
-bool Hardware::OnGUIEvent(GUIEvent*const event)
-{
-
-	return true;
-}
-
 bool Hardware::OnWindowEvent(WindowEvent*const event)
 {		
-	/*
-	sendTimer += event->frametime;
 
-	float freq = 1.0f / 10;
-
-	if (sendTimer > freq) {
-		sendTimer = 0;
-
-		unsigned int frameSize = prepareSerialFrame();												
-		Write(c_data, frameSize);
-	}*/
 	return 1;
 }
 
 unsigned int Hardware::prepareSerialFrame() {
-
+	/*
 	unsigned int counter = 0;
 
 	c_data[counter++] = 'W';
@@ -172,19 +121,8 @@ unsigned int Hardware::prepareSerialFrame() {
 		c_data[counter++] = 255 - fadersRms[outputMapping[7]];
 	}
 	c_data[counter++] = Utils::CRC8(c_data, counter);
-
-/*	
-	cout << (unsigned int)c_data[4] << ",";
-	cout << (unsigned int)c_data[5] << ",";
-	cout << (unsigned int)c_data[6] << ",";
-	cout << (unsigned int)c_data[7] << ",";
-	cout << (unsigned int)c_data[8] << ",";
-	cout << (unsigned int)c_data[9] << ",";
-	cout << (unsigned int)c_data[10] << ",";
-	cout << (unsigned int)c_data[11] << ",";
-	cout <<"crc: "<<(unsigned int)c_data[counter-1] << endl;
-*/
-	return counter;
+	*/
+	return 0;
 }
 
 void Hardware::Render(Renderer*)
