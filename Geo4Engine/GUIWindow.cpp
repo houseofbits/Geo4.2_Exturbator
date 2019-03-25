@@ -72,7 +72,7 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 	switch (event->type) {
 	case GUIInputEvent::EventType::DRAG:
 
-		m_LocalPos += event->mouseMotion;
+		m_LocalPos += event->mouseMotion;	
 
 		break;
 	case GUIInputEvent::EventType::MOUSEMOVE:
@@ -91,16 +91,15 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 
 void GUIWindow::PreRender(Renderer*)
 {
-	/*
-	glColor4f(0, 0, 0, 0.4f);
-	glBegin(GL_QUADS);
-	glVertex2f(0, 0);
-	glVertex2f(0, windowHeight);
-	glVertex2f(windowWidth, windowHeight);
-	glVertex2f(windowWidth, 0);
-	glEnd();
-	*/
-
+	if (m_Blocking && m_Visible) {
+		glColor4f(0, 0, 0, 0.5f);
+		glBegin(GL_QUADS);
+		glVertex2f(0, 0);
+		glVertex2f(0, (float)windowHeight);
+		glVertex2f((float)windowWidth, (float)windowHeight);
+		glVertex2f((float)windowWidth, 0);
+		glEnd();
+	}
 	glPushMatrix();
 	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
 }

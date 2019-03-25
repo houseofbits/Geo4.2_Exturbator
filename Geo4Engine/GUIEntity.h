@@ -36,6 +36,7 @@ private:
 	static void				_RecursiveFindObjectByPosition(Entity* e, Entity* &obj, const Vector2& p);
 
 public:
+	bool					m_Blocking;
 	bool					m_Visible;
 	bool					m_Disabled;
 	float					m_ZIndex;

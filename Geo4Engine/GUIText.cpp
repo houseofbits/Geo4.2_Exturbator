@@ -41,7 +41,7 @@ bool GUIText::OnWindowEvent(WindowEvent*const event)
 
 		renderable.update();
 
-		renderable.setText(m_Title);
+		renderable.setTextWithWrapping(m_Title);
 
 	}
 	return 1;

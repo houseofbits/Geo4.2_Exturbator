@@ -6,9 +6,9 @@ GUIEntity::GUIEntity() : m_Visible(true),
 	m_WorldPos(),
 	m_LocalPos(0.0f, 0.0f),
 	m_Size(),
-	m_Title()
+	m_Title(),
+	m_Blocking(false)
 {	}
-
 
 GUIEntity::~GUIEntity()
 {	}
@@ -19,6 +19,7 @@ void GUIEntity::Deserialize(CFONode* node)
 	node->getValueFloat("zindex", m_ZIndex);
 	node->getValueBool("visible", m_Visible);
 	node->getValueBool("disabled", m_Disabled);
+	node->getValueBool("blocking", m_Blocking);
 	node->getValueVector2("size", m_Size);
 	node->getValueString("title", m_Title);
 	if (node->getValueVector2("pos", m_LocalPos))
@@ -124,7 +125,14 @@ void	GUIEntity::_RecursiveFindObjectByPosition(Entity* e, Entity* &obj, const Ve
 	if (!e->getChildList()->empty()) {
 		std::list<Entity*>::iterator pos = e->getChildList()->begin();
 		while (pos != e->getChildList()->end()) {
-			_RecursiveFindObjectByPosition((*pos), obj, p);
+			//Entity is blocking event propagation to lower layers, discard previously found object
+			if ((*pos)->isInstanceOf("GUIEntity")) {
+				GUIEntity* guie = (GUIEntity*)(*pos);
+				if (guie->m_Blocking && guie->m_Visible) {
+					obj = 0;
+				}
+			}
+			_RecursiveFindObjectByPosition((*pos), obj, p);			
 			pos++;
 		}
 	}

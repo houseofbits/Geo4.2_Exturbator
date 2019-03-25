@@ -26,27 +26,48 @@ SDLWindow={
 	      baud_rate="115200";
 	      pos=200,415;
 	    }*/
+
+	    GUIList={
+			name="button";
+			title="list";
+			pos=160,440;
+			size=300,300;
+		    GUIListItem={
+		    	title="1.75mm PLA default preset";
+				pos=0,0;
+		    }
+		    GUIListItem={
+		    	title="2.85mm PLA default preset";
+				pos=0,40;
+		    }	
+	    }
+
 	    GUIButton={
-	      name="button";
-	      title="Cancel";
-	      pos=70,40;
-	      size=100,40;
+	      name="buttonLoadPreset";
+	      title="Load preset";
+	      pos=90,40;
+	      size=150,40;
 	    }
 	    GUIButton={
-	      name="button";
-	      title="Submit";
-	      pos=180,40;
-	      size=100,40;
+	      name="buttonSavePreset";
+	      title="Save preset";
+	      pos=250,40;
+	      size=150,40;
 	    }
 	    GUIButton={
 			name="button";
-			title="Load";
-			pos=310,40;
+			title="Preheat";
+			pos=405,40;
 			size=140,40;
 	    }
+
+
+
 	    GUIWindow={
+	    	visible=0;
 			name="window";
 			title="Zone1 PID";
+			blocking=0;
 			pos=400,300;
 			size=500,300;
 
@@ -78,11 +99,23 @@ SDLWindow={
 		    }
 	    } 
 	    GUIWindow={
-	      visible=1;
-	      name="window";
-	      title="Main window";
-	      pos=500,400;
-	      size=500,300;
+	      visible=0;
+	      name="hardwareDiscoveryWarningModal";
+	      title="Discovering Hardware...";
+	      blocking=1;
+	      pos=400,300;
+	      size=400,200;
+		    GUIText={
+		      title="Extruder, Puller and Winder hardware modules should be connected for full functionality to become available.";
+		      size=350,100;
+		      pos=0,40;
+		    }
+		    GUIButton={
+		      name="button";
+		      title="Cancel";
+		      pos=0,-50;
+		      size=100,40;
+		    }
 	    }     
 
 	}

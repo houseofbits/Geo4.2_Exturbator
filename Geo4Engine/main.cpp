@@ -28,6 +28,8 @@ int main(int argc, char* argv[])
 	manager.RegisterObjectType(GUIWindow());
 	manager.RegisterObjectType(GUIButton());
 	manager.RegisterObjectType(GUIText());
+	manager.RegisterObjectType(GUIList());
+	manager.RegisterObjectType(GUIListItem());
 	manager.RegisterObjectType(Hardware());
 
 	manager.LoadCFO("conf.cfo");

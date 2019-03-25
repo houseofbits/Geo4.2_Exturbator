@@ -630,7 +630,8 @@ void GUIRenderable::_generateIndexBuffer(vector<unsigned int>& indices, GLuint& 
 }
 
 //TODO Split long words
-void GUIRenderable::setText(string text) {
+void GUIRenderable::setTextWithWrapping(string text) {
+	splitText.clear();
 	//cout << "set text: "<<text << endl;
 	if(style && style->_fontValid){
 		vector<string> words;
@@ -660,10 +661,9 @@ void GUIRenderable::setText(string text) {
 		else {
 			splitText.push_back(text);
 		}
-
-		for (unsigned int i = 0; i < splitText.size(); i++)
-		{
-		//	cout << splitText[i] << endl;
-		}
 	}
+}
+void GUIRenderable::setText(string text) {
+	splitText.clear();
+	splitText.push_back(text);
 }

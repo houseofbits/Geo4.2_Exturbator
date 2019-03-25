@@ -183,6 +183,7 @@ public:
 	void Draw();
 	
 	void update();
+	void setTextWithWrapping(string);
 	void setText(string);
 
 	void _generateGeometryData();

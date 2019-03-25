@@ -71,11 +71,16 @@ void GUIViewport::mouseButtonDownEvent(Vector2 mousePos, bool leftButton, bool r
 void GUIViewport::mouseButtonUpEvent(Vector2 mousePos, bool leftButton, bool rightButton) {
 	Entity* ent = getObjectAtPoint(mousePos);
 	if (ent) {
+		//Dragging has finished
+		if (ent != hoverObject && leftButton) {
+			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSELEAVE, mousePos, Vector2(0,0), leftButton, rightButton), hoverObject);
+			hoverObject = ent;
+			if (hoverObject)SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEENTER, mousePos, Vector2(0, 0), leftButton, rightButton), ent);
+		}
 		hoverObject = ent;
 		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::MOUSEUP, mousePos, leftButton, rightButton), ent);
 	}
 }
-
 bool GUIViewport::OnWindowEvent(WindowEvent*const event)
 {
 	window_width = event->window->width;
