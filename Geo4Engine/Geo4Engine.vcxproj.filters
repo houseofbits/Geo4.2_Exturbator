@@ -93,23 +93,8 @@
     <ClCompile Include="events\WindowEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="GUIViewport.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIButton.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIEntity.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Hardware.cpp">
       <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="GUISlider.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIEvent.cpp">
-      <Filter>Source Files\Events</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -135,32 +120,47 @@
     <ClCompile Include="HColor.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="GUIRenderable.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Triangulation.cpp">
       <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIStyleResource.cpp">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIWindow.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIInputEvent.cpp">
-      <Filter>Source Files\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIText.cpp">
-      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="TrueTypeFont.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="GUIList.cpp">
+    <ClCompile Include="gui\GUIButton.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="GUIListItem.cpp">
+    <ClCompile Include="gui\GUIEntity.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIList.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIListItem.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIRenderable.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUISlider.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIText.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIViewport.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIWindow.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIInputEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIEvent.cpp">
+      <Filter>Source Files\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\GUIStyleResource.cpp">
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,23 +227,8 @@
     <ClInclude Include="events\WindowEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="GUIViewport.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIButton.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIEntity.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Hardware.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="GUISlider.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIEvent.h">
-      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Objects</Filter>
@@ -272,32 +257,47 @@
     <ClInclude Include="CFODocument.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="GUIRenderable.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Triangulation.h">
       <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIStyleResource.h">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIWindow.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIInputEvent.h">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIText.h">
-      <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="TrueTypeFont.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="GUIList.h">
+    <ClInclude Include="gui\GUIWindow.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="GUIListItem.h">
+    <ClInclude Include="gui\GUIViewport.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIText.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUISlider.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIRenderable.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIListItem.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIList.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIEntity.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIButton.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIInputEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIStyleResource.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

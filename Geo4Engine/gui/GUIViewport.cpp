@@ -1,4 +1,4 @@
-#include "Geo4.h"
+#include "../Geo4.h"
 
 CLASS_DECLARATION(GUIViewport);
 
@@ -17,8 +17,6 @@ void GUIViewport::Initialise(EventManager*const eventManager, ResourceManager*co
 {
 	eventManager->RegisterEventHandler(this);
 	eventManager->RegisterEventReceiver(this, &GUIViewport::OnWindowEvent);
-
-//	ttfont.Load("fonts/exo1/Exo-SemiBold.ttf");
 }
 
 void GUIViewport::Deserialize(CFONode* node)

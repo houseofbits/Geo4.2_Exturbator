@@ -1,4 +1,4 @@
-#include "Geo4.h"
+#include "../Geo4.h"
 
 GUIStyleResource GUIStyleResource::m_DefaultInstance;
 

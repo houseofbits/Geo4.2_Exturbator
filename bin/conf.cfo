@@ -47,21 +47,29 @@ SDLWindow={
 		    GUIListItem={
 		    	name="4";		    	
 		    	title="1.75mm PLA white";
-		    }			    		    
+		    }	
+
+		    GUIButton={
+		      name="buttonLoadPreset";
+		      title="Load preset";
+		      pos=-75,-170;
+		      size=150,40;
+		      styleActive="buttonUnderLeftActive";
+		      styleHover="buttonUnderLeftHover";
+		      stylePressed="buttonUnderLeftPressed";
+		    }
+		    GUIButton={
+		      name="buttonSavePreset";
+		      title="Save preset";
+		      pos=75,-170;
+		      size=150,40;
+		      styleActive="buttonUnderRightActive";
+			  styleHover="buttonUnderRightHover";
+		      stylePressed="buttonUnderRightPressed";
+		    }		    		    		    
 	    }
 
-	    GUIButton={
-	      name="buttonLoadPreset";
-	      title="Load preset";
-	      pos=90,40;
-	      size=150,40;
-	    }
-	    GUIButton={
-	      name="buttonSavePreset";
-	      title="Save preset";
-	      pos=250,40;
-	      size=150,40;
-	    }
+
 	    GUIButton={
 			name="button";
 			title="Preheat";

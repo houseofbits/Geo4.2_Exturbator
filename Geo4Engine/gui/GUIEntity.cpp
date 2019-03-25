@@ -1,4 +1,4 @@
-#include "Geo4.h"
+#include "../Geo4.h"
 
 GUIEntity::GUIEntity() : m_Visible(true),
 	m_Disabled(false),

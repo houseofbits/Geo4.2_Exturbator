@@ -2,7 +2,7 @@
 
 #include "../Entity.h"
 #include "../Events.h"
-#include "../GUIViewport.h"
+#include "../gui/GUIViewport.h"
 
 #include "../../Lib/SDL2/include/SDL.h"  
 

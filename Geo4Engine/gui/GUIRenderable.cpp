@@ -1,4 +1,4 @@
-#include "Geo4.h"
+#include "../Geo4.h"
 
 GLuint GUIGradientColor::gradientTextureMap = 0;
 unsigned int GUIGradientColor::gradientMapPositionIterator = 0;

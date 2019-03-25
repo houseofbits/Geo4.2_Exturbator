@@ -87,6 +87,20 @@ public:
 		}
 		return 0;
 	}
+	template<class T>
+	T*					getObjectByName(std::string name) {
+		Entity*	got_root = getRootObject();
+		if (got_root) {
+			bool f = 0;
+			Entity* obj = 0;
+			got_root->recursiveFindObjectByName(obj, name, f);
+			if (obj && T::TypeName() == obj->getTypename()) {
+				return (T*)obj;
+			}
+			return 0;
+		}
+		return 0;
+	}
 
 	Entity*					getChildObjectByName(std::string name){
 		bool f=0;
@@ -94,7 +108,18 @@ public:
 		recursiveFindObjectByName(obj,name, f);
 		return obj;
 	}
-	
+
+	template<class T>
+	T*					getChildObjectByName(std::string name) {
+		bool f = 0;
+		Entity* obj = 0;
+		recursiveFindObjectByName(obj, name, f);
+		if (obj && T::TypeName() == obj->getTypename()) {
+			return (T*)obj;
+		}
+		return 0;
+	}
+
 	unsigned int	getObjectsByClassName(std::string className, std::vector<Entity*>& out) {
 		Entity*	got_root = getRootObject();
 		if (got_root) {

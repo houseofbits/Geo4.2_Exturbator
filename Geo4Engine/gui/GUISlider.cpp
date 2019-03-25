@@ -1,5 +1,5 @@
-#include "Geo4.h"
-#include "StringUtils.h"
+#include "../Geo4.h"
+#include "../StringUtils.h"
 #include <algorithm>
 
 using namespace std;
