@@ -1,14 +1,11 @@
 #pragma once
 #include "Geo4.h"
 #include "Serial.h"
-
-static unsigned char c_data[128];
+#include "HardwareInterface.h"
 
 class GUIEntity;
 
-
-
-class Hardware : public GUIEntity, public EventHandler, public CSerialEx
+class Hardware : public GUIEntity, public EventHandler, public CSerialEx, public DataPacketReceiver
 {
 CLASS_PROTOTYPE(Hardware);
 public:
@@ -25,11 +22,8 @@ public:
 
 	bool	OnWindowEvent(WindowEvent*const);
 
-	void	OnSerialEvent (EEvent eEvent, EError eError);	
+	void	OnSerialEvent (EEvent eEvent, EError eError);
 
-	unsigned int	prepareSerialFrame();
-
-
-
+	void	OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size);
 
 };	

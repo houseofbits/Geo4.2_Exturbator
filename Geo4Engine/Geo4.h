@@ -3,6 +3,8 @@ Geo4 engine
 
 	2017/01/01	
 		Refactoring core classes
+	2019/03/20
+		Creating GUI classes
 
 */
 #pragma once
@@ -62,6 +64,7 @@ Geo4 engine
 #include "gui/GUISlider.h"
 
 #include "Hardware.h"
+#include "HardwareInterface.h"
 
 //#include "Font.h"
 //#include "TTFont.h"

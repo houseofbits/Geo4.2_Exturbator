@@ -62,7 +62,7 @@ bool GUISlider::OnWindowEvent(WindowEvent*const event)
 			}
 		}
 
-		SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
+//		SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
 	}
 	return 1;
 }
@@ -81,7 +81,7 @@ bool GUISlider::OnInputEvent(InputEvent*const event)
 				Math::clamptozero(val);
 				val = min(1.0f,val);
 				value = val * 255;
-				SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
+			//	SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
 			}
 		break;
 		case SDL_MOUSEMOTION:
@@ -92,7 +92,7 @@ bool GUISlider::OnInputEvent(InputEvent*const event)
 			}else is_over = 0;
 
 			if(event->sdl->button.button==SDL_BUTTON_LEFT && is_selected){				
-				if(OnChangeValue(mouse_pos))SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
+//				if(OnChangeValue(mouse_pos))SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
 			}
 		break;
 		case SDL_MOUSEBUTTONDOWN:
@@ -108,7 +108,7 @@ bool GUISlider::OnInputEvent(InputEvent*const event)
 			if(event->sdl->button.button==SDL_BUTTON_LEFT && is_selected){
 				mouse_pos = Vector2((float)event->sdl->motion.x, (float)event->sdl->motion.y);
 				if(OnChangeValue(mouse_pos)){
-					SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
+//					SendEvent(new GUIEvent(getName(), GUIEvent::POT_CHANGED, (float)value));
 				}
 			}
 			is_selected = 0;

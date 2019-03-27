@@ -8,16 +8,15 @@ using namespace std;
 CLASS_DECLARATION(Hardware);
 
 Hardware::Hardware(void) : GUIEntity(),
-						EventHandler(),
-						CSerialEx()
+	EventHandler(),
+	CSerialEx(),
+	DataPacketReceiver()
 { 
 
 }
 
 Hardware::~Hardware(void)
-{	
-	
-}
+{	}
 
 void Hardware::Initialise(EventManager*const event_manager, ResourceManager*const resourceManager)
 {	
@@ -84,58 +83,16 @@ void Hardware::Deserialize(CFONode* node)
 	}
 }
 
-bool Hardware::OnWindowEvent(WindowEvent*const event)
-{		
+bool Hardware::OnWindowEvent(WindowEvent*const event){
 
 	return 1;
 }
 
-unsigned int Hardware::prepareSerialFrame() {
-	/*
-	unsigned int counter = 0;
-
-	c_data[counter++] = 'W';
-	c_data[counter++] = 'A';
-	c_data[counter++] = 'L';
-	c_data[counter++] = 'L';
-
-	if (faderMode == 1) {
-		//cout << std::to_string(255 - faders[0]) << endl;
-		c_data[counter++] = 255 - faders[outputMapping[0]];
-		c_data[counter++] = 255 - faders[outputMapping[1]];
-		c_data[counter++] = 255 - faders[outputMapping[2]];
-		c_data[counter++] = 255 - faders[outputMapping[3]];
-		c_data[counter++] = 255 - faders[outputMapping[4]];
-		c_data[counter++] = 255 - faders[outputMapping[5]];
-		c_data[counter++] = 255 - faders[outputMapping[6]];
-		c_data[counter++] = 255 - faders[outputMapping[7]];
-	}
-	else {
-		c_data[counter++] = 255 - fadersRms[outputMapping[0]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[1]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[2]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[3]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[4]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[5]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[6]];
-		c_data[counter++] = 255 - fadersRms[outputMapping[7]];
-	}
-	c_data[counter++] = Utils::CRC8(c_data, counter);
-	*/
-	return 0;
-}
-
 void Hardware::Render(Renderer*)
-{
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+{	}
 
+void Hardware::OnSerialEvent (EEvent eEvent, EError eError){
 
-	glPopMatrix();
-}
-
-void Hardware::OnSerialEvent (EEvent eEvent, EError eError)
-{
 	if (eEvent & CSerial::EEventRecv){
 		DWORD dwBytesRead = 0;
 		char szBuffer[101];
@@ -146,5 +103,30 @@ void Hardware::OnSerialEvent (EEvent eEvent, EError eError)
 				szBuffer[dwBytesRead] = '\0';
 			}
 		}while (dwBytesRead == sizeof(szBuffer)-1);
+		
+		for (unsigned int i = 0; i < dwBytesRead; i++) {
+			readPacketByte(szBuffer[i]);
+		}
+	}	
+}
+
+
+//For testing
+struct SimplePacket {
+	unsigned char c1;
+	unsigned char c2;
+};
+
+void Hardware::OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {
+
+	if (classType == COMMAND) {
+		cout << "Received COMMAND packet" << endl;
+
+		DataPacket<SimplePacket> pack;
+		pack.fromBytes(buffer, size);
+
+		cout << "c1: " << pack.packet.data.c1 << endl;
+		cout << "c2: " << pack.packet.data.c2 << endl;
 	}
+
 }

@@ -4,11 +4,20 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {	
-/*
-	CFODocument * doc = new CFODocument("test1.cfo");
-	doc->PrintDebug();
+	/*
+	struct PacketType {
+		unsigned int someValue;
+		float someFloatValue;
+		int someNegativeValue;
+	};
+
+	struct SimplePacket {
+		unsigned char c1;
+		unsigned char c2;
+	};
+
 	return 1;
-*/
+	*/
 
 #ifndef _DEBUG
 	ofstream file;
