@@ -49,7 +49,6 @@ Geo4 engine
 #include "objects/SceneManager.h"
 #include "objects/Window.h"
 #include "objects/Viewport.h"
-//#include "objects/ViewportGLES2.h"
 
 #include "gui/GUIRenderable.h"
 #include "gui/GUIEntity.h"
@@ -60,13 +59,10 @@ Geo4 engine
 #include "gui/GUIList.h"
 #include "gui/GUIListItem.h"
 #include "gui/GUILayer.h"
-
 #include "gui/GUISlider.h"
 
 #include "Hardware.h"
-#include "HardwareInterface.h"
+#include "DataPacketReceiver.h"
 
-//#include "Font.h"
-//#include "TTFont.h"
 #include "TrueTypeFont.h"
 #include "gui/GUIStyleResource.h"

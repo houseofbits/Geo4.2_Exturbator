@@ -52,8 +52,11 @@ static int memsearch(const char *hay, int haysize, const char *needle, int needl
 
 enum PacketClassType : unsigned short
 {
-	SIMPLE_PACKET = 0,
-	COMMAND
+	COMMAND = 0,
+	STATUS,
+//	EXT_PROCESS,
+//	PUL_PROCESS,
+//	WND_PROCESS
 };
 
 template<typename T>
@@ -162,19 +165,7 @@ public:
 		};
 		receiveIndex = (receiveIndex + 1) % RECEIVE_BUFFER_SIZE;
 	}
-	virtual void OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {
-
-		if (classType == COMMAND) {
-			cout << "Received COMMAND packet" << endl;
-
-			DataPacket<SimplePacket> pack;
-			pack.fromBytes(buffer, size);
-
-			cout << "c1: " << pack.packet.data.c1 << endl;
-			cout << "c2: " << pack.packet.data.c2 << endl;
-		}
-
-	}
+	virtual void OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {	}
 
 private:
 	enum State {

@@ -83,23 +83,18 @@ bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 	return 1;
 }
 
-void GUIButton::PreRender(Renderer*)
-{
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+void GUIButton::PreRender(Renderer* r){
+	GUIEntity::PreRender(r);
 }
 
 void GUIButton::Render(Renderer* rnd)
 {
-	if (isVisible() == 0)return;
-	
 	if (!hoverState && !clickState)renderableActive.Draw();
 	else if (hoverState && !clickState)renderableHover.Draw();
 	else if (clickState)renderablePressed.Draw();
 
 }
 
-void GUIButton::PostRender()
-{
-	glPopMatrix();
+void GUIButton::PostRender() {
+	GUIEntity::PostRender();
 }

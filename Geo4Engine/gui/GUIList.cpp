@@ -78,16 +78,11 @@ bool GUIList::OnGUIInputEvent(GUIInputEvent*const event)
 	return 1;
 }
 
-void GUIList::PreRender(Renderer*)
-{
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+void GUIList::PreRender(Renderer* r) {
+	GUIEntity::PreRender(r);
 }
 
-void GUIList::Render(Renderer* rnd)
-{
-	if (isVisible() == 0)return;
-
+void GUIList::Render(Renderer* rnd){
 	glPushMatrix();
 	glTranslatef(0, (m_Size.y * 0.5f) - (titleBarSize * 0.5f), 0);
 	renderableTitle.Draw();
@@ -100,9 +95,8 @@ void GUIList::Render(Renderer* rnd)
 
 }
 
-void GUIList::PostRender()
-{
-	glPopMatrix();
+void GUIList::PostRender() {
+	GUIEntity::PostRender();
 }
 
 void GUIList::DeselectAll() {

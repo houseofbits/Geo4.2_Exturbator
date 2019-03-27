@@ -89,7 +89,7 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 	return 1;
 }
 
-void GUIWindow::PreRender(Renderer*)
+void GUIWindow::PreRender(Renderer* r)
 {
 	if (m_Blocking && m_Visible) {
 		glColor4f(0, 0, 0, 0.5f);
@@ -100,16 +100,10 @@ void GUIWindow::PreRender(Renderer*)
 		glVertex2f((float)windowWidth, 0);
 		glEnd();
 	}
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+	GUIEntity::PreRender(r);
 }
 
-void GUIWindow::Render(Renderer* rnd)
-{
-	if (isVisible() == 0)return
-
-	glEnable(GL_BLEND);
-
+void GUIWindow::Render(Renderer* rnd){
 
 	renderableShadow.Draw();
 	
@@ -124,7 +118,6 @@ void GUIWindow::Render(Renderer* rnd)
 	glPopMatrix();
 }
 
-void GUIWindow::PostRender()
-{
-	glPopMatrix();
+void GUIWindow::PostRender() {
+	GUIEntity::PostRender();
 }

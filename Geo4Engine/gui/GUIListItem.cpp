@@ -92,23 +92,17 @@ bool GUIListItem::OnGUIInputEvent(GUIInputEvent*const event)
 	return 1;
 }
 
-void GUIListItem::PreRender(Renderer*)
-{
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+void GUIListItem::PreRender(Renderer* r) {
+	GUIEntity::PreRender(r);
 }
 
-void GUIListItem::Render(Renderer* rnd)
-{
-	if (isVisible() == 0)return;
-
+void GUIListItem::Render(Renderer* rnd){
 	if (!hoverState && !selected)renderableActive.Draw();
 	else if (hoverState && !selected)renderableHover.Draw();
 	else if (selected)renderablePressed.Draw();
 
 }
 
-void GUIListItem::PostRender()
-{
-	glPopMatrix();
+void GUIListItem::PostRender() {
+	GUIEntity::PostRender();
 }

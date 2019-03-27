@@ -55,23 +55,15 @@ bool GUIText::OnGUIInputEvent(GUIInputEvent*const event)
 	return 1;
 }
 
-void GUIText::PreRender(Renderer*)
-{
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+void GUIText::PreRender(Renderer* r) {
+	GUIEntity::PreRender(r);
 }
 
-void GUIText::Render(Renderer* rnd)
-{
-	if (isVisible() == 0)return
+void GUIText::Render(Renderer* rnd){
 
-	glEnable(GL_BLEND);
-	
 	renderable.Draw();
-
 }
 
-void GUIText::PostRender()
-{
-	glPopMatrix();
+void GUIText::PostRender() {
+	GUIEntity::PostRender();
 }

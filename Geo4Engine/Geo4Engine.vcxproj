@@ -178,7 +178,6 @@
     <ClCompile Include="gui\GUIText.cpp" />
     <ClCompile Include="gui\GUIViewport.cpp" />
     <ClCompile Include="gui\GUIWindow.cpp" />
-    <ClCompile Include="HardwareInterface.cpp" />
     <ClCompile Include="HColor.cpp" />
     <ClCompile Include="Hardware.cpp" />
     <ClCompile Include="main.cpp" />
@@ -221,7 +220,7 @@
     <ClInclude Include="gui\GUIViewport.h" />
     <ClInclude Include="gui\GUIWindow.h" />
     <ClInclude Include="Hardware.h" />
-    <ClInclude Include="HardwareInterface.h" />
+    <ClInclude Include="DataPacketReceiver.h" />
     <ClInclude Include="math\HAxisAlignedBox.h" />
     <ClInclude Include="math\HColor.h" />
     <ClInclude Include="math\HMath.h" />

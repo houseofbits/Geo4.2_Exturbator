@@ -12,6 +12,7 @@ class SceneManager : public Entity, public EventHandler
 CLASS_PROTOTYPE(SceneManager);
 public:
 	SceneManager(void);
+	SceneManager(string cfoName);
 	virtual ~SceneManager(void);
 
 	template<class O>
@@ -21,7 +22,7 @@ public:
 		resource_manager.RegisterResourceType(o);
 	}
 
-	bool	ProcessEvents();
+	bool	process();
 
 	void	DrawRecursive(Entity* parent);
 	

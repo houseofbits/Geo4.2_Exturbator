@@ -55,6 +55,15 @@ bool GUIEntity::Clip(Vector2 p) {
 	return 1;
 }
 
+void GUIEntity::PreRender(Renderer*) {
+	glPushMatrix();
+	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+}
+
+void GUIEntity::PostRender() {
+	glPopMatrix();
+}
+
 bool GUIEntity::isVisible()
 {
 	return _isVisible(this);

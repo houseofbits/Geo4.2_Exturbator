@@ -12,6 +12,26 @@ SceneManager::SceneManager(void) : Entity(),
 { 
 	event_dispatcher.RegisterEventHandler(this);
 	event_dispatcher.RegisterEventReceiver(this, &SceneManager::OnSceneManagerEvent);
+
+	resource_manager.RegisterResourceType(TrueTypeFontFace());
+	resource_manager.RegisterResourceType(GUIStyleResource());
+
+	RegisterObjectType(SDLWindow());
+	RegisterObjectType(Viewport());
+	RegisterObjectType(GUIViewport());
+	RegisterObjectType(GUISlider());
+	RegisterObjectType(GUIWindow());
+	RegisterObjectType(GUIButton());
+	RegisterObjectType(GUIText());
+	RegisterObjectType(GUIList());
+	RegisterObjectType(GUILayer());
+	RegisterObjectType(GUIListItem());
+	RegisterObjectType(Hardware());
+}
+
+SceneManager::SceneManager(string cfoName) : SceneManager(){
+
+	LoadCFO(cfoName);
 }
 
 SceneManager::~SceneManager(void)
@@ -35,7 +55,8 @@ bool SceneManager::OnSceneManagerEvent(SceneManagerEvent*const evt)
 
 void SceneManager::DrawRecursive(Entity* parent)
 {
-//	if(!parent->isVisible())return;
+	if(!parent->isRenderable())return;
+
 	parent->PreRender(0);
 	parent->Render(0);
 	if(parent->m_Childs.empty()){
@@ -51,7 +72,7 @@ void SceneManager::DrawRecursive(Entity* parent)
 	parent->PostRender();
 }
 
-bool	SceneManager::ProcessEvents()
+bool	SceneManager::process()
 {	
 	bool evt = event_dispatcher.ProcessEvents();
 
@@ -80,6 +101,8 @@ bool	SceneManager::ProcessEvents()
 			object_manager_stack.pop();
 		}
 	}
+
+	DrawRecursive(this);
 
 	return evt;
 }

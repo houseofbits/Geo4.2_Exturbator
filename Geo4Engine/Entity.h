@@ -144,6 +144,8 @@ public:
 
 	std::list<Entity*>*			getChildList(){return &m_Childs;}
 
+	virtual bool		isRenderable() {	return true;	}
+
 protected:	
 	typedef std::vector<Entity*>	TEntityArray;
 	void	_RecursiveDeserializeChilds(CFONode* node, Entity* parent, SceneManager*, TEntityArray* init_a=0);

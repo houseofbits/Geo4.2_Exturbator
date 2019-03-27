@@ -34,21 +34,14 @@ void GUILayer::Deserialize(CFONode* node)
 	renderable.size = m_Size;
 }
 
-void GUILayer::PreRender(Renderer*)
-{
-	glPushMatrix();
-	glTranslatef(m_LocalPos.x, m_LocalPos.y, 0);
+void GUILayer::PreRender(Renderer* r){
+	GUIEntity::PreRender(r);
 }
 
-void GUILayer::Render(Renderer* rnd)
-{
-	if (isVisible() == 0)return;
-	
+void GUILayer::Render(Renderer* rnd){
 	renderable.Draw();
-
 }
 
-void GUILayer::PostRender()
-{
-	glPopMatrix();
+void GUILayer::PostRender(){
+	GUIEntity::PostRender();
 }

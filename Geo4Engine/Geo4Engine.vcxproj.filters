@@ -165,9 +165,6 @@
     <ClCompile Include="gui\GUILayer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="HardwareInterface.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\HAxisAlignedBox.h">
@@ -308,7 +305,7 @@
     <ClInclude Include="gui\GUILayer.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="HardwareInterface.h">
+    <ClInclude Include="DataPacketReceiver.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity.h"
+#include "../Entity.h"
 
 class GUIEntity :
 	public Entity
@@ -17,6 +17,9 @@ public:
 
 	virtual bool			Clip(Vector2);
 
+	virtual void			PreRender(Renderer*);
+	virtual void			PostRender();
+
 	virtual void			setVisible(bool visible){	m_Visible = visible;	}
 	virtual void			setDisabled(bool d){	m_Disabled=d;	}
 	virtual bool			isDisabled();
@@ -28,6 +31,8 @@ public:
 	Vector2					getLocalPosition() { return m_LocalPos; }
 
 	Entity*					getObjectAtPoint(Vector2& p);
+
+	virtual bool			isRenderable() { return m_Visible; }
 
 private:
 	virtual bool			_isVisible(Entity*);

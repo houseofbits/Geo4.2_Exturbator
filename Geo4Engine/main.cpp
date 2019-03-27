@@ -4,20 +4,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {	
-	/*
-	struct PacketType {
-		unsigned int someValue;
-		float someFloatValue;
-		int someNegativeValue;
-	};
-
-	struct SimplePacket {
-		unsigned char c1;
-		unsigned char c2;
-	};
-
-	return 1;
-	*/
 
 #ifndef _DEBUG
 	ofstream file;
@@ -30,28 +16,9 @@ int main(int argc, char* argv[])
 	cout << "Copyright: Krists Pudzens (c) 2007 - 2019" << endl;
 	cout << GREEN << "========================================" << WHITE << endl;
 
-	SceneManager manager;
+	SceneManager manager("conf.cfo");
 
-	manager.resource_manager.RegisterResourceType(TrueTypeFontFace());
-	manager.resource_manager.RegisterResourceType(GUIStyleResource());
-
-	manager.RegisterObjectType(SDLWindow());
-	manager.RegisterObjectType(Viewport());
-	manager.RegisterObjectType(GUIViewport());
-	manager.RegisterObjectType(GUISlider());
-	manager.RegisterObjectType(GUIWindow());
-	manager.RegisterObjectType(GUIButton());
-	manager.RegisterObjectType(GUIText());
-	manager.RegisterObjectType(GUIList());
-	manager.RegisterObjectType(GUILayer());
-	manager.RegisterObjectType(GUIListItem());
-	manager.RegisterObjectType(Hardware());
-
-	manager.LoadCFO("conf.cfo");
-
-	while (manager.ProcessEvents()) {
-		manager.DrawRecursive(&manager);
-	}
+	while (manager.process()) {	}
 
 	return 0;
 }

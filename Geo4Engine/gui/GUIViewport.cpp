@@ -102,23 +102,11 @@ void GUIViewport::PreRender(Renderer*)
 
 void GUIViewport::Render(Renderer* rnd)
 {
-	glPushMatrix();
 
-	glPopMatrix();
 }
 
 void GUIViewport::PostRender()
 {
-	/*
-	glPushMatrix();
-	glTranslatef(0, 300, 0);
-	glEnable(GL_TEXTURE_2D);
-	glColor4f(0, 1, 0, 1);
-	ttfont.Draw("Parish so enable innate in formed missed. Hand two was eat busy fail.", 10);
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-	*/
-
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);

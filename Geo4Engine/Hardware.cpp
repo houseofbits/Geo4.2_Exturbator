@@ -122,11 +122,19 @@ void Hardware::OnReceivePacket(PacketClassType classType, unsigned char* buffer,
 	if (classType == COMMAND) {
 		cout << "Received COMMAND packet" << endl;
 
-		DataPacket<SimplePacket> pack;
-		pack.fromBytes(buffer, size);
+		DataPacket<SimplePacket> packet;
+		packet.fromBytes(buffer, size);
 
-		cout << "c1: " << pack.packet.data.c1 << endl;
-		cout << "c2: " << pack.packet.data.c2 << endl;
+		cout << "c1: " << packet.packet.data.c1 << endl;
+		cout << "c2: " << packet.packet.data.c2 << endl;
+	}
+	else if (classType == STATUS) {
+		
+		cout << "Received STATUS packet" << endl;
+
+		DataPacket<StatusPacketIn> packet;
+		packet.fromBytes(buffer, size);
+
 	}
 
 }
