@@ -165,6 +165,9 @@
     <ClCompile Include="gui\GUILayer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="ExturbatorHardware.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\HAxisAlignedBox.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="DataPacketReceiver.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ExturbatorHardware.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

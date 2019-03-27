@@ -28,6 +28,8 @@ void Hardware::Deserialize(CFONode* node)
 {	
 	GUIEntity::Deserialize(node);
 
+	DetectPorts();
+
 	string str;
 	if(node->getValueString("serial_port", str)){
 		LONG    lLastError = ERROR_SUCCESS;
@@ -36,6 +38,9 @@ void Hardware::Deserialize(CFONode* node)
 		lLastError = Open(&ws[0]);
 		if (lLastError != ERROR_SUCCESS){
 			cout<<"Unable to open COM-port: "<<str<<endl;	
+		}
+		else {
+			cout << "COM-port is open: " << str << endl;
 		}
 		CSerial::EBaudrate baud = CSerial::EBaud9600;
 		CSerial::EStopBits stopb = CSerial::EStop2;
@@ -83,13 +88,24 @@ void Hardware::Deserialize(CFONode* node)
 	}
 }
 
+bool Hardware::DetectPorts() {
+
+	for (int i = 0; i < 255; i++){
+		string str = "COM" + Utils::IntToString(i);
+		std::wstring ws;
+		ws.assign(str.begin(), str.end());
+		EPort p = CheckPort(&ws[0]);
+		if (p == EPort::EPortAvailable) {
+			cout << str<< " is available" << endl;
+		}
+	}
+	return false;
+}
+
 bool Hardware::OnWindowEvent(WindowEvent*const event){
 
 	return 1;
 }
-
-void Hardware::Render(Renderer*)
-{	}
 
 void Hardware::OnSerialEvent (EEvent eEvent, EError eError){
 
@@ -111,30 +127,8 @@ void Hardware::OnSerialEvent (EEvent eEvent, EError eError){
 }
 
 
-//For testing
-struct SimplePacket {
-	unsigned char c1;
-	unsigned char c2;
-};
-
 void Hardware::OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {
 
-	if (classType == COMMAND) {
-		cout << "Received COMMAND packet" << endl;
 
-		DataPacket<SimplePacket> packet;
-		packet.fromBytes(buffer, size);
-
-		cout << "c1: " << packet.packet.data.c1 << endl;
-		cout << "c2: " << packet.packet.data.c2 << endl;
-	}
-	else if (classType == STATUS) {
-		
-		cout << "Received STATUS packet" << endl;
-
-		DataPacket<StatusPacketIn> packet;
-		packet.fromBytes(buffer, size);
-
-	}
 
 }

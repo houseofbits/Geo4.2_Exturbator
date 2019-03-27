@@ -62,6 +62,7 @@ Geo4 engine
 #include "gui/GUISlider.h"
 
 #include "Hardware.h"
+#include "ExturbatorHardware.h"
 #include "DataPacketReceiver.h"
 
 #include "TrueTypeFont.h"

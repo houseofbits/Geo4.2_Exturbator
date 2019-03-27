@@ -27,6 +27,7 @@ SceneManager::SceneManager(void) : Entity(),
 	RegisterObjectType(GUILayer());
 	RegisterObjectType(GUIListItem());
 	RegisterObjectType(Hardware());
+	RegisterObjectType(ExturbatorHardware());
 }
 
 SceneManager::SceneManager(string cfoName) : SceneManager(){

@@ -20,12 +20,12 @@ SDLWindow={
 	}
 	
 	GUIViewport={
-	    /*
-	    Hardware={
-	      serial_port="COM4";
-	      baud_rate="115200";
-	      pos=200,415;
-	    }*/
+	    
+	    ExturbatorHardware={
+	    		
+	      	serial_port="COM3";
+	    	baud_rate="9600";
+	    }
 
 	    GUILayer={  
 	    	name="layerZone1";	
