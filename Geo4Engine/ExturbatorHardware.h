@@ -3,6 +3,8 @@
 #include "Serial.h"
 #include "DataPacketReceiver.h"
 
+#include <queue>
+
 enum GlobalCommandType : unsigned short
 {
 	GET_STATUS = 0,		//Get system status
@@ -63,6 +65,9 @@ public:
 
 	void	OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size);
 
+	void	WritePacket() {}
+	void	WritePacketToFile(string filename) {}
+
 	bool	isRenderable() { return false; }
 
 	string	configPortName;
@@ -74,5 +79,5 @@ public:
 	bool			portIsValid;
 	float			timeoutCounter;
 	
-
+	std::queue<unsigned char> serialInBuffer;
 };	

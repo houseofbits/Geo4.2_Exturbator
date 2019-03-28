@@ -17,6 +17,7 @@ ExturbatorHardware::ExturbatorHardware(void) : Entity(),
 	configParity(),
 	portIndex(0),
 	timeoutCounter(0),
+	serialInBuffer(),
 	portIsValid(false)
 { 
 
@@ -137,6 +138,12 @@ bool ExturbatorHardware::OnWindowEvent(WindowEvent*const event){
 	if (timeoutCounter > 5000 && portIsValid) {
 		portIsValid = false;
 	}
+	unsigned char c;
+	while (!serialInBuffer.empty()){
+		c = serialInBuffer.front();
+		serialInBuffer.pop();
+		readPacketByte(c);
+	}
 	return 1;
 }
 
@@ -154,11 +161,10 @@ void ExturbatorHardware::OnSerialEvent (EEvent eEvent, EError eError){
 		}while (dwBytesRead == sizeof(szBuffer)-1);
 		
 		for (unsigned int i = 0; i < dwBytesRead; i++) {
-			readPacketByte(szBuffer[i]);
+			serialInBuffer.push(szBuffer[i]);
 		}
 	}	
 }
-
 
 //For testing
 struct SimplePacket {
