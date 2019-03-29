@@ -68,6 +68,7 @@ bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 	switch (event->type) {
 	case GUIInputEvent::EventType::MOUSEUP:
 		clickState = 0;
+		SendEvent(new GUIEvent(GUIEvent::BUTTON_PRESSED));
 		break;
 	case GUIInputEvent::EventType::MOUSEDOWN:
 		clickState = 1;

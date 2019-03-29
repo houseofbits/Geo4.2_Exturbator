@@ -2,7 +2,6 @@
 #include "Geo4.h"
 #include "Serial.h"
 #include "DataPacketReceiver.h"
-
 #include <queue>
 
 enum PacketClassEnumerator : unsigned short
@@ -89,6 +88,7 @@ public:
 
 	unsigned short	portIndex;
 	bool			portIsValid;
+	bool			waitingPortAnswer;
 	float			timeoutCounter;
 	
 	std::queue<unsigned char> serialInBuffer;

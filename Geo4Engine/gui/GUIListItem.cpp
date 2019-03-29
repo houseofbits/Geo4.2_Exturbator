@@ -79,6 +79,7 @@ bool GUIListItem::OnGUIInputEvent(GUIInputEvent*const event)
 	case GUIInputEvent::EventType::MOUSEUP:
 		if (parentList && !parentList->multiSelect)parentList->DeselectAll();
 		selected = !selected;
+		if(selected)SendEvent(new GUIEvent(GUIEvent::LIST_SELECTED));
 		break;
 	case GUIInputEvent::EventType::MOUSEDOWN:
 		break;

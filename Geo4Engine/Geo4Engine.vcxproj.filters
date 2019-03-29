@@ -168,6 +168,9 @@
     <ClCompile Include="ExturbatorHardware.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="ExturbatorInterface.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\HAxisAlignedBox.h">
@@ -312,6 +315,9 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="ExturbatorHardware.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ExturbatorInterface.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,7 +11,7 @@ public:
 		WINDOW_HIDDEN,
 	};
 
-	GUIEvent(std::string n, Type t) : type(t){}
+	GUIEvent(Type t) : type(t){}
 	virtual ~GUIEvent(void) {}
 
 	Type			type;

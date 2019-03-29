@@ -50,6 +50,8 @@ Geo4 engine
 #include "objects/Window.h"
 #include "objects/Viewport.h"
 
+#include "ExturbatorInterface.h"
+
 #include "gui/GUIRenderable.h"
 #include "gui/GUIEntity.h"
 #include "gui/GUIViewport.h"

@@ -8,18 +8,19 @@ using namespace std;
 CLASS_DECLARATION(ExturbatorHardware);
 
 ExturbatorHardware::ExturbatorHardware(void) : Entity(),
-	EventHandler(),
-	CSerialEx(),
-	DataPacketReceiver<PacketClassEnumerator>(),
-	configPortName(),
-	configBaudRate(),
-	configStopBits(),
-	configParity(),
-	portIndex(0),
-	timeoutCounter(0),
-	serialInBuffer(),
-	portIsValid(false),
-	size()
+EventHandler(),
+CSerialEx(),
+DataPacketReceiver<PacketClassEnumerator>("EXTRBCRE"),
+configPortName(),
+configBaudRate(),
+configStopBits(),
+configParity(),
+portIndex(0),
+timeoutCounter(0),
+serialInBuffer(),
+portIsValid(false),
+size(),
+waitingPortAnswer(false)
 { 
 	memset(outputBuffer, 0, MAX_PAYLOAD_SIZE);
 }
@@ -32,27 +33,24 @@ void ExturbatorHardware::Initialise(EventManager*const event_manager, ResourceMa
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &ExturbatorHardware::OnWindowEvent);
 
-
-	CommandDataPacket packet("EXTRBEXT", PacketClassEnumerator::COMMAND);
-	packet.setPayload(CommandOutStructure{ GET_STATUS });
-	WritePacket(&packet);
+	DetectPorts();
 }
 
 void ExturbatorHardware::Deserialize(CFONode* node)
 {	
 	Entity::Deserialize(node);
 
-	//DetectPorts();
-
 	node->getValueString("serial_port", configPortName);
 	node->getValueString("baud_rate", configBaudRate);
 	node->getValueString("stop_bits", configStopBits);
 	node->getValueString("parity", configParity);
 
-	OpenPort(configPortName, configBaudRate, configStopBits, configParity);
+//	OpenPort(configPortName, configBaudRate, configStopBits, configParity);
 }
 
 bool ExturbatorHardware::OpenPort(string name, string baudStr, string stop, string parityStr) {
+
+	if (IsOpen())Close();
 
 	LONG    lLastError = ERROR_SUCCESS;
 	std::wstring ws;
@@ -115,37 +113,50 @@ bool ExturbatorHardware::OpenPort(string name, string baudStr, string stop, stri
 
 bool ExturbatorHardware::DetectPorts() {
 
-	for (int i = portIndex; i < 255; i++){
-		string str = "COM" + Utils::IntToString(i);
+	//cout << "-------------------- Check port " << portIndex << endl;
+	while (true) {
+		string str = "COM" + Utils::IntToString(portIndex);
 		std::wstring ws;
 		ws.assign(str.begin(), str.end());
 		EPort p = CheckPort(&ws[0]);
 		if (p == EPort::EPortAvailable) {
-			cout << str<< " is available" << endl;
-			portIndex = i;
+			//cout << str << " is available" << endl;
 			if (OpenPort(str, configBaudRate, configStopBits, configParity)) {
 
 				configPortName = str;
 				portIsValid = false;
+				waitingPortAnswer = true;
 
 				//Send STATUS packet
-
+				CommandDataPacket packet("EXTRBEXT", PacketClassEnumerator::COMMAND);
+				packet.setPayload(CommandOutStructure{ GET_STATUS });
+				WritePacket(&packet);
 
 				return true;
 			}
 		}
+		portIndex = (portIndex + 1) % 255;
 	}
-	//Finished scanning all ports, start over
-	portIndex = 0;
 	return false;
 }
 
 bool ExturbatorHardware::OnWindowEvent(WindowEvent*const event){
 
-	if(portIsValid)timeoutCounter += event->frametime;
+	if(portIsValid || waitingPortAnswer)timeoutCounter += event->frametime;
 
-	if (timeoutCounter > 5000 && portIsValid) {
+	if (timeoutCounter > 1 && waitingPortAnswer) {
 		portIsValid = false;
+		timeoutCounter = 0;
+		waitingPortAnswer = false;
+		//cout << "Port did not answer" << endl;
+		portIndex = (portIndex + 1) % 255;	//Check next
+		DetectPorts();
+	}else if (timeoutCounter > 10 && portIsValid) {
+		portIsValid = false;
+		timeoutCounter = 0;
+		waitingPortAnswer = false;
+		//cout << "Port timeout" << endl;
+		DetectPorts();			//First try to recconect to same port
 	}
 	unsigned char c;
 	while (!serialInBuffer.empty()){
@@ -177,7 +188,11 @@ void ExturbatorHardware::OnSerialEvent (EEvent eEvent, EError eError){
 
 void ExturbatorHardware::OnReceivePacket(PacketClassEnumerator classType, unsigned char* buffer, unsigned short size) {
 
+	waitingPortAnswer = false;
 	timeoutCounter = 0;
+	portIsValid = true;
+
+	//cout << "recv: " <<classType<< endl;
 
 	if (classType == STATUS) {
 
@@ -185,8 +200,7 @@ void ExturbatorHardware::OnReceivePacket(PacketClassEnumerator classType, unsign
 		packet.fromBytes(buffer, size);
 
 		cout << "Received STATUS packet" << endl;
-
-		portIsValid = true;
+		
 	}
 
 }

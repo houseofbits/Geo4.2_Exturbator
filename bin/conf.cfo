@@ -18,14 +18,16 @@ SDLWindow={
 		fov=60;	
 		clear_color=0.1,0.1,0.1,1.0;
 	}
-	
+	//Hardware communications class
+    ExturbatorHardware={
+    	name="hardware";	
+      	serial_port="COM3";
+    	baud_rate="9600";
+    }
+    //Main interface class for Exturb.
+    ExturbatorInterface={		}    
+
 	GUIViewport={
-	    
-	    ExturbatorHardware={
-	    		
-	      	serial_port="COM3";
-	    	baud_rate="9600";
-	    }
 
 	    GUILayer={  
 	    	name="layerZone1";	
@@ -133,15 +135,16 @@ SDLWindow={
 	      pos=512,360;
 	      size=400,200;
 		    GUIText={
-		      title="Extruder, Puller and Winder hardware modules should be connected for full functionality to become available.";
-		      size=370,100;
-		      pos=0,40;
+				title="Extruder, Puller and Winder hardware modules should be connected for full functionality to become available.";
+				size=370,100;
+				pos=0,10;
 		    }
 		    GUIButton={
-		      name="buttonCheckConnected";
-		      title="Check";
-		      pos=0,-50;
-		      size=100,40;
+				visible=0;
+				name="buttonCheckConnected";
+				title="Check";
+				pos=0,-50;
+				size=100,40;
 		    }
 	    }     
 
