@@ -127,7 +127,7 @@ void Hardware::OnSerialEvent (EEvent eEvent, EError eError){
 }
 
 
-void Hardware::OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {
+void Hardware::OnReceivePacket(unsigned short classType, unsigned char* buffer, unsigned short size) {
 
 
 

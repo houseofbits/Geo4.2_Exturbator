@@ -10,7 +10,7 @@ CLASS_DECLARATION(ExturbatorHardware);
 ExturbatorHardware::ExturbatorHardware(void) : Entity(),
 	EventHandler(),
 	CSerialEx(),
-	DataPacketReceiver(),
+	DataPacketReceiver<PacketClassEnumerator>(),
 	configPortName(),
 	configBaudRate(),
 	configStopBits(),
@@ -18,9 +18,10 @@ ExturbatorHardware::ExturbatorHardware(void) : Entity(),
 	portIndex(0),
 	timeoutCounter(0),
 	serialInBuffer(),
-	portIsValid(false)
+	portIsValid(false),
+	size()
 { 
-
+	memset(outputBuffer, 0, MAX_PAYLOAD_SIZE);
 }
 
 ExturbatorHardware::~ExturbatorHardware(void)
@@ -30,13 +31,18 @@ void ExturbatorHardware::Initialise(EventManager*const event_manager, ResourceMa
 {	
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &ExturbatorHardware::OnWindowEvent);
+
+
+	CommandDataPacket packet("EXTRBEXT", PacketClassEnumerator::COMMAND);
+	packet.setPayload(CommandOutStructure{ GET_STATUS });
+	WritePacket(&packet);
 }
 
 void ExturbatorHardware::Deserialize(CFONode* node)
 {	
 	Entity::Deserialize(node);
 
-	DetectPorts();
+	//DetectPorts();
 
 	node->getValueString("serial_port", configPortName);
 	node->getValueString("baud_rate", configBaudRate);
@@ -55,6 +61,9 @@ bool ExturbatorHardware::OpenPort(string name, string baudStr, string stop, stri
 	if (lLastError != ERROR_SUCCESS) {
 		cout << "Unable to open COM-port: " << name << endl;
 		return false;
+	}
+	else {
+		cout << "Port is open " << name<< endl;
 	}
 	CSerial::EBaudrate baud = CSerial::EBaud9600;
 	CSerial::EStopBits stopb = CSerial::EStop2;
@@ -120,7 +129,7 @@ bool ExturbatorHardware::DetectPorts() {
 				portIsValid = false;
 
 				//Send STATUS packet
-				//set portIsValid if answer is received
+
 
 				return true;
 			}
@@ -166,32 +175,35 @@ void ExturbatorHardware::OnSerialEvent (EEvent eEvent, EError eError){
 	}	
 }
 
-//For testing
-struct SimplePacket {
-	unsigned char c1;
-	unsigned char c2;
-};
-
-void ExturbatorHardware::OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {
+void ExturbatorHardware::OnReceivePacket(PacketClassEnumerator classType, unsigned char* buffer, unsigned short size) {
 
 	timeoutCounter = 0;
 
-	if (classType == COMMAND) {
-		cout << "Received COMMAND packet" << endl;
+	if (classType == STATUS) {
 
-		DataPacket<SimplePacket> packet;
+		DataPacket<StatusInStructure> packet;
 		packet.fromBytes(buffer, size);
 
-		cout << "c1: " << packet.packet.data.c1 << endl;
-		cout << "c2: " << packet.packet.data.c2 << endl;
-	}
-	else if (classType == STATUS) {
-		
 		cout << "Received STATUS packet" << endl;
 
-		DataPacket<StatusPacketIn> packet;
-		packet.fromBytes(buffer, size);
-
+		portIsValid = true;
 	}
 
+}
+
+void ExturbatorHardware::WritePacket(BaseDataPacket* packet) {
+	size = packet->getSize();
+	cout << "Send packet of size: " << size<<endl;
+	packet->toBytes(outputBuffer, size);
+	if(IsOpen())Write(outputBuffer, size,0,0,10);
+}
+
+void ExturbatorHardware::WritePacketToFile(BaseDataPacket* packet, string filename) {
+	size = packet->getSize();
+	packet->toBytes(outputBuffer, size);
+	FILE* pFile;
+	fopen_s(&pFile, filename.c_str(), "wb");
+	fwrite(outputBuffer, 1, size, pFile);
+	fclose(pFile);
+	cout << "Packet written to file '" << filename.c_str() << "'" << endl;
 }

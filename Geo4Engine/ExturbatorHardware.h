@@ -5,7 +5,16 @@
 
 #include <queue>
 
-enum GlobalCommandType : unsigned short
+enum PacketClassEnumerator : unsigned short
+{
+	COMMAND = 0,
+	STATUS,
+	//	EXT_PROCESS,
+	//	PUL_PROCESS,
+	//	WND_PROCESS
+};
+
+enum GlobalCommandEnumerator : unsigned short
 {
 	GET_STATUS = 0,		//Get system status
 //	GET_PROCESS_DATA,	//Get full settings of system 
@@ -20,10 +29,10 @@ enum GlobalStatusType : unsigned short
 	STATUS_ERROR
 };
 
-struct CommandPacketOut {
-	GlobalCommandType command;
+struct CommandOutStructure {
+	GlobalCommandEnumerator command;
 };
-struct StatusPacketIn {
+struct StatusInStructure {
 	GlobalStatusType	status;
 	unsigned short		statusCode;
 };
@@ -42,7 +51,10 @@ struct EXTRBWND_ProcessDataPacketIn {
 };
 */
 
-class ExturbatorHardware : public Entity, public EventHandler, public CSerialEx, public DataPacketReceiver
+typedef CompleteDataPacket<CommandOutStructure, PacketClassEnumerator> CommandDataPacket;
+
+
+class ExturbatorHardware : public Entity, public EventHandler, public CSerialEx, public DataPacketReceiver<PacketClassEnumerator>
 {
 CLASS_PROTOTYPE(ExturbatorHardware);
 public:
@@ -63,10 +75,10 @@ public:
 
 	void	OnSerialEvent (EEvent eEvent, EError eError);
 
-	void	OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size);
+	void	OnReceivePacket(PacketClassEnumerator classType, unsigned char* buffer, unsigned short size);
 
-	void	WritePacket() {}
-	void	WritePacketToFile(string filename) {}
+	void	WritePacket(BaseDataPacket* packet);
+	void	WritePacketToFile(BaseDataPacket* packet, string filename);
 
 	bool	isRenderable() { return false; }
 
@@ -80,4 +92,6 @@ public:
 	float			timeoutCounter;
 	
 	std::queue<unsigned char> serialInBuffer;
+	unsigned char	outputBuffer[MAX_PAYLOAD_SIZE];
+	unsigned int	size;
 };	

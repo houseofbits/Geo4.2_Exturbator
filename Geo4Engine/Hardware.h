@@ -3,7 +3,7 @@
 #include "Serial.h"
 #include "DataPacketReceiver.h"
 
-class Hardware : public GUIEntity, public EventHandler, public CSerialEx, public DataPacketReceiver
+class Hardware : public GUIEntity, public EventHandler, public CSerialEx, public DataPacketReceiver<unsigned short>
 {
 CLASS_PROTOTYPE(Hardware);
 public:
@@ -22,7 +22,7 @@ public:
 
 	void	OnSerialEvent (EEvent eEvent, EError eError);
 
-	void	OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size);
+	void	OnReceivePacket(unsigned short classType, unsigned char* buffer, unsigned short size);
 
 	virtual bool		isRenderable() { return false; }
 };	

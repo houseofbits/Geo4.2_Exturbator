@@ -50,17 +50,18 @@ static int memsearch(const char *hay, int haysize, const char *needle, int needl
 #define MAX_PAYLOAD_SIZE 512
 #define RECEIVE_BUFFER_SIZE 512
 
-enum PacketClassType : unsigned short
-{
-	COMMAND = 0,
-	STATUS,
-//	EXT_PROCESS,
-//	PUL_PROCESS,
-//	WND_PROCESS
+class BaseDataPacket {
+public:
+	BaseDataPacket() {}
+	virtual ~BaseDataPacket() {}
+
+	virtual void toBytes(unsigned char* data, unsigned int charSize) {}
+	virtual void fromBytes(unsigned char* data, unsigned int charSize) {}
+	virtual unsigned int getSize() { return 0; }
 };
 
 template<typename T>
-class DataPacket {
+class DataPacket : public BaseDataPacket {
 public:
 	DataPacket() : packet() {
 		this->packetSize = sizeof(T);
@@ -74,6 +75,10 @@ public:
 		if (charSize < packetSize)return;
 		memcpy(&packet.bytes, data, packetSize);
 	}
+	unsigned int getSize() { return packetSize; }
+	T& getPayload() {
+		return this->packet.data;
+	}
 	union {
 		T				data;
 		unsigned char	bytes[sizeof(T)];
@@ -81,44 +86,51 @@ public:
 	unsigned int packetSize;
 };
 
+template<typename T>
 struct HeaderDataPart {
 	char				name[8];
-	PacketClassType		classType;
+	//PacketClassType		classType;
+	T					classType;
 	unsigned short		payloadSize;
 };
 
-template<typename T>
+template<typename T, typename PACKET_TYPE_ENUMERATOR>
 struct CompletePacket {
-	HeaderDataPart		header;
+	HeaderDataPart<PACKET_TYPE_ENUMERATOR>		header;
 	T					payload;
 	unsigned char		checksum;
 };
 
-template<typename T>
-class CompleteDataPacket : public DataPacket <CompletePacket<T>> {
+template<typename PAYLOAD_TYPE, typename PACKET_TYPE_ENUMERATOR>
+class CompleteDataPacket : public DataPacket <CompletePacket<PAYLOAD_TYPE, PACKET_TYPE_ENUMERATOR>> {
 public:
-	CompleteDataPacket() : DataPacket<CompletePacket<T>>() {	}
+	CompleteDataPacket() : DataPacket<CompletePacket<PAYLOAD_TYPE, PACKET_TYPE_ENUMERATOR>>() {	}
 	CompleteDataPacket(const char* header) {
 		CompleteDataPacket();
 		for (unsigned int i = 0; i < 8; i++) {
 			this->packet.data.header.name[i] = header[i];
 		}
 	}
-	CompleteDataPacket(const char* headerName, PacketClassType classType, unsigned short payloadSize) : CompleteDataPacket(headerName) {
+	CompleteDataPacket(const char* headerName, PACKET_TYPE_ENUMERATOR classType, unsigned short payloadSize) : CompleteDataPacket(headerName) {
 		this->packet.data.header.classType = classType;
 		this->packet.data.header.payloadSize = payloadSize;
+	}
+	CompleteDataPacket(const char* headerName, PACKET_TYPE_ENUMERATOR classType) : CompleteDataPacket(headerName) {
+		this->packet.data.header.classType = classType;
+		this->packet.data.header.payloadSize = sizeof(PAYLOAD_TYPE);
 	}
 	void calculateChecksum() {
 		this->packet.data.checksum = CRC8((const unsigned char*)&this->packet.data.payload, this->packet.data.header.payloadSize);
 	}
-	void setPayload(T data) {
+	void setPayload(PAYLOAD_TYPE data) {
 		this->packet.data.payload = data;
 	}
-	T& getPayload() {
+	PAYLOAD_TYPE& getPayload() {
 		return this->packet.data.payload;
 	}
 };
 
+template<typename PACKET_TYPE_ENUMERATOR>
 class DataPacketReceiver
 {
 public:
@@ -126,7 +138,7 @@ public:
 		headerData(),
 		headerStartIndex(0)
 	{
-		headerSize = sizeof(HeaderDataPart);
+		headerSize = sizeof(HeaderDataPart<PACKET_TYPE_ENUMERATOR>);
 		_reset();
 	}
 	~DataPacketReceiver() {}
@@ -165,7 +177,7 @@ public:
 		};
 		receiveIndex = (receiveIndex + 1) % RECEIVE_BUFFER_SIZE;
 	}
-	virtual void OnReceivePacket(PacketClassType classType, unsigned char* buffer, unsigned short size) {	}
+	virtual void OnReceivePacket(PACKET_TYPE_ENUMERATOR classType, unsigned char* buffer, unsigned short size) {	}
 
 private:
 	enum State {
@@ -207,7 +219,7 @@ private:
 
 	State						state;
 	unsigned char				receiveBuffer[RECEIVE_BUFFER_SIZE];
-	DataPacket<HeaderDataPart>	headerData;
+	DataPacket<HeaderDataPart<PACKET_TYPE_ENUMERATOR>>	headerData;
 	unsigned short				receiveIndex;
 	unsigned int				headerStartIndex;
 	unsigned short				headerSize;
