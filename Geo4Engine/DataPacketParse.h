@@ -1,4 +1,16 @@
+/*
+DataPacketParse<PACKET_TYPE_ENUMERATOR>
+	Reads in characters from serial receiver (or any other source) and assembles into data packets, returned to user. 
 
+	Constructor:
+		DataPacketParse(name)
+			class should be initialized with header name value. Header name is used to address receiver. 
+	Functions:
+		readPacketByte(c) 
+			read in character from data source
+		OnReceivePacket(classType, buffer, size)
+			virtual function, to be implemented. Handles received data packet
+*/
 #pragma once
 
 #include <stdio.h>
@@ -53,14 +65,14 @@ public:
 	virtual void toBytes(unsigned char* data, unsigned int charSize) {}
 	virtual void fromBytes(unsigned char* data, unsigned int charSize) {}
 	virtual unsigned int getSize() { return 0; }
+	virtual unsigned short getPacketType() = 0;
 };
 
-template<typename T>
+template<typename T, typename PACKET_TYPE_ENUMERATOR>
 class DataPacket : public BaseDataPacket {
 public:
-	DataPacket() : packet() {
-		this->packetSize = sizeof(T);
-	}
+//	DataPacket() : packet(), packetSize(sizeof(T)){		}
+	DataPacket(PACKET_TYPE_ENUMERATOR type) : type(type), packet(), packetSize(sizeof(T)) {	}
 	virtual ~DataPacket() {}
 	void toBytes(unsigned char* data, unsigned int charSize = sizeof(T)) {
 		if (charSize < packetSize)return;
@@ -74,11 +86,15 @@ public:
 	T& getPayload() {
 		return this->packet.data;
 	}
+	unsigned short getPacketType() {
+		return (unsigned short)type;
+	}
 	union {
 		T				data;
 		unsigned char	bytes[sizeof(T)];
 	} packet;
 	unsigned int packetSize;
+	PACKET_TYPE_ENUMERATOR type;
 };
 
 template<typename T>
@@ -96,21 +112,18 @@ struct CompletePacket {
 };
 
 template<typename PAYLOAD_TYPE, typename PACKET_TYPE_ENUMERATOR>
-class CompleteDataPacket : public DataPacket <CompletePacket<PAYLOAD_TYPE, PACKET_TYPE_ENUMERATOR>> {
+class CompleteDataPacket : public DataPacket <CompletePacket<PAYLOAD_TYPE, PACKET_TYPE_ENUMERATOR>, PACKET_TYPE_ENUMERATOR> {
 public:
-	CompleteDataPacket() : DataPacket<CompletePacket<PAYLOAD_TYPE, PACKET_TYPE_ENUMERATOR>>() {	}
-	CompleteDataPacket(const char* header) : CompleteDataPacket() {
+	CompleteDataPacket(PACKET_TYPE_ENUMERATOR classType) : DataPacket<CompletePacket<PAYLOAD_TYPE, PACKET_TYPE_ENUMERATOR>, PACKET_TYPE_ENUMERATOR>(classType) {	}
+	CompleteDataPacket(const char* header, PACKET_TYPE_ENUMERATOR classType) : CompleteDataPacket(classType) {
 		for (unsigned int i = 0; i < 8; i++) {
 			this->packet.data.header.name[i] = header[i];
 		}
-	}
-	CompleteDataPacket(const char* headerName, PACKET_TYPE_ENUMERATOR classType, unsigned short payloadSize) : CompleteDataPacket(headerName) {
-		this->packet.data.header.classType = classType;
-		this->packet.data.header.payloadSize = payloadSize;
-	}
-	CompleteDataPacket(const char* headerName, PACKET_TYPE_ENUMERATOR classType) : CompleteDataPacket(headerName) {
 		this->packet.data.header.classType = classType;
 		this->packet.data.header.payloadSize = sizeof(PAYLOAD_TYPE);
+	}
+	CompleteDataPacket(const char* headerName, PACKET_TYPE_ENUMERATOR classType, unsigned short payloadSize) : CompleteDataPacket(headerName, classType) {
+		this->packet.data.header.payloadSize = payloadSize;
 	}
 	void calculateChecksum() {
 		this->packet.data.checksum = CRC8((const unsigned char*)&this->packet.data.payload, this->packet.data.header.payloadSize);
@@ -125,24 +138,24 @@ public:
 };
 
 template<typename PACKET_TYPE_ENUMERATOR>
-class DataPacketReceiver
+class DataPacketParse
 {
 public:
-	DataPacketReceiver() : receiveIndex(0),
-		headerData(),
+	DataPacketParse() : receiveIndex(0),
+		headerData((PACKET_TYPE_ENUMERATOR)0),
 		headerStartIndex(0)
 	{
 		headerSize = sizeof(HeaderDataPart<PACKET_TYPE_ENUMERATOR>);
 		_reset();
 		memset(headerName, 0, 8);
 	}
-	DataPacketReceiver(const char* header) : DataPacketReceiver() {
+	DataPacketParse(const char* header) : DataPacketParse() {
 		for (unsigned int i = 0; i < 8; i++) {
 			headerName[i] = header[i];
 		}
 	}
 
-	~DataPacketReceiver() {}
+	~DataPacketParse() {}
 
 	void readPacketByte(unsigned char c) {
 		receiveBuffer[receiveIndex] = c;
@@ -220,7 +233,7 @@ private:
 
 	State						state;
 	unsigned char				receiveBuffer[RECEIVE_BUFFER_SIZE];
-	DataPacket<HeaderDataPart<PACKET_TYPE_ENUMERATOR>>	headerData;
+	DataPacket<HeaderDataPart<PACKET_TYPE_ENUMERATOR>, PACKET_TYPE_ENUMERATOR>	headerData;
 	unsigned short				receiveIndex;
 	unsigned int				headerStartIndex;
 	unsigned short				headerSize;

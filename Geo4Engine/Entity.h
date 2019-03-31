@@ -75,6 +75,14 @@ public:
 		else return m_Parent->getRootObject();
 	}
 	
+	template<class T>
+	T*	getParent() { 
+		if(m_Parent && T::TypeName() == m_Parent->getTypename()){
+			return (T*)m_Parent;
+		}
+		return 0;
+	}
+
 	SceneManager*	getSceneManager();
 
 	Entity*					getObjectByName(std::string name){

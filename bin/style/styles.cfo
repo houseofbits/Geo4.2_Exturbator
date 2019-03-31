@@ -12,6 +12,22 @@ GUIStyle={
     fontShadowColor=0,0,0,0.5;
     lineHeight=20;
   }
+  textSubscipt={
+    fontName="fonts/exo1/Exo-SemiBold.ttf";
+    fontSize=11;
+    fontColor=0.6,0.6,0.6,1;
+    fontShadowPosition=0,-2;
+    fontShadowColor=0,0,0,0.5;
+    lineHeight=15;
+  }  
+  textGreen={
+    fontName="fonts/exo1/Exo-Black.ttf";
+    fontSize=18;
+    fontColor=0.2,1,0.2,1;
+    fontShadowPosition=0,-2;
+    fontShadowColor=0,0,0,0.5;
+    lineHeight=25;
+  }  
   layer={
     radius=5;
     backgroundGradientColor={

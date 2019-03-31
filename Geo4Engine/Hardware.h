@@ -1,9 +1,12 @@
 #pragma once
 #include "Geo4.h"
 #include "Serial.h"
-#include "DataPacketReceiver.h"
+#include "DataPacketRequest.h"
+#include <queue>
+#include <thread>
+#include <mutex>
 
-class Hardware : public GUIEntity, public EventHandler, public CSerialEx, public DataPacketReceiver<unsigned short>
+class Hardware : public Entity, public CSerialEx, public DataPacketRequestManager<PacketClassEnumerator>
 {
 CLASS_PROTOTYPE(Hardware);
 public:
@@ -16,13 +19,38 @@ public:
 	void	Serialize(CFONode*) {}
 	void	Deserialize(CFONode*);
 
-	bool	DetectPorts();
+	bool	OpenPort(string name, string baud, string stop, string parity);
 
-	bool	OnWindowEvent(WindowEvent*const);
+	bool	DetectPorts();
 
 	void	OnSerialEvent (EEvent eEvent, EError eError);
 
-	void	OnReceivePacket(unsigned short classType, unsigned char* buffer, unsigned short size);
+	unsigned char	getInputData();
+	bool			hasInputData();
 
-	virtual bool		isRenderable() { return false; }
+	void	WritePacket(BaseDataPacket* packet);
+	void	WritePacketToFile(BaseDataPacket* packet, string filename);
+
+	bool	isRenderable() { return false; }
+
+	string	configPortName;
+	string	configBaudRate;
+	string	configStopBits;
+	string	configParity;
+
+	bool	isPortValid();
+	void	setPortValid(bool b) { portValid = b; }
+
+	bool			portValid;
+	unsigned short	portIndex;
+	
+	std::queue<unsigned char> inputBuffer;
+
+	unsigned char	outputBuffer[MAX_PAYLOAD_SIZE];
+	unsigned int	size;
+
+	void	requestsThreadProc();
+
+	std::thread*	requestsThread;
+	std::mutex*		mtx;
 };	

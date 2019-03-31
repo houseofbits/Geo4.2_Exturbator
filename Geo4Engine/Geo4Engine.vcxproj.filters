@@ -93,9 +93,6 @@
     <ClCompile Include="events\WindowEvent.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
-    <ClCompile Include="Hardware.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -165,10 +162,13 @@
     <ClCompile Include="gui\GUILayer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ExturbatorHardware.cpp">
+    <ClCompile Include="ExturbatorInterface.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="ExturbatorInterface.cpp">
+    <ClCompile Include="Hardware.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ExturbatorRequests.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -235,9 +235,6 @@
     </ClInclude>
     <ClInclude Include="events\WindowEvent.h">
       <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Hardware.h">
-      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Objects</Filter>
@@ -311,13 +308,19 @@
     <ClInclude Include="gui\GUILayer.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="DataPacketReceiver.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ExturbatorHardware.h">
+    <ClInclude Include="ExturbatorInterface.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="ExturbatorInterface.h">
+    <ClInclude Include="DataPacketParse.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DataPacketRequest.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Hardware.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ExturbatorRequests.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>

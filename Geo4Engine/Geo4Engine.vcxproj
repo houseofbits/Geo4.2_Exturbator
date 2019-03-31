@@ -165,7 +165,8 @@
     <ClCompile Include="events\WindowEvent.cpp" />
     <ClCompile Include="events\InputEvent.cpp" />
     <ClCompile Include="events\SceneManagerEvent.cpp" />
-    <ClCompile Include="ExturbatorHardware.cpp" />
+    <ClCompile Include="ExturbatorRequests.cpp" />
+    <ClCompile Include="Hardware.cpp" />
     <ClCompile Include="ExturbatorInterface.cpp" />
     <ClCompile Include="gui\GUIButton.cpp" />
     <ClCompile Include="gui\GUIEntity.cpp" />
@@ -181,7 +182,6 @@
     <ClCompile Include="gui\GUIViewport.cpp" />
     <ClCompile Include="gui\GUIWindow.cpp" />
     <ClCompile Include="HColor.cpp" />
-    <ClCompile Include="Hardware.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\HAxisAlignedBox.cpp" />
     <ClCompile Include="math\HMath.cpp" />
@@ -202,12 +202,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CFODocument.h" />
+    <ClInclude Include="DataPacketRequest.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventReceiver.h" />
     <ClInclude Include="events\WindowEvent.h" />
     <ClInclude Include="events\InputEvent.h" />
     <ClInclude Include="events\SceneManagerEvent.h" />
-    <ClInclude Include="ExturbatorHardware.h" />
+    <ClInclude Include="ExturbatorRequests.h" />
+    <ClInclude Include="Hardware.h" />
     <ClInclude Include="ExturbatorInterface.h" />
     <ClInclude Include="Geo4.h" />
     <ClInclude Include="gui\GUIButton.h" />
@@ -223,8 +225,7 @@
     <ClInclude Include="gui\GUIText.h" />
     <ClInclude Include="gui\GUIViewport.h" />
     <ClInclude Include="gui\GUIWindow.h" />
-    <ClInclude Include="Hardware.h" />
-    <ClInclude Include="DataPacketReceiver.h" />
+    <ClInclude Include="DataPacketParse.h" />
     <ClInclude Include="math\HAxisAlignedBox.h" />
     <ClInclude Include="math\HColor.h" />
     <ClInclude Include="math\HMath.h" />

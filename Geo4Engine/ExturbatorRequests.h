@@ -1,12 +1,12 @@
 #pragma once
+
 #include "Geo4.h"
-#include "Serial.h"
-#include "DataPacketReceiver.h"
-#include <queue>
+#include "DataPacketRequest.h"
 
 enum PacketClassEnumerator : unsigned short
 {
-	COMMAND = 0,
+	HEADER = 0,
+	COMMAND,
 	STATUS,
 	//	EXT_PROCESS,
 	//	PUL_PROCESS,
@@ -37,61 +37,40 @@ struct StatusInStructure {
 };
 /*
 struct EXTRBEXT_ProcessDataPacketIn {
-	StatusPacketIn status;	
 	//Extruder specific data
 };
 struct EXTRBPUL_ProcessDataPacketIn {
-	StatusPacketIn status;
 	//Puller specific data
 };
 struct EXTRBWND_ProcessDataPacketIn {
-	StatusPacketIn status;
 	//Winder specific data
 };
 */
 
 typedef CompleteDataPacket<CommandOutStructure, PacketClassEnumerator> CommandDataPacket;
+typedef DataPacket<StatusInStructure, PacketClassEnumerator> StatusDataPacket;
 
 
-class ExturbatorHardware : public Entity, public EventHandler, public CSerialEx, public DataPacketReceiver<PacketClassEnumerator>
+class ExturbatorRequests : public Entity, public EventHandler
 {
-CLASS_PROTOTYPE(ExturbatorHardware);
+CLASS_PROTOTYPE(ExturbatorRequests);
 public:
-	ExturbatorHardware(void);
-	virtual ~ExturbatorHardware(void);
-	
+	ExturbatorRequests();
+	~ExturbatorRequests();
+
 	void	Initialise(EventManager*const, ResourceManager*const);
 	void	Deinitialise(EventManager*const, ResourceManager*const) {};
 
 	void	Serialize(CFONode*) {}
 	void	Deserialize(CFONode*);
 
-	bool	OpenPort(string name, string baud, string stop, string parity);
-
-	bool	DetectPorts();
+	bool	isRenderable() { return false; }
 
 	bool	OnWindowEvent(WindowEvent*const);
 
-	void	OnSerialEvent (EEvent eEvent, EError eError);
+	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponseEXT;
+//	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponseWND;
+//	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponsePUL;
 
-	void	OnReceivePacket(PacketClassEnumerator classType, unsigned char* buffer, unsigned short size);
+};
 
-	void	WritePacket(BaseDataPacket* packet);
-	void	WritePacketToFile(BaseDataPacket* packet, string filename);
-
-	bool	isRenderable() { return false; }
-
-	string	configPortName;
-	string	configBaudRate;
-	string	configStopBits;
-	string	configParity;
-
-	unsigned short	portIndex;
-	bool			portIsValid;
-	bool			waitingPortAnswer;
-	float			timeoutCounter;
-	
-	std::queue<unsigned char> serialInBuffer;
-	unsigned char	outputBuffer[MAX_PAYLOAD_SIZE];
-	unsigned int	size;
-};	

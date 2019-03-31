@@ -51,6 +51,7 @@ Geo4 engine
 #include "objects/Viewport.h"
 
 #include "ExturbatorInterface.h"
+#include "ExturbatorRequests.h"
 
 #include "gui/GUIRenderable.h"
 #include "gui/GUIEntity.h"
@@ -64,8 +65,8 @@ Geo4 engine
 #include "gui/GUISlider.h"
 
 #include "Hardware.h"
-#include "ExturbatorHardware.h"
-#include "DataPacketReceiver.h"
+#include "DataPacketParse.h"
+#include "DataPacketRequest.h"
 
 #include "TrueTypeFont.h"
 #include "gui/GUIStyleResource.h"

@@ -27,10 +27,10 @@ void ExturbatorInterface::Deserialize(CFONode* node)
 
 bool ExturbatorInterface::OnWindowEvent(WindowEvent*const event){
 
-	ExturbatorHardware* hardware = getObjectByName<ExturbatorHardware>("hardware");
+	Hardware* hardware = getObjectByName<Hardware>("hardware");
 	GUIWindow* window = getObjectByName<GUIWindow>("hardwareDiscoveryWarningModal");
 	if (hardware && window) {
-		if (!hardware->portIsValid || hardware->waitingPortAnswer)
+		if (!hardware->isPortValid())
 			window->setVisible(true);
 		else
 			window->setVisible(false);
