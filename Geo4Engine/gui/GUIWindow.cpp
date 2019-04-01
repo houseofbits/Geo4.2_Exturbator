@@ -38,6 +38,13 @@ void GUIWindow::Deserialize(CFONode* node)
 	styleBodyName = "windowDefaultBody";
 	styleShadowName = "windowDefaultShadow";
 
+	string style = "";
+	if (node->getValueString("style", style)) {
+		styleTitleName = style + "Title";
+		styleBodyName = style + "Body";
+		styleShadowName = style + "Shadow";
+	}
+
 	node->getValueString("styleTitle", styleTitleName);
 	node->getValueString("styleBody", styleBodyName);
 	node->getValueString("styleShadow", styleShadowName);

@@ -1,0 +1,36 @@
+GUILayer={  
+	pos=100,505;
+	size=170,500;
+	style="layerShadow";
+
+    GUIButton={
+		name="buttonPresets";
+		title="Presets";
+		pos=0,230;
+		size=170,40;
+		style="buttonSquareTop";    
+    }
+    GUIButton={
+		name="buttonPreheat";
+		title="Preheat";
+		pos=0,190;
+		size=170,40;
+		style="buttonSquare";      
+    }	
+    GUIButton={
+		name="buttonStartExtruder";
+		title="Start extruder";
+		pos=0,150;
+		size=170,40;
+		style="buttonSquare";      
+    }	
+    GUIButton={
+		name="buttonPullerSettings";
+		title="Puller settings";
+		pos=0,110;
+		size=170,40;
+		style="buttonSquareBottom";   
+    }	    	        		
+
+
+}

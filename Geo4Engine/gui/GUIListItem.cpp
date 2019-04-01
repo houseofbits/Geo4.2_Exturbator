@@ -49,6 +49,13 @@ void GUIListItem::Deserialize(CFONode* node)
 	styleHoverName = "listItemActive";
 	stylePressedName = "listItemPressed";
 
+	string style = "";
+	if (node->getValueString("style", style)) {
+		styleActiveName = style + "Active";
+		styleHoverName = style + "Hover";
+		stylePressedName = style + "Pressed";
+	}
+
 	node->getValueString("styleActive", styleActiveName);
 	node->getValueString("styleHover", styleHoverName);
 	node->getValueString("stylePressed", stylePressedName);

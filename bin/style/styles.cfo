@@ -35,6 +35,13 @@ GUIStyle={
       0=0.737, 0.756, 0.780, 0.3;
     }
   }
+  layerShadow={
+    radius=5;
+    shadowSize=5;
+    shadowHardness=0.5;
+    shadowPosition=0,-1;
+    shadowColor=0,0,0,0.4; 
+  }
 
 
 }

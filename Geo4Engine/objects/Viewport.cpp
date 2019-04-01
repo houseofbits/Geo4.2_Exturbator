@@ -35,6 +35,12 @@ void Viewport::Initialise(EventManager*const event_manager, ResourceManager*cons
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &Viewport::OnWindowEvent);
 	event_manager->RegisterEventReceiver(this, &Viewport::OnInputEvent);
+
+	SDLWindow* wnd = getParent<SDLWindow>();
+	if (wnd) {
+		window_width = wnd->width;
+		window_height = wnd->height;
+	}
 }
 
 void Viewport::Deserialize(CFONode* node)
@@ -71,9 +77,6 @@ void Viewport::Deserialize(CFONode* node)
 
 bool Viewport::OnWindowEvent(WindowEvent*const event)
 {	
-	window_width = event->window->width;
-	window_height = event->window->height;
-
 	mYaw += 10 * event->frametime;
 
 	if (mYaw < 0)mYaw = 360.0f - fabs(mYaw);

@@ -147,3 +147,48 @@ buttonUnderRightPressed={
   fontShadowPosition=0,-3;
   fontShadowColor=0,0,0,0.9;
 }
+
+////////////////////////////////////// Button with no corners ////////////////////////////////////////////
+buttonSquareActive:buttonDefaultActive={
+  radius=0;
+  shadowSize=0;
+  borderColorBottom=0.058, 0.086, 0.109,0.6;
+  fontSize=12;
+}
+buttonSquareHover:buttonDefaultHover={
+  radius=0;
+  shadowSize=0;
+  fontSize=12;
+}
+buttonSquarePressed:buttonDefaultPressed={
+  radius=0;
+  shadowSize=0;
+  fontSize=12;
+}
+////////////////////////////////////// Button with top corners ////////////////////////////////////////////
+buttonSquareTopActive:buttonSquareActive={
+  radiusTopRight=5;
+  radiusTopLeft=5;
+}
+buttonSquareTopHover:buttonSquareHover={
+  radiusTopRight=5;
+  radiusTopLeft=5;
+}
+buttonSquareTopPressed:buttonSquarePressed={
+  radiusTopRight=5;
+  radiusTopLeft=5;  
+}
+////////////////////////////////////// Button with bottom corners ////////////////////////////////////////////
+buttonSquareBottomActive:buttonSquareActive={
+  radiusBottomRight=5;
+  radiusBottomLeft=5;
+  borderColorBottom=1,1,1,0.5;
+}
+buttonSquareBottomHover:buttonSquareHover={
+  radiusBottomRight=5;
+  radiusBottomLeft=5;
+}
+buttonSquareBottomPressed:buttonSquarePressed={
+  radiusBottomRight=5;
+  radiusBottomLeft=5; 
+}

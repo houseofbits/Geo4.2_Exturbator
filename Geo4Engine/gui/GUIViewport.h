@@ -1,6 +1,6 @@
 #pragma once
 #include "GUIEntity.h"
-#include "TrueTypeFont.h"
+#include "../TrueTypeFont.h"
 
 class GUIViewport :
 	public GUIEntity,
@@ -36,5 +36,8 @@ public:
 	int			window_height;
 
 	TrueTypeFontFace ttfont;
+
+	bool		showLoader;
+	float		loaderTimeout;
 };
 

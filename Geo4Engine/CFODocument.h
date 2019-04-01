@@ -1,15 +1,15 @@
 /********************************************************************
 	created:	2004/11/27
 	created:	27:11:2004   12:45	
-	copyright:  Copyright (c) 2003-2012 Krists Pudzens (hobitz@zb.lv)
-    author:		Hobits
+	copyright:  Copyright (c) 2003-2019 Krists Pudzens (hobitz@zb.lv)
+    author:		Hobitz
 
 	purpose:	Konfiguraacijas failu nolasiishana
 
 	edited 2005/11/05: Korekti tiek nolasiits teksts objekta parametros.
 	            Tukshumu dzeeshana ir paarnesta uz _EreaseComents
-
-	edited 2005/11/12:	Paardeeveeti objekti uz CFO (Configuration Object) 
+	edited 2005/11/12:	Paardeeveeti objekti uz CFO (Configuration Object)
+	edited 2019/03/30:	CFO failu inklûdoðana ar [include]
 
 	todo:	
 	bool setParamT(string name, T value, bool create=1);
@@ -19,6 +19,16 @@
 	return: true if exists, false otherwise
 
 	Unicode charakteri
+
+	TODO paramu extendoðana, topParam = thisParam->parent->firstChild(inheritedParam);
+		topParam={
+			overwriteTop=0;
+			randomStuff=1;
+		}
+		someParam:topParam={
+			overwriteTop=1;
+		}
+
 
 *********************************************************************
 	
@@ -59,9 +69,9 @@ class CFODocument;
 class CFONode
 {
 public:
-	CFONode() : _mRawData(0), _mName(""), _mParentNode(0), _mValue(""), _mNodes(), _mThisId(-1){}
-	CFONode(std::string name, std::string param) : _mRawData(0),_mName(name), _mParentNode(0), _mValue(param), _mNodes(), _mThisId(-1){}
-	CFONode(std::string name, std::string param, CFONode* parent) : _mRawData(0),_mName(name), _mParentNode(parent), _mValue(param), _mNodes(), _mThisId(-1){}
+	CFONode() : _mRawData(0), _mInheritedName(""),  _mName(""), _mParentNode(0), _mValue(""), _mNodes(), _mThisId(-1), _mInheritedNode(0){}
+	CFONode(std::string name, std::string param) : _mRawData(0), _mInheritedName(""), _mName(name), _mParentNode(0), _mValue(param), _mNodes(), _mThisId(-1), _mInheritedNode(0) {}
+	CFONode(std::string name, std::string param, CFONode* parent) : _mRawData(0),_mName(name), _mInheritedName(""), _mParentNode(parent), _mValue(param), _mNodes(), _mThisId(-1), _mInheritedNode(0) {}
 	virtual ~CFONode(){
 		for (uint i=0;i<_mNodes.size();++i){delete _mNodes[i];}
 		_mNodes.clear();
@@ -184,14 +194,20 @@ public:
 private:
 	uint			_ParseRecursive(std::string&,int);
 	void			_GenerateRecursive(std::string&,std::string);
+	void			_GenerateInheritanceRecursive();
 	void			_InsertNode(CFONode* node);
 	CFONode*		_FindNextNode(CFONode*);
 	void			_Print(std::string&);
 
+	void			_ParseNameInheritage(std::string&, std::string&);
+
+	std::string			_mInheritedName;
 	std::string			_mName;									
 	std::string			_mValue;
 	
-	std::vector<CFONode*>		_mNodes;
+	CFONode*			_mInheritedNode;
+
+	std::vector<CFONode*>	_mNodes;
 	int						_mThisId;
 	CFONode*				_mParentNode;
 

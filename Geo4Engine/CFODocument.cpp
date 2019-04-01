@@ -105,6 +105,7 @@ bool CFODocument::Parse(string buff)
 	if(_TestScopes(buff)){
 		
 		if(_ParseRecursive(buff,0) == buff.size()){
+			_GenerateInheritanceRecursive();
 			return 1;
 		}
 		else
@@ -138,10 +139,21 @@ bool CFODocument::_TestScopes(const string &buff)
 return 1;
 }
 
+void CFONode::_ParseNameInheritage(std::string& name, std::string& inhName) {
+	std::string::size_type substring_start(0);
+	std::string::size_type separator_index(0);
+	separator_index = name.find(':', substring_start);
+	if (separator_index < name.size()) {
+		inhName = name.substr(separator_index + 1);
+		name = name.substr(substring_start, separator_index - substring_start);
+	}	
+}
+
 uint CFONode::_ParseRecursive(string& buff,int start)
 {		
 	string line = "";
 	string name = "";
+	string inherit_name = "";
 	string param = "";
 
 	CFONode*	child=0;
@@ -162,11 +174,16 @@ uint CFONode::_ParseRecursive(string& buff,int start)
 			{	
 				child = new CFONode("","",this);	
 				
-//				cout << "name: " << name << endl;
+				//cout << "name: " << name << endl;
+
+				//TODO parse inherited params
 
 				if(!name.empty()){
+					_ParseNameInheritage(name, inherit_name);
 					child->_mName = name;
+					if (!inherit_name.empty())child->_mInheritedName = inherit_name;
 					name = "";
+					inherit_name = "";
 				}
 				
 				i = child->_ParseRecursive(buff,i+1);
@@ -236,6 +253,18 @@ void PShift(uint sh)
 	for(uint i=0;i<sh;++i){
 		cout<<" ";
 	}
+}
+
+void  CFONode::_GenerateInheritanceRecursive() {
+	
+	if (!_mInheritedName.empty() && _mParentNode) {
+		CFONode* n = _mParentNode->GetFirstChild(_mInheritedName);
+//		cout <<this<< " Extended from " <<n<<" : "<< _mInheritedName << endl;
+		if (n)_mInheritedNode = n;
+		else _mInheritedName = "";
+	}
+	for (uint i = 0; i < _mNodes.size(); ++i)
+		_mNodes[i]->_GenerateInheritanceRecursive();
 }
 
 void CFONode::RecursiveDebugOutput(int shift)
@@ -360,22 +389,16 @@ return _FindNextNode(this);
 
 CFONode* CFONode::GetFirstChild(string name)
 {
-/*	TCFGNodeList::iterator iter;
-
-	for (iter=mNodes.begin(); iter!=mNodes.end();iter++)
-	{
-		if((*iter)->mName == name)
-		{
-			return (*iter);
-		}
-	}
-*/
 	for (uint i=0; i<_mNodes.size();++i)
 	{
 		if(_mNodes[i]->_mName == name)
 		{
 			return _mNodes[i];
 		}
+	}
+	//If node is not found, get inherited node
+	if (_mInheritedNode) {
+		return _mInheritedNode->GetFirstChild(name);
 	}
 return 0;
 }

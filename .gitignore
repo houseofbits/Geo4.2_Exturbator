@@ -5,4 +5,5 @@ Geo4Engine/Debug/
 Geo4Engine/Release/
 bin/*
 !bin/style/
-!bin/styles.cfo
+!bin/gui/
+!bin/conf.cfo
