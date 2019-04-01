@@ -79,7 +79,11 @@ void	Entity::_RecursiveDeserializeChilds(CFONode* node, Entity* parent, SceneMan
 			obj->Deserialize(object);
 			//save created objects for initiation
 			if(init_a)init_a->push_back(obj);
-			cout<<"'"<<classname<<"'"<<endl;	
+			string name = "";
+			if(object->getValueString("name", name))
+				cout<<"'"<<classname<<"' : '"<< name <<"'"<<endl;
+			else
+				cout << "'" << classname << "'"<< endl;
 			_RecursiveDeserializeChilds(object, obj, mgr, init_a);
 		}else if(classname=="require"){
 			_RecursiveDeserializeChilds(&CFODocument(object->GetValue()), parent, mgr, init_a);

@@ -15,84 +15,26 @@ GUILayer={
 	size=1000,230;
 }
 
-//Presets list
-GUIList={
-	visible=0;
-	name="presetsList";
-	title="Presets";
-	pos=160,505;
-	size=300,500;
-    GUIListItem={
-    	name="1";
-    	title="1.75mm PLA default preset";
-    }
-    GUIListItem={
-    	name="2";		    	
-    	title="2.85mm PLA default preset";
-    }	
-    GUIListItem={
-    	name="3";		    	
-    	title="1.75mm PLA black";
-    }	
-    GUIListItem={
-    	name="4";		    	
-    	title="1.75mm PLA white";
-    }	
-
-    GUIButton={
-      name="buttonLoadPreset";
-      title="Load preset";
-      pos=-75,-170;
-      size=150,40;
-      styleActive="buttonUnderLeftActive";
-      styleHover="buttonUnderLeftHover";
-      stylePressed="buttonUnderLeftPressed";
-    }
-    GUIButton={
-      name="buttonSavePreset";
-      title="Save preset";
-      pos=75,-170;
-      size=150,40;
-      styleActive="buttonUnderRightActive";
-	  styleHover="buttonUnderRightHover";
-      stylePressed="buttonUnderRightPressed";
-    }		    		    		    
-}
-
 //Zone1 settings window
 GUIWindow={
 	visible=0;
-	name="window";
-	title="Zone1 PID";
-	blocking=0;
-	pos=400,300;
-	size=500,300;
-
+	name="windowZoneSettings";
+	title="Zone1 settings";
+	blocking=1;
+	pos=512,400;
+	size=700,500;
     GUIText={
       name="button";
       title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
-      size=300,100;
+      size=500,100;
       pos=0,80;
     }
 
     GUIButton={
-      name="button";
-      title="Cancel";
+      name="buttonZoneSettingsClose";
+      title="Close";
       pos=-170,-80;
       size=100,40;
-      styleActive="buttonDefaultActive";
-    }
-    GUIButton={
-      name="button";
-      title="Submit";
-      pos=0,-80;
-      size=100,40;
-    }
-    GUIButton={
-		name="button";
-		title="Ok";
-		pos=170,-80;
-		size=140,40;
     }
 } 
 
@@ -117,3 +59,5 @@ GUIWindow={
 		size=100,40;
     }
 }     
+
+include="gui/presets.cfo";  

@@ -3,6 +3,7 @@ SDLWindow={
 	title="Exturbator Prototype";
 	//fullscreen=0; width=800; height=600;
 	fullscreen=0; width=1024; height=768;
+	//fullscreen=FULL; width=1024; height=768;	
 	//fullscreen=FULL; width=1600; height=900;
 
 
@@ -25,7 +26,7 @@ SDLWindow={
       	serial_port="COM3";
     	baud_rate="9600";
     	//Exturb. specific packets
-    	ExturbatorRequests={	}
+    	ExturbatorRequests={name="hardwareRequests";}
     }*/
     //Main interface class for Exturb.
     ExturbatorInterface={		}   

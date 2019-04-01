@@ -31,7 +31,7 @@ GUILayer={
 			style="textSubscipt";
 	    }			    
 	    GUIButton={
-	      name="buttonLoadPreset";
+	      name="buttonZone1Settings";
 	      title="Settings";
 	      pos=0,-80;
 	      size=150,40;

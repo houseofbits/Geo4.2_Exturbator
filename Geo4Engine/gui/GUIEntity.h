@@ -34,6 +34,8 @@ public:
 
 	virtual bool			isRenderable() { return m_Visible; }
 
+	virtual void			setTitle(std::string t) { m_Title = t; }
+
 private:
 	virtual bool			_isVisible(Entity*);
 	Vector2					_getWorldSpace(Vector2&, Entity*);
