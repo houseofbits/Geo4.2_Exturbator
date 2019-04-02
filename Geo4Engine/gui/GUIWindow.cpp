@@ -76,10 +76,15 @@ bool GUIWindow::OnGUIInputEvent(GUIInputEvent*const event)
 {
 	if (isVisible() == 0)return 1;
 
+	Vector2 worldPos = getWorldSpace(m_LocalPos);
+	Vector2 setLocalPos = m_LocalPos;
 	switch (event->type) {
 	case GUIInputEvent::EventType::DRAG:
 
 		m_LocalPos += event->mouseMotion;	
+		
+//		if (worldPos.x < (m_Size.x * 0.5f))worldPos.x = (m_Size.x * 0.5f);
+//		if (worldPos.y < (m_Size.y * 0.5f))worldPos.y = (m_Size.y * 0.5f);
 
 		break;
 	case GUIInputEvent::EventType::MOUSEMOVE:
