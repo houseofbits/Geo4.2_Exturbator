@@ -25,6 +25,11 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
+	virtual void			setTitle(std::string t) { 
+		m_Title = t; 
+		renderableTitle.setText(t);
+	}
+
 	GUIRenderable	renderableTitle;
 	GUIRenderable	renderableBody;
 	GUIRenderable	renderableShadow;

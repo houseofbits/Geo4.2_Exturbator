@@ -243,7 +243,7 @@ void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
 		bool rightButton = false;
 		switch (sdlevent->type) {
 		case SDL_KEYDOWN:
-			guiViewports[i]->keyDownEvent(sdlevent->key.keysym.sym);			
+			guiViewports[i]->keyDownEvent(sdlevent->key.keysym.sym);
 			break;
 		case SDL_KEYUP:
 			guiViewports[i]->keyUpEvent(sdlevent->key.keysym.sym);			
@@ -265,6 +265,10 @@ void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
 			if (sdlevent->button.button == SDL_BUTTON_LEFT)leftButton = true;
 			if (sdlevent->button.button == SDL_BUTTON_RIGHT)rightButton = true;
 			guiViewports[i]->mouseButtonUpEvent(Vector2((float)sdlevent->motion.x, height - (float)sdlevent->motion.y), leftButton, rightButton);
+			break;
+
+		case SDL_TEXTINPUT:
+			//cout << "Textinput: "<<sdlevent->text.text << endl;
 			break;
 		};
 	}
