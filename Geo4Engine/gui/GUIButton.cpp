@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 CLASS_DECLARATION(GUIButton);
 
 GUIButton::GUIButton() : renderableActive(),
@@ -105,3 +107,6 @@ void GUIButton::Render(Renderer* rnd)
 void GUIButton::PostRender() {
 	GUIEntity::PostRender();
 }
+
+
+#endif

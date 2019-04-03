@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 GUIStyleResource GUIStyleResource::m_DefaultInstance;
 
 GUIStyle GUIStyleResource::defaultStyle;
@@ -41,3 +43,5 @@ GUIStyle& GUIStyleResource::get(string name) {
 	}
 	return defaultStyle;
 }
+
+#endif

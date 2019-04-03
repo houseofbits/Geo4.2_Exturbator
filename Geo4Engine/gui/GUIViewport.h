@@ -24,6 +24,7 @@ public:
 	void	PostRender();
 
 	void	keyPressedEvent(unsigned int);
+	void	textEnterEvent(std::string);
 	void	keyDownEvent(unsigned int);
 	void	keyUpEvent(unsigned int);
 	void	mouseMoveEvent(Vector2, Vector2, bool, bool);

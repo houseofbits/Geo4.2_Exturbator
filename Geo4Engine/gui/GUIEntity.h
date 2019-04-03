@@ -36,6 +36,12 @@ public:
 
 	virtual void			setTitle(std::string t) { m_Title = t; }
 
+	void					leaveFocus();
+	virtual void			setFocus(bool f) { m_Focused = f; }
+	virtual bool			isFocused() { return m_Focused; }
+
+	GUIEntity*				getFocusedObject();
+
 private:
 	virtual bool			_isVisible(Entity*);
 	Vector2					_getWorldSpace(Vector2&, Entity*);
@@ -46,6 +52,7 @@ public:
 	bool					m_Blocking;
 	bool					m_Visible;
 	bool					m_Disabled;
+	bool					m_Focused;
 	float					m_ZIndex;
 	string					m_Title;
 	Vector2					m_WorldPos;

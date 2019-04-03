@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 GLuint GUIGradientColor::gradientTextureMap = 0;
 unsigned int GUIGradientColor::gradientMapPositionIterator = 0;
 const unsigned int GUIGradientColor::gradientMapWidth = 512;
@@ -667,3 +669,5 @@ void GUIRenderable::setText(string text) {
 	splitText.clear();
 	splitText.push_back(text);
 }
+
+#endif

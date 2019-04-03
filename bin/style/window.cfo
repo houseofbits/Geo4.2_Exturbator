@@ -10,7 +10,7 @@ windowDefaultTitle={
     1=0.215, 0.270, 0.321, 0.8;
   }    
   fontName="fonts/exo1/Exo-SemiBold.ttf";
-  fontSize=13;
+  fontSize=11;
   fontColor=1,1,1,0.7;
   fontShadowPosition=0,-1.5;
   fontShadowColor=0,0,0,1;

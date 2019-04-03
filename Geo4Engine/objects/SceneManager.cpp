@@ -13,9 +13,9 @@ SceneManager::SceneManager(void) : Entity(),
 	event_dispatcher.RegisterEventHandler(this);
 	event_dispatcher.RegisterEventReceiver(this, &SceneManager::OnSceneManagerEvent);
 
+#ifndef NO_OPENGL
 	resource_manager.RegisterResourceType(TrueTypeFontFace());
 	resource_manager.RegisterResourceType(GUIStyleResource());
-
 	RegisterObjectType(SDLWindow());
 	RegisterObjectType(Viewport());
 	RegisterObjectType(GUIViewport());
@@ -23,12 +23,15 @@ SceneManager::SceneManager(void) : Entity(),
 	RegisterObjectType(GUIWindow());
 	RegisterObjectType(GUIButton());
 	RegisterObjectType(GUIText());
+	RegisterObjectType(GUITextInput());
 	RegisterObjectType(GUIList());
 	RegisterObjectType(GUILayer());
 	RegisterObjectType(GUIListItem());
+	RegisterObjectType(ExturbatorInterface());
+#endif
+
 	RegisterObjectType(Hardware());
 	RegisterObjectType(ExturbatorRequests());
-	RegisterObjectType(ExturbatorInterface());
 }
 
 SceneManager::SceneManager(string cfoName) : SceneManager(){

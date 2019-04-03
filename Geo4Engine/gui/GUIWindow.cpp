@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 CLASS_DECLARATION(GUIWindow);
 
 GUIWindow::GUIWindow() : renderableTitle(),
@@ -133,3 +135,5 @@ void GUIWindow::Render(Renderer* rnd){
 void GUIWindow::PostRender() {
 	GUIEntity::PostRender();
 }
+
+#endif

@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GlU32.lib")
 #pragma comment(lib, "../Lib/GLEW/lib/glew32.lib")
@@ -388,3 +390,5 @@ bool	Viewport::Intersect(AxisAlignedBox& box)
 	}
 	return true;
 }
+
+#endif

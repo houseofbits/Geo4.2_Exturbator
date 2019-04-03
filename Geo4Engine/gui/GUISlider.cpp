@@ -1,4 +1,7 @@
 #include "../Geo4.h"
+
+#ifndef NO_OPENGL
+
 #include "../StringUtils.h"
 #include <algorithm>
 
@@ -240,3 +243,5 @@ glPopMatrix();
 
 void GUISlider::PostRender()
 { }
+
+#endif

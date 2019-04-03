@@ -1,6 +1,7 @@
 #pragma once
 #include "Geo4.h"
 #include "Serial.h"
+#include "gui/GUIEvent.h"
 
 class ExturbatorInterface : public Entity, public EventHandler
 {

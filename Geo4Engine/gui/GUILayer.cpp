@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 CLASS_DECLARATION(GUILayer);
 
 GUILayer::GUILayer() : renderable(),
@@ -45,3 +47,5 @@ void GUILayer::Render(Renderer* rnd){
 void GUILayer::PostRender(){
 	GUIEntity::PostRender();
 }
+
+#endif

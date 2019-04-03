@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 CLASS_DECLARATION(GUIListItem);
 
 GUIListItem::GUIListItem() : 
@@ -114,3 +116,5 @@ void GUIListItem::Render(Renderer* rnd){
 void GUIListItem::PostRender() {
 	GUIEntity::PostRender();
 }
+
+#endif

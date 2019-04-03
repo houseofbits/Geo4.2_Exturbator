@@ -1,5 +1,7 @@
 #include "Geo4.h"
 
+#ifndef NO_OPENGL
+
 #pragma comment(lib, "../Lib/freetype/win32/freetype.lib")
 
 FT_Library library_;
@@ -411,3 +413,5 @@ void TrueTypeFontFace::_drawCharacterMap()
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
+
+#endif

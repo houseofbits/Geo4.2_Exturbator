@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 GUIEntity::GUIEntity() : m_Visible(true),
 	m_Disabled(false),
 	m_ZIndex(-1.0f),
@@ -7,7 +9,8 @@ GUIEntity::GUIEntity() : m_Visible(true),
 	m_LocalPos(0.0f, 0.0f),
 	m_Size(),
 	m_Title(),
-	m_Blocking(false)
+	m_Blocking(false),
+	m_Focused(false)
 {	}
 
 GUIEntity::~GUIEntity()
@@ -146,3 +149,37 @@ void	GUIEntity::_RecursiveFindObjectByPosition(Entity* e, Entity* &obj, const Ve
 		}
 	}
 }
+
+void	GUIEntity::leaveFocus(){
+	m_Focused = false;
+	if (!getChildList()->empty()) {
+		std::list<Entity*>::iterator pos = getChildList()->begin();
+		while (pos != getChildList()->end()) {
+			if ((*pos)->isInstanceOf("GUIEntity")) {
+				GUIEntity* guie = (GUIEntity*)(*pos);
+				guie->leaveFocus();
+			}
+			pos++;
+		}
+	}
+}
+
+GUIEntity*	GUIEntity::getFocusedObject() {	
+	if (!getChildList()->empty()) {
+		std::list<Entity*>::iterator pos = getChildList()->begin();
+		while (pos != getChildList()->end()) {
+			if ((*pos)->isInstanceOf("GUIEntity")) {
+				GUIEntity* guie = (GUIEntity*)(*pos);
+				if (guie->getFocusedObject()) {
+					return guie;
+				}
+			}
+			pos++;
+		}
+	}
+	if (m_Focused)return this;
+	return 0;
+}
+
+
+#endif

@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 CLASS_DECLARATION(GUIText);
 
 GUIText::GUIText() : renderable(),
@@ -67,3 +69,5 @@ void GUIText::Render(Renderer* rnd){
 void GUIText::PostRender() {
 	GUIEntity::PostRender();
 }
+
+#endif

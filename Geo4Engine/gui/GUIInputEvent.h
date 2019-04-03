@@ -1,5 +1,5 @@
 #pragma once
-#include "EventReceiver.h"
+#include "../EventReceiver.h"
 class GUIInputEvent : public BaseEvent
 {
 CLASS_PROTOTYPE(GUIInputEvent);
@@ -14,6 +14,9 @@ public:
 		KEYUP,
 		KEYPRESS,
 		DRAG,
+		TEXENTER,
+		ENTERFOCUS,
+		LEAVEFOCUS
 	};
 
 	GUIInputEvent();
@@ -30,6 +33,8 @@ public:
 		mouseMotion(mouseRel),
 		mouseButtonLeft(mouseLeft),
 		mouseButtonRight(mouseRight) {	}
+	GUIInputEvent(EventType type, std::string text) : type(type), textInput(text) {	}
+	GUIInputEvent(EventType type) : type(type) {	}
 
 	virtual ~GUIInputEvent();
 	
@@ -39,5 +44,6 @@ public:
 	unsigned int	keyCode;
 	bool			mouseButtonLeft;
 	bool			mouseButtonRight;
+	std::string		textInput;
 };
 

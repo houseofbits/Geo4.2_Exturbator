@@ -1,6 +1,8 @@
 ﻿
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 //#pragma comment(lib, "../Lib/SDL2/lib/x86/SDL2main.lib")
 //#pragma comment(lib, "../Lib/SDL2/lib/x86/SDL2.lib")
 
@@ -225,8 +227,8 @@ bool SDLWindow::OnWindowEvent(WindowEvent*const event)
 			for (int i = 0; i < numKeys; i++) {
 				if (state[i] > 0) {
 					//cout << "keydown: " << i << endl;
-					for (unsigned int i = 0; i < guiViewports.size(); i++) {
-						guiViewports[i]->keyPressedEvent(i);
+					for (unsigned int a = 0; a < guiViewports.size(); a++) {
+						guiViewports[a]->keyPressedEvent(i);
 					}
 				}
 			}
@@ -243,10 +245,10 @@ void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
 		bool rightButton = false;
 		switch (sdlevent->type) {
 		case SDL_KEYDOWN:
-			guiViewports[i]->keyDownEvent(sdlevent->key.keysym.sym);
+			guiViewports[i]->keyDownEvent(sdlevent->key.keysym.scancode);
 			break;
 		case SDL_KEYUP:
-			guiViewports[i]->keyUpEvent(sdlevent->key.keysym.sym);			
+			guiViewports[i]->keyUpEvent(sdlevent->key.keysym.scancode);
 			break;
 		case SDL_MOUSEMOTION:
 			if (sdlevent->button.button == SDL_BUTTON_LEFT)leftButton = true;
@@ -268,7 +270,7 @@ void SDLWindow::processGUIEvents(SDL_Event* sdlevent) {
 			break;
 
 		case SDL_TEXTINPUT:
-			//cout << "Textinput: "<<sdlevent->text.text << endl;
+			guiViewports[i]->textEnterEvent(string(sdlevent->text.text));
 			break;
 		};
 	}
@@ -282,3 +284,5 @@ void SDLWindow::PostRender()
 {
 	SDL_GL_SwapWindow(window);
 }
+
+#endif

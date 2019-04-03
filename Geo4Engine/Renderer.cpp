@@ -1,4 +1,7 @@
-#include "renderer.h"
+#include "Geo4.h"
+
+#ifndef NO_OPENGL
+
 #include "math/HVector2.h"
 #include "math/HMath.h"
 #include "math/HColor.h"
@@ -460,4 +463,4 @@ void Renderer::DrawCross(float w, float h, float fat)
 	glEnd();
 }
 
-
+#endif

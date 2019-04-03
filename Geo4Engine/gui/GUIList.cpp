@@ -1,5 +1,7 @@
 #include "../Geo4.h"
 
+#ifndef NO_OPENGL
+
 CLASS_DECLARATION(GUIList);
 
 GUIList::GUIList() : itemHeight(40),
@@ -135,3 +137,5 @@ void GUIList::addItem(string name, string title) {
 void GUIList::deleteItem(string name) {
 	//TODO
 }
+
+#endif

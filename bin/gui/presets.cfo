@@ -46,3 +46,33 @@ GUIWindow={
       }		    		    		    
   }
 }
+
+GUIWindow={
+  visible=1;
+  name="windowSaveNewPreset";
+  title="New preset";
+  blocking=1;
+  pos=512,600;
+  size=350,200;
+
+  GUIText={
+    title="Preset name";
+    size=200,20;
+    pos=-115,30;
+    style="textSubscipt";
+  }
+  GUITextInput={
+    name="textInputPresetName";
+    title="...";
+    size=330,40;
+    pos=0,-5;
+    length=18;
+  }
+  GUIButton={
+    name="buttonSaveNewPreset";
+    title="Create preset";
+    pos=0,-65;
+    size=150,40;
+  } 
+
+}

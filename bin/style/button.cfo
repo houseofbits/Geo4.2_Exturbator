@@ -13,7 +13,7 @@ buttonDefaultActive={
     0=0.737, 0.756, 0.780, 0.8;
   }
   fontName="fonts/exo1/Exo-SemiBold.ttf";
-  fontSize=13;
+  fontSize=12;
   fontColor=0,0,0,1;
   fontShadowPosition=0,-1;
   fontShadowColor=1,1,1,0.7;
@@ -32,7 +32,7 @@ buttonDefaultHover={
     angle=45;
   }
   fontName="fonts/exo1/Exo-SemiBold.ttf";
-  fontSize=13;
+  fontSize=12;
   fontColor=1,1,1,0.7;
   fontShadowPosition=0,-2;
   fontShadowColor=0,0,0,1;
@@ -51,7 +51,7 @@ buttonDefaultPressed={
     angle=45;
   }
   fontName="fonts/exo1/Exo-SemiBold.ttf";
-  fontSize=13;
+  fontSize=12;
   fontColor=0.376, 0.450, 0.505,1;
   fontShadowPosition=0,-3;
   fontShadowColor=0,0,0,0.9;

@@ -1,4 +1,7 @@
 #include "Geo4.h"
+
+#ifndef NO_OPENGL
+
 #include <crtdbg.h>
 #include <tchar.h>
 #include <windows.h>
@@ -87,3 +90,5 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 
 	return 1;
 }
+
+#endif

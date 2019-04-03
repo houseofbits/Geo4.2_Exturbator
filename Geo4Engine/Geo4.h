@@ -9,6 +9,8 @@ Geo4 engine
 */
 #pragma once
 
+//#define NO_OPENGL			//Compile with no OpenGL. Basic console window
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,57 +18,54 @@ Geo4 engine
 #include <list>
 #include <vector>
 
-#include "../Lib/GLEW/include/GL/glew.h" 
-#include <gl/GL.h>
-#include <gl/GLU.h>
+#ifndef NO_OPENGL
+	#include "../Lib/GLEW/include/GL/glew.h" 
+	#include <gl/GL.h>
+	#include <gl/GLU.h>
+#endif
 
-#include "math/HMath.h"
-#include "math/HVector2.h"
-#include "math/HVector3.h"
-#include "math/HMatrix4.h"
-#include "math/HColor.h"
+	#include "math/HMath.h"
+	#include "math/HVector2.h"
+	#include "math/HVector3.h"
+	#include "math/HMatrix4.h"
+	#include "math/HColor.h"
+	#include "StringUtils.h"
+	#include "Serial.h"
+	#include "CFODocument.h"
+	#include "ObjectFactory.h"
+	#include "ResourceManager.h"
+	#include "Entity.h"
+	#include "EventReceiver.h"
+	#include "events/SceneManagerEvent.h"
+	#include "objects/SceneManager.h"
+	#include "events/WindowEvent.h"
 
-#include "StringUtils.h"
+#ifndef NO_OPENGL
+	#include "Renderer.h"
+	#include "gui/GUIRenderable.h"	
+	#include "events/InputEvent.h"
+	#include "gui/GUIEvent.h"
+	#include "gui/GUIInputEvent.h"
+	#include "objects/Window.h"
+	#include "objects/Viewport.h"
+	#include "gui/GUIEntity.h"
+	#include "gui/GUIViewport.h"
+	#include "gui/GUIWindow.h"
+	#include "gui/GUIButton.h"
+	#include "gui/GUIText.h"
+	#include "gui/GUITextInput.h"
+	#include "gui/GUIList.h"
+	#include "gui/GUIListItem.h"
+	#include "gui/GUILayer.h"
+	#include "gui/GUISlider.h"
+	#include "TrueTypeFont.h"
+	#include "gui/GUIStyleResource.h"
+	#include "ExturbatorInterface.h"
+#endif
+	
+	#include "DataPacketParse.h"
+	#include "DataPacketRequest.h"	
+	#include "ExturbatorRequests.h"
+	#include "Hardware.h"
 
-#include "Serial.h"
 
-#include "Renderer.h"
-
-#include "CFODocument.h"
-
-#include "ObjectFactory.h"
-#include "ResourceManager.h"
-#include "Entity.h"
-
-#include "EventReceiver.h"
-
-#include "events/WindowEvent.h"
-#include "events/SceneManagerEvent.h"
-#include "events/InputEvent.h"
-#include "gui/GUIEvent.h"
-#include "gui/GUIInputEvent.h"
-
-#include "objects/SceneManager.h"
-#include "objects/Window.h"
-#include "objects/Viewport.h"
-
-#include "ExturbatorInterface.h"
-#include "ExturbatorRequests.h"
-
-#include "gui/GUIRenderable.h"
-#include "gui/GUIEntity.h"
-#include "gui/GUIViewport.h"
-#include "gui/GUIWindow.h"
-#include "gui/GUIButton.h"
-#include "gui/GUIText.h"
-#include "gui/GUIList.h"
-#include "gui/GUIListItem.h"
-#include "gui/GUILayer.h"
-#include "gui/GUISlider.h"
-
-#include "Hardware.h"
-#include "DataPacketParse.h"
-#include "DataPacketRequest.h"
-
-#include "TrueTypeFont.h"
-#include "gui/GUIStyleResource.h"
