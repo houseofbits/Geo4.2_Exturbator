@@ -48,7 +48,7 @@ GUIWindow={
 }
 
 GUIWindow={
-  visible=1;
+  visible=0;
   name="windowSaveNewPreset";
   title="New preset";
   blocking=1;
@@ -63,7 +63,7 @@ GUIWindow={
   }
   GUITextInput={
     name="textInputPresetName";
-    title="...";
+    title="";
     size=330,40;
     pos=0,-5;
     length=18;
