@@ -139,9 +139,9 @@ void SDLWindow::Initialise(EventManager*const event_manager, ResourceManager*con
 
 	GLenum errr = glewInit();
 
-	SendEvent(new WindowEvent(WindowEvent::WINDOW_CREATED, this));
+	SendEvent(new WindowEvent(WindowEvent::WINDOW_CREATED, 0, 0, width, height));
 
-	SendEvent(new WindowEvent(0, 0, this));
+	SendEvent(new WindowEvent(WindowEvent::FRAME_TIME, 0, 0, width, height));
 
 //	Font::m_DefaultInstance.Load("arial.glf");
 
@@ -180,7 +180,7 @@ bool SDLWindow::OnWindowEvent(WindowEvent*const event)
 	frame_time = tme - time;
 	time = tme;
 
-	SendEvent(new WindowEvent(frame_time, time, this));
+	SendEvent(new WindowEvent(WindowEvent::FRAME_TIME, frame_time, time, width, height));
 
 	mgr->event_dispatcher.SetCurrentTime(time);
 

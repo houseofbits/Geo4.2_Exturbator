@@ -12,16 +12,15 @@ public:
 	enum { FRAME_TIME,
 			WINDOW_CREATED};
 
-	WindowEvent(float ft, float t, SDLWindow* w) :frametime(ft), time(t), window(w), event_type(WindowEvent::FRAME_TIME){}
-	WindowEvent(unsigned int t, SDLWindow* w) :event_type(t), window(w) {}
+	WindowEvent(unsigned int type, float ft, float t, unsigned int w, unsigned int h) :eventType(type), frametime(ft), time(t), width(w), height(h) {}
 	virtual ~WindowEvent(void) {}
 
-	//FRAME_TIME
 	float frametime;
 	float time;
 
-	SDLWindow*	window;
+	unsigned int width;
+	unsigned int height;
 
-	unsigned int event_type;
+	unsigned int eventType;
 };
 

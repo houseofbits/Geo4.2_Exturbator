@@ -55,7 +55,7 @@ void GUIButton::Deserialize(CFONode* node)
 
 bool GUIButton::OnWindowEvent(WindowEvent*const event)
 {
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 
 		renderableActive.update();
 		renderableHover.update();

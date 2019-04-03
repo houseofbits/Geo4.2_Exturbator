@@ -51,7 +51,7 @@ void GUITextInput::Deserialize(CFONode* node)
 
 bool GUITextInput::OnWindowEvent(WindowEvent*const event)
 {
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 
 		renderable.update();
 		renderableActive.update();
@@ -107,6 +107,7 @@ bool GUITextInput::OnGUIInputEvent(GUIInputEvent*const event)
 	case GUIInputEvent::EventType::TEXENTER:
 		backspaceDown = false;
 		if (isFocused()) {
+			//cout << "text in: " << event->textInput<< endl;
 			m_Title = m_Title + event->textInput;
 			while (m_Title.size() > maxCharacters) {
 				m_Title.erase(m_Title.size() - 1);

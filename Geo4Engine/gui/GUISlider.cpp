@@ -51,7 +51,7 @@ void GUISlider::Deserialize(CFONode* node)
 bool GUISlider::OnWindowEvent(WindowEvent*const event)
 {
 	//Set default values on window creation
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 		Entity* e = getObjectByName("window");
 		if (e && e->getTypename() == "SDLWindow") {
 			SDLWindow* window = (SDLWindow*)e;			

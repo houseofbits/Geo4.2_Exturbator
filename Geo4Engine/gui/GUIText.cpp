@@ -39,7 +39,7 @@ void GUIText::Deserialize(CFONode* node)
 
 bool GUIText::OnWindowEvent(WindowEvent*const event)
 {
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 
 		renderable.update();
 

@@ -50,7 +50,7 @@ void GUIList::Deserialize(CFONode* node)
 
 bool GUIList::OnWindowEvent(WindowEvent*const event)
 {
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 		renderableTitle.update();
 		renderableBody.update();
 

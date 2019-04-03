@@ -73,7 +73,7 @@ void GUIListItem::Deserialize(CFONode* node)
 
 bool GUIListItem::OnWindowEvent(WindowEvent*const event)
 {
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 
 
 	}

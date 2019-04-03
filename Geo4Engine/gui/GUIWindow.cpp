@@ -60,10 +60,10 @@ void GUIWindow::Deserialize(CFONode* node)
 
 bool GUIWindow::OnWindowEvent(WindowEvent*const event)
 {
-	windowWidth = event->window->width;
-	windowHeight = event->window->height;
+	windowWidth = event->width;
+	windowHeight = event->height;
 
-	if (event->event_type == WindowEvent::WINDOW_CREATED) {
+	if (event->eventType == WindowEvent::WINDOW_CREATED) {
 
 		renderableTitle.update();
 		renderableBody.update();

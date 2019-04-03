@@ -120,6 +120,7 @@ void GUIViewport::mouseButtonDownEvent(Vector2 mousePos, bool leftButton, bool r
 		leaveFocus();
 		GUIEntity* guie = (GUIEntity*)ent;
 		guie->setFocus(true);
+		//cout << "guie: " << guie->getName() << endl;
 		SendEvent(new GUIInputEvent(GUIInputEvent::EventType::ENTERFOCUS), ent);
 
 		hoverObject = ent;
@@ -154,8 +155,8 @@ void GUIViewport::textEnterEvent(std::string text) {
 
 bool GUIViewport::OnWindowEvent(WindowEvent*const event)
 {
-	window_width = event->window->width;
-	window_height = event->window->height;
+	window_width = event->width;
+	window_height = event->height;
 
 	if (showLoader && loaderTimeout > 0) {
 		loaderTimeout -= event->frametime;

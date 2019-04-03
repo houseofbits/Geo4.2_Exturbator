@@ -132,6 +132,7 @@ void	GUIEntity::_RecursiveFindObjectByPosition(Entity* e, Entity* &obj, const Ve
 		if (!guie->m_Visible || guie->m_Disabled)return;
 		if (guie->Clip(p)) {
 			obj = e;
+		//	cout << "clip "<< guie->getName() << endl;
 		}
 	}
 	if (!e->getChildList()->empty()) {
@@ -170,8 +171,9 @@ GUIEntity*	GUIEntity::getFocusedObject() {
 		while (pos != getChildList()->end()) {
 			if ((*pos)->isInstanceOf("GUIEntity")) {
 				GUIEntity* guie = (GUIEntity*)(*pos);
-				if (guie->getFocusedObject()) {
-					return guie;
+				GUIEntity* focused = guie->getFocusedObject();
+				if (focused) {
+					return focused;
 				}
 			}
 			pos++;
