@@ -60,6 +60,7 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 			cout << "check connection button" << endl;
 		}
 		if (event->m_Sender->getName() == "buttonZone1Settings") {
+
 			GUIWindow* w = getObjectByName<GUIWindow>("windowZoneSettings");
 			if (w) {
 				w->setTitle("Zone1 settings");
@@ -85,7 +86,6 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
 			if (w)w->setVisible(false);
 		}
-
 	}
 
 	return 1;

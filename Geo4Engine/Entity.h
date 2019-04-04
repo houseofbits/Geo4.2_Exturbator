@@ -197,7 +197,7 @@ protected:
 	public:									\
 		virtual std::string			getTypename(){return type_name;}	\
 		virtual unsigned int		getTypeId(){if(classname::type_id==0){Entity::GLOBAL_OBJECT_TYPE_COUNTER++; classname::type_id = Entity::GLOBAL_OBJECT_TYPE_COUNTER;}return classname::type_id;} \
-		static std::string			type_name;		\
+		static	std::string			type_name;		\
 		static	unsigned int		type_id;		\
 		static	std::string			TypeName(){return classname::type_name;}	\
 		static	unsigned int		TypeID(){if(classname::type_id==0){Entity::GLOBAL_OBJECT_TYPE_COUNTER++; classname::type_id = Entity::GLOBAL_OBJECT_TYPE_COUNTER;}return classname::type_id;}

@@ -12,6 +12,7 @@ public:
 	enum { FRAME_TIME,
 			WINDOW_CREATED};
 
+	WindowEvent() {}
 	WindowEvent(unsigned int type, float ft, float t, unsigned int w, unsigned int h) :eventType(type), frametime(ft), time(t), width(w), height(h) {}
 	virtual ~WindowEvent(void) {}
 
