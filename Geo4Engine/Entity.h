@@ -133,7 +133,7 @@ public:
 		if (got_root) {
 			
 			got_root->_recursiveFingObjectByClassName(className, out);
-			return out.size();
+			return (unsigned int)out.size();
 		}
 		return 0;
 	}
@@ -142,7 +142,7 @@ public:
 		Entity*	got_root = getRootObject();
 		if (got_root) {
 			got_root->_recursiveFingObjectByClassName(T::TypeName(), out);
-			return out.size();
+			return (unsigned int)out.size();
 		}
 		return 0;
 	}

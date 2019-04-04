@@ -470,7 +470,7 @@ void GUIRenderable::_generateGeometryData() {
 	}
 	//4. Triangulate body
 	if (style->backgroundFill != GUIStyle::FillType::NONE) {
-		unsigned int offset = vertexArray.size();
+		unsigned int offset = (unsigned int)vertexArray.size();
 		unsigned int nexti = 0;
 		unsigned int midpointIndex = offset;
 		float umin = 0, umax = 1;
@@ -504,11 +504,11 @@ void GUIRenderable::_generateGeometryData() {
 	//5. Generate shadow geometry
 	if (style->shadowSize > 0) {
 		unsigned int nexti = 0;
-		unsigned int midpointIndex = vertexArray.size();
+		unsigned int midpointIndex = (unsigned int)vertexArray.size();
 		vertexArray.push_back(Vector2(0, 0));
 		colorArray.push_back(style->shadowColor);
 		uvArray.push_back(Vector2(0, 0));
-		unsigned int offset = vertexArray.size();
+		unsigned int offset = (unsigned int)vertexArray.size();
 		for (unsigned int i = 0; i < shadowInline.size(); i++) {
 			vertexArray.push_back(shadowInline[i]);
 			vertexArray.push_back(shadowOutline[i]);
@@ -535,7 +535,7 @@ void GUIRenderable::_generateGeometryData() {
 		style->borderSizeTop > 0 || 
 		style->borderSizeLeft > 0 || 
 		style->borderSizeRight > 0) {
-		unsigned int offset = vertexArray.size();
+		unsigned int offset = (unsigned int)vertexArray.size();
 		unsigned int nexti = 0;
 		unsigned int colorIndex = 3;
 		for (unsigned int i = 0; i < bodyOutline.size(); i++) {
@@ -564,7 +564,7 @@ void GUIRenderable::_generateGeometryData() {
 			indexArrayBorder.push_back(offset + 2);
 			indexArrayBorder.push_back(offset + 1);
 			indexArrayBorder.push_back(offset + 3);
-			offset = vertexArray.size();
+			offset = (unsigned int)vertexArray.size();
 		}
 		_generateIndexBuffer(indexArrayBorder, borderIndexArrayId, borderNumIndices);
 	}
@@ -584,7 +584,7 @@ void GUIRenderable::_generateVertexBuffer(vector<Vector2>& vertices, vector<Vect
 
 	if (vertexArrayId > 0)glDeleteBuffers(1, &vertexArrayId);
 
-	unsigned int vertexCount = vertices.size();
+	unsigned int vertexCount = (unsigned int)vertices.size();
 
 	GLfloat* tmpVertexArray = new GLfloat[8 * vertexCount];
 
@@ -614,7 +614,7 @@ void GUIRenderable::_generateIndexBuffer(vector<unsigned int>& indices, GLuint& 
 
 	if (indexArrayId > 0)glDeleteBuffers(1, &indexArrayId);
 
-	indexCount = indices.size();
+	indexCount = (unsigned int)indices.size();
 
 	GLuint* tmpIndicesArray = new GLuint[indexCount];
 	

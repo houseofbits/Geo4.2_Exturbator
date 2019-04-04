@@ -3,7 +3,7 @@ Obj/
 .vs/
 Geo4Engine/Debug/
 Geo4Engine/Release/
-bin/*
-!bin/style/
-!bin/gui/
-!bin/conf.cfo
+ExturbatorBin/*
+!ExturbatorBin/style/
+!ExturbatorBin/gui/
+!ExturbatorBin/conf.cfo

@@ -157,7 +157,7 @@ void SDLWindow::Initialise(EventManager*const event_manager, ResourceManager*con
 	cout << " renderer: " << glGetString(GL_RENDERER) << endl;
 	cout << WHITE;
 
-	getObjectsByClassName(guiViewports);
+	getObjectsByClassName<GUIViewport>(guiViewports);
 }
 
 void SDLWindow::Deserialize(CFONode* node)

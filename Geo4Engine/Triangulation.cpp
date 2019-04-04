@@ -21,11 +21,11 @@ void Triangulation::EarClipTrinagulate(const std::vector<Vector2>& pointsIn,
 
 	//Generate clockwise indices
 	if (areVerticesCW(pointsIn)) {
-		for (unsigned int i = 0; i < pointsIn.size(); i++){
+		for (unsigned int i = 0; i < (unsigned int)pointsIn.size(); i++){
 			pointIndices.push_back(PointIndex(i, pointsIn[i]));
 		}
 	}else {
-		for (unsigned int i = pointsIn.size() - 1; i >= 0; i--) {
+		for (unsigned int i = (unsigned int)pointsIn.size() - 1; i >= 0; i--) {
 			pointIndices.push_back(PointIndex(i, pointsIn[i]));
 		}
 	}
@@ -94,7 +94,7 @@ void Triangulation::sliceEar(unsigned int i) {
 
 bool Triangulation::areVerticesCW(const std::vector<Vector2>& pointsIn) {
 	float area = 0, p1x, p1y, p2x, p2y;
-	for (int i = 0, n = pointsIn.size() - 1; i < n; i += 2) {
+	for (int i = 0, n = (unsigned int)pointsIn.size() - 1; i < n; i += 2) {
 		p1x = pointsIn[i].x;
 		p1y = pointsIn[i].y;
 		p2x = pointsIn[i + 1].x;
@@ -126,6 +126,6 @@ unsigned int Triangulation::nextPoint(unsigned int i) {
 unsigned int  Triangulation::previousPoint(unsigned int i) {
 	unsigned int previ = i;
 	if (i > 0)previ = i - 1;
-	else previ = pointIndices.size() - 1;
+	else previ = (unsigned int)pointIndices.size() - 1;
 	return previ;
 }
