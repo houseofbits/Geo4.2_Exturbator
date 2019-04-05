@@ -15,6 +15,12 @@ GUILayer={
 	size=1000,230;
 }
 
+GUIGraph={  
+  name="graph";
+  pos=510,125;
+  size=1000,200;
+}
+
 //Zone1 settings window
 GUIWindow={
 	visible=0;

@@ -27,6 +27,7 @@ SceneManager::SceneManager(void) : Entity(),
 	RegisterObjectType(GUIList());
 	RegisterObjectType(GUILayer());
 	RegisterObjectType(GUIListItem());
+	RegisterObjectType(GUIGraph());
 	RegisterObjectType(ExturbatorInterface());
 #endif
 

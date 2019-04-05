@@ -58,6 +58,7 @@ Geo4 engine
 	#include "gui/GUIListItem.h"
 	#include "gui/GUILayer.h"
 	#include "gui/GUISlider.h"
+	#include "gui/GUIGraph.h"
 	#include "TrueTypeFont.h"
 	#include "gui/GUIStyleResource.h"
 	#include "ExturbatorInterface.h"

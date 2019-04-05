@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "ResourceManager.h"
-#include "TrueTypeFont.h"
+#include "../ResourceManager.h"
+#include "../TrueTypeFont.h"
 
 /*
 CFO example:
@@ -169,7 +169,7 @@ v style resource loader class
 - 0 size border geometry generating (triangulation tolerances)
 - gradient orientation
 - foolproof input corner radiuses
-- text wordwrap
+v text wordwrap
 - text justification
 
 */
@@ -189,7 +189,6 @@ public:
 	void _generateGeometryData();
 	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&, vector<Vector2>&);
 	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
-
 
 	static GLuint stencilIndexCounter;
 	static GLuint createStencilIndex() {
