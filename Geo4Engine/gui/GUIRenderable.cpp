@@ -138,6 +138,24 @@ GUIStyle::GUIStyle() : radius(0),
 	shadowColor(0,0,0,1),
 	backgroundFill(FillType::NONE),
 	backgroundColor(0,0,0,1),
+	
+	graphLineColor(1, 1, 1, 1),
+	graphDividerLineColor(1, 1, 1, 1),
+	graphRefLineColor(1, 1, 1, 1),
+	graphDataLineColor(0, 1, 0, 1),
+	graphDataLineColor2(0, 0, 1, 1),
+	graphDataLineColor3(1, 0, 0, 1),
+	graphDataLineColor4(1, 1, 0, 1),
+	graphDataLineColor5(1, 0, 1, 1),
+	graphLineStyle(DOTTED),
+	graphDividerLineStyle(NO_STRIPPLE),
+	graphRefLineStyle(NO_STRIPPLE),
+	graphDataLineStyle(NO_STRIPPLE),
+	graphDataLineStyle2(NO_STRIPPLE),
+	graphDataLineStyle3(NO_STRIPPLE),
+	graphDataLineStyle4(NO_STRIPPLE),
+	graphDataLineStyle5(NO_STRIPPLE),
+	
 	fontName(""),
 	fontSize(12),
 	fontColor(1,1,1,1),
@@ -235,6 +253,34 @@ void GUIStyle::Deserialize(CFONode* node, ResourceManager* resourceManager)
 
 	}
 
+	//Graph styles
+	node->getValueVector4("graphLineColor", graphLineColor);
+	node->getValueVector4("graphDividerLineColor", graphDividerLineColor);
+	node->getValueVector4("graphRefLineColor", graphRefLineColor);
+	node->getValueVector4("graphDataLineColor", graphDataLineColor);
+	node->getValueVector4("graphDataLineColor2", graphDataLineColor2);
+	node->getValueVector4("graphDataLineColor3", graphDataLineColor3);
+	node->getValueVector4("graphDataLineColor4", graphDataLineColor4);
+	node->getValueVector4("graphDataLineColor5", graphDataLineColor5);
+
+	string stripName = "";
+	if (node->getValueString("graphLineStyle", stripName))graphLineStyle = parseLineStripple(stripName);
+	if (node->getValueString("graphDividerLineStyle", stripName))graphDividerLineStyle = parseLineStripple(stripName);
+	if (node->getValueString("graphRefLineStyle", stripName))graphRefLineStyle = parseLineStripple(stripName);
+	if (node->getValueString("graphDataLineStyle", stripName))graphDataLineStyle = parseLineStripple(stripName);
+	if (node->getValueString("graphDataLineStyle2", stripName))graphDataLineStyle2 = parseLineStripple(stripName);
+	if (node->getValueString("graphDataLineStyle3", stripName))graphDataLineStyle3 = parseLineStripple(stripName);
+	if (node->getValueString("graphDataLineStyle4", stripName))graphDataLineStyle4 = parseLineStripple(stripName);
+	if (node->getValueString("graphDataLineStyle5", stripName))graphDataLineStyle5 = parseLineStripple(stripName);
+
+}
+
+GUIStyle::LineStripple GUIStyle::parseLineStripple(string value) {
+
+	if (value == "DOTTED")return DOTTED;
+	if (value == "DASHED")return DASHED;
+
+	return NO_STRIPPLE;
 }
 
 GLuint GUIRenderable::stencilIndexCounter = 0;

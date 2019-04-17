@@ -18,7 +18,7 @@ GUILayer={
 GUIGraph={  
   name="graph";
   pos=510,125;
-  size=1000,200;
+  size=970,200;
 }
 
 //Zone1 settings window

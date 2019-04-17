@@ -3,6 +3,23 @@
 #include "GUIRenderable.h"
 #include "GUIStyleResource.h"
 
+class GraphBaseValue {
+public:
+	GraphBaseValue():value(0){}
+	GraphBaseValue(float v):value(v){}
+	virtual void setValue(float val) { value = val; }
+	virtual string getDisplayVal() { return "x"; }
+	float	value;
+};
+
+class GraphSegment {
+public: 
+	GraphSegment():name(){}
+	GraphSegment(string n) :name(n){}
+	string name;
+	std::deque<GraphBaseValue*>	values;
+};
+
 class GUIGraph :
 	public GUIEntity,
 	public EventHandler
@@ -25,10 +42,23 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
+	void	createGraph(string name) { graphs.push_back(GraphSegment(name)); }
+	void	addGraphValue(unsigned int index, GraphBaseValue* val);
+	void	autoScaleY();
+
 	GUIRenderable	renderable;
 
 	GUIStyleResourceHandle styleSheet;
 
-	string styleName;
+	string			styleName;
+
+	Vector2			gridStep;
+	Vector2			gridDivideStep;
+	Vector2			gridReference;
+	Vector2			xLimits;
+	Vector2			yLimits;
+
+	std::vector<GraphSegment>	graphs;
+
 };
 

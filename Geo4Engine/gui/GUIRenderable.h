@@ -104,6 +104,11 @@ public:
 		CENTER,
 		RIGHT
 	};
+	enum LineStripple {
+		NO_STRIPPLE = 0,
+		DOTTED = 0xAAAA,
+		DASHED = 0x00FF,
+	};
 
 	virtual ~GUIStyle();
 
@@ -148,30 +153,37 @@ public:
 	bool	_fontValid;
 	bool	_fontHasShadow;
 
+	//TODO 
+	//Graph styles
+	Vector4		graphLineColor;
+	Vector4		graphDividerLineColor;
+	Vector4		graphRefLineColor;
+	Vector4		graphDataLineColor;
+	Vector4		graphDataLineColor2;
+	Vector4		graphDataLineColor3;
+	Vector4		graphDataLineColor4;
+	Vector4		graphDataLineColor5;
+	LineStripple graphLineStyle;
+	LineStripple graphDividerLineStyle;
+	LineStripple graphRefLineStyle;
+	LineStripple graphDataLineStyle;
+	LineStripple graphDataLineStyle2;
+	LineStripple graphDataLineStyle3;
+	LineStripple graphDataLineStyle4;
+	LineStripple graphDataLineStyle5;
+
 	void Deserialize(CFONode*, ResourceManager*);
+
+	LineStripple parseLineStripple(string);
 };
 
 
 /*
 TODO:
-v generate shadow geometry
-v generate sizeable border geometry
-v 0 size shadow geometry generating (triangulation tolerances)
-v border size parameters
-v generate border colors
-v background clipping mask
-v gradient rendering
-v background color parameters
-v shadow size parameters
-v shadow color
-v style deserialization
-v style resource loader class
 - 0 size border geometry generating (triangulation tolerances)
 - gradient orientation
 - foolproof input corner radiuses
-v text wordwrap
 - text justification
-
 */
 
 class GUIRenderable

@@ -5,7 +5,13 @@
 CLASS_DECLARATION(GUIGraph);
 
 GUIGraph::GUIGraph() : styleSheet(),
-	renderable()
+	renderable(),
+	gridStep(10, 0.01f),
+	gridDivideStep(50, 0.05f),
+	gridReference(500, 1.75f),
+	xLimits(0, 1000),
+	yLimits(1, 2),
+	graphs()
 {	}
 
 GUIGraph::~GUIGraph()
@@ -32,11 +38,25 @@ void GUIGraph::Deserialize(CFONode* node)
 {
 	GUIEntity::Deserialize(node);
 
-	styleName = "layer";
+	styleName = "graph";
 
 	node->getValueString("style", styleName);
 
+	node->getValueVector2("gridStep", gridStep);
+	node->getValueVector2("gridDivideStep", gridDivideStep);
+	node->getValueVector2("gridReference", gridReference);
+	node->getValueVector2("xLimits", xLimits);
+	node->getValueVector2("yLimits", yLimits);
+
 	renderable.size = m_Size;
+
+	createGraph("Test");
+	createGraph("Test2");
+	for (unsigned int i = 0; i < 500; i++) {
+		addGraphValue(0, new GraphBaseValue(Math::RangeRandom(1.7f, 1.8f)));
+		addGraphValue(1, new GraphBaseValue(Math::RangeRandom(1.73f, 1.77f)));
+	}
+	autoScaleY();
 }
 
 bool GUIGraph::OnWindowEvent(WindowEvent*const event)
@@ -75,32 +95,129 @@ void GUIGraph::PreRender(Renderer* r) {
 void GUIGraph::Render(Renderer* rnd){
 
 	renderable.Draw();
-
-	glColor4f(0.5f, 0.5f, 0.5f, 1);
 	
 	Vector2 hs = m_Size * 0.5f;
+	Vector2	_limits(xLimits.y - xLimits.x, yLimits.y - yLimits.x);
+	Vector2	_scale(m_Size.x / _limits.x, m_Size.y / _limits.y);
 
-	unsigned int xGrid = 20;
-	unsigned int yGrid = 10;
+	glColor4fv(renderable.style->graphLineColor.val);
+
+	if (renderable.style->graphLineStyle > 0) {
+		glEnable(GL_LINE_STIPPLE);
+		glLineStipple(2, renderable.style->graphLineStyle);
+	}
 	glBegin(GL_LINES);
-	for (unsigned int i = 0; i < yGrid; i++) {
-		float p = -hs.y + (((float)i/yGrid) * m_Size.y);
-		glVertex2f(-hs.x, p);
-		glVertex2f(hs.x, p);
+	for (float x = xLimits.x; x < xLimits.y; x += gridStep.x) {
+		float wx = -hs.x + ((x - xLimits.x) * _scale.x);
+		glVertex2f(wx, -hs.y);
+		glVertex2f(wx, hs.y);
+	}
+	for (float y = yLimits.x; y < yLimits.y; y += gridStep.y) {
+		float wy = -hs.y + ((y - yLimits.x) * _scale.y);
+		glVertex2f(-hs.x, wy);
+		glVertex2f(hs.x, wy);
 	}
 	glEnd();
+	glDisable(GL_LINE_STIPPLE);
+
+	glColor4fv(renderable.style->graphDividerLineColor.val);
+
+	if (renderable.style->graphDividerLineStyle > 0) {
+		glEnable(GL_LINE_STIPPLE);
+		glLineStipple(2, renderable.style->graphDividerLineStyle);
+	}
 	glBegin(GL_LINES);
-	for (unsigned int i = 0; i < xGrid; i++) {
-		float p = -hs.x + (((float)i / xGrid) * m_Size.x);
-		glVertex2f(p, -hs.y);
-		glVertex2f(p, hs.y);
+	for (float x = xLimits.x; x < xLimits.y; x += gridDivideStep.x) {
+		float wx = -hs.x + ((x - xLimits.x) * _scale.x);
+		glVertex2f(wx, -hs.y);
+		glVertex2f(wx, hs.y);
+	}
+	for (float y = yLimits.x; y < yLimits.y; y += gridDivideStep.y) {
+		float wy = -hs.y + ((y - yLimits.x) * _scale.y);
+		glVertex2f(-hs.x, wy);
+		glVertex2f(hs.x, wy);
 	}
 	glEnd();
+	glDisable(GL_LINE_STIPPLE);
+
+	glColor4fv(renderable.style->graphRefLineColor.val);
+
+	if (renderable.style->graphRefLineStyle > 0) {
+		glEnable(GL_LINE_STIPPLE);
+		glLineStipple(2, renderable.style->graphRefLineStyle);
+	}
+	glBegin(GL_LINES);
+		float wy = -hs.y + ((gridReference.y - yLimits.x) * _scale.y);
+		glVertex2f(-hs.x, wy);
+		glVertex2f(hs.x, wy);
+
+		float wx = -hs.x + ((gridReference.x - xLimits.x) * _scale.x);
+		glVertex2f(wx, -hs.y);
+		glVertex2f(wx, hs.y);
+	glEnd();
+	glDisable(GL_LINE_STIPPLE);
+
+	unsigned int valuesDisplayCount = 100;
+	float step = m_Size.x / valuesDisplayCount;
+	
+	for (unsigned int i = 0; i < graphs.size(); i++) {
+		switch (i) {
+			case 0: glColor4fv(renderable.style->graphDataLineColor.val);	break;
+			case 1: glColor4fv(renderable.style->graphDataLineColor2.val);	break;
+			case 2: glColor4fv(renderable.style->graphDataLineColor3.val);	break;
+			case 3: glColor4fv(renderable.style->graphDataLineColor4.val);	break;
+			case 4: glColor4fv(renderable.style->graphDataLineColor5.val);	break;
+			default: glColor4fv(renderable.style->graphDataLineColor.val);
+		};
+
+		std::deque<GraphBaseValue*>::iterator it = graphs[i].values.begin();
+		float x = -hs.x;
+		if (renderable.style->graphDataLineStyle > 0) {
+			glEnable(GL_LINE_STIPPLE);
+			glLineStipple(2, renderable.style->graphDataLineStyle);
+		}
+		glBegin(GL_LINE_STRIP);
+		unsigned int cnt = 0;
+		while (it != graphs[i].values.end()) {
+			GraphBaseValue* v = (*it);
+			float wy = -hs.y + ((v->value - yLimits.x) * _scale.y);
+			glVertex2f(x, wy);
+			x += step;
+			cnt++;
+			*it++;
+			if (cnt > valuesDisplayCount)break;
+		}
+		glEnd();
+		glDisable(GL_LINE_STIPPLE);
+
+	}
 
 }
 
 void GUIGraph::PostRender() {
 	GUIEntity::PostRender();
 }
+
+void GUIGraph::addGraphValue(unsigned int index, GraphBaseValue* val) {
+	if (index < graphs.size()) {
+		graphs[index].values.push_back(val);
+	}
+}
+
+void GUIGraph::autoScaleY() {
+	Vector2 minmax(1000000, -1000000);
+	for (unsigned int i = 0; i < graphs.size(); i++) {
+		std::deque<GraphBaseValue*>::iterator it = graphs[i].values.begin();
+		while (it != graphs[i].values.end()) {
+			if ((*it)->value > minmax.y)minmax.y = (*it)->value;
+			if ((*it)->value < minmax.x)minmax.x = (*it)->value;
+			*it++;
+		}
+	}
+	yLimits = minmax;
+	yLimits.x = minmax.x - ((minmax.y - minmax.x) * 0.5f);
+	yLimits.y = minmax.y + ((minmax.y - minmax.x) * 0.5f);
+}
+
 
 #endif
