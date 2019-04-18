@@ -42,6 +42,7 @@ Geo4 engine
 
 #ifndef NO_OPENGL
 	#include "Renderer.h"
+	#include "gui/GUIStyle.h"
 	#include "gui/GUIRenderable.h"	
 	#include "events/InputEvent.h"
 	#include "gui/GUIEvent.h"

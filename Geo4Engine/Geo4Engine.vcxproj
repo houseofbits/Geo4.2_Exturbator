@@ -237,6 +237,7 @@
     <ClCompile Include="events\SceneManagerEvent.cpp" />
     <ClCompile Include="ExturbatorRequests.cpp" />
     <ClCompile Include="gui\GUIGraph.cpp" />
+    <ClCompile Include="gui\GUIStyle.cpp" />
     <ClCompile Include="gui\GUITextInput.cpp" />
     <ClCompile Include="Hardware.cpp" />
     <ClCompile Include="ExturbatorInterface.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="events\SceneManagerEvent.h" />
     <ClInclude Include="ExturbatorRequests.h" />
     <ClInclude Include="gui\GUIGraph.h" />
+    <ClInclude Include="gui\GUIStyle.h" />
     <ClInclude Include="gui\GUITextInput.h" />
     <ClInclude Include="Hardware.h" />
     <ClInclude Include="ExturbatorInterface.h" />

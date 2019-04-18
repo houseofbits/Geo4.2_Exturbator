@@ -177,6 +177,9 @@
     <ClCompile Include="gui\GUIGraph.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="gui\GUIStyle.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\HAxisAlignedBox.h">
@@ -333,6 +336,9 @@
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="gui\GUIGraph.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\GUIStyle.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -157,6 +157,14 @@ void GUIGraph::Render(Renderer* rnd){
 	glEnd();
 	glDisable(GL_LINE_STIPPLE);
 
+	//Text
+	wx = -hs.x + ((gridReference.x - xLimits.x) * _scale.x);
+	for (float y = yLimits.x; y <= yLimits.y; y += gridDivideStep.y) {
+		float wy = -hs.y + ((y - yLimits.x) * _scale.y);
+		renderable.DrawStaticText(Utils::FloatToString(y, 4), Vector2(wx, wy));
+	}
+
+	//Graph values
 	unsigned int valuesDisplayCount = 100;
 	float step = m_Size.x / valuesDisplayCount;
 	

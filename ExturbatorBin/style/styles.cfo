@@ -80,8 +80,8 @@ GUIStyle={
 
   graph={
     fontName="fonts/exo1/Exo-SemiBold.ttf";
-    fontSize=13;
-    fontColor=1,0.5,0,1;
+    fontSize=10;
+    fontColor=1,1,1,1;
     fontShadowPosition=0,-2;
     fontShadowColor=0,0,0,0.5;
     lineHeight=20;    
