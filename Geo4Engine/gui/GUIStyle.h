@@ -124,7 +124,8 @@ public:
 	enum TextVerticalAlign {
 		MIDDLE = 0,
 		TOP,
-		BOTTOM
+		BOTTOM,
+		BASELINE
 	};
 	enum LineStripple {
 		NO_STRIPPLE = 0,

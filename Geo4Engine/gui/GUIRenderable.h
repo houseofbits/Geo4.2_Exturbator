@@ -29,6 +29,8 @@ public:
 	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&, vector<Vector2>&);
 	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
 
+	Vector2	_getTextOffsets(string);
+
 	static GLuint stencilIndexCounter;
 	static GLuint createStencilIndex() {
 		stencilIndexCounter = (stencilIndexCounter + 1) % 0xFF;

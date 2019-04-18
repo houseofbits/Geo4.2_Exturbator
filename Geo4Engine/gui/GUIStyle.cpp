@@ -271,7 +271,7 @@ void GUIStyle::Deserialize(CFONode* node, ResourceManager* resourceManager)
 	if (node->getValueString("graphDataLineStyle4", stripName))graphDataLineStyle4 = parseLineStripple(stripName);
 	if (node->getValueString("graphDataLineStyle5", stripName))graphDataLineStyle5 = parseLineStripple(stripName);
 
-	if (node->getValueString("textJustify", stripName))textJustify = parseTextJustify(stripName);
+	if (node->getValueString("textAlign", stripName))textJustify = parseTextJustify(stripName);
 	if (node->getValueString("textVerticalAlign", stripName))textVerticalAlign = parseTextVerticalAlign(stripName);
 
 }
@@ -295,6 +295,7 @@ GUIStyle::TextVerticalAlign GUIStyle::parseTextVerticalAlign(string value) {
 
 	if (value == "TOP")return TOP;
 	if (value == "BOTTOM")return BOTTOM;
+	if (value == "BASELINE")return BASELINE;
 
 	return MIDDLE;
 }

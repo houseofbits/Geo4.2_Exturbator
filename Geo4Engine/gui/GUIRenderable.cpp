@@ -104,15 +104,18 @@ void GUIRenderable::Draw() {
 		float offset = 0;
 		float line = max(style->lineHeight, textLineHeight);
 		for (unsigned int i = 0; i < splitText.size(); i++) {
+			Vector2 off = _getTextOffsets(splitText[i]);
 			if (style->_fontHasShadow) {
+				Vector2 pos = off + style->fontShadowPosition + Vector2(0,-offset);
 				glPushMatrix();
-				glTranslatef(style->fontShadowPosition.x, style->fontShadowPosition.y - offset, 0);
+				glTranslatef(pos.x, pos.y, 0);
 				glColor4f(style->fontShadowColor.x, style->fontShadowColor.y, style->fontShadowColor.z, style->fontShadowColor.w);
 				style->fontHandle->Draw(splitText[i], (unsigned int)style->fontSize);
 				glPopMatrix();
 			}
 			glPushMatrix();
-			glTranslatef(0, -offset, 0);
+			Vector2 pos = off + Vector2(0, -offset);
+			glTranslatef(pos.x, pos.y, 0);
 			glColor4f(style->fontColor.x, style->fontColor.y, style->fontColor.z, style->fontColor.w);
 			style->fontHandle->Draw(splitText[i], (unsigned int)style->fontSize);
 			glPopMatrix();
@@ -125,14 +128,13 @@ void GUIRenderable::Draw() {
 void GUIRenderable::DrawStaticText(string text, Vector2 pos) {
 
 	if (style->_fontValid) {
-		float offset = style->fontHandle->getWidth(text, (unsigned int)style->fontSize);
-		
-		//float getVerticalOffset(std::string, unsigned int, VecticalAlignment)
+
+		Vector2 off = _getTextOffsets(text) + pos;
 
 		glEnable(GL_TEXTURE_2D);
 			if (style->_fontHasShadow) {
 				glPushMatrix();
-				glTranslatef(pos.x + style->fontShadowPosition.x, pos.y + style->fontShadowPosition.y, 0);
+				glTranslatef(off.x + style->fontShadowPosition.x, off.y + style->fontShadowPosition.y, 0);
 				glColor4f(style->fontShadowColor.x, style->fontShadowColor.y, style->fontShadowColor.z, style->fontShadowColor.w);
 
 				style->fontHandle->Draw(text, (unsigned int)style->fontSize);
@@ -140,12 +142,49 @@ void GUIRenderable::DrawStaticText(string text, Vector2 pos) {
 				glPopMatrix();
 			}
 			glPushMatrix();
-			glTranslatef(pos.x, pos.y, 0);
+			glTranslatef(off.x, off.y, 0);
 			glColor4f(style->fontColor.x, style->fontColor.y, style->fontColor.z, style->fontColor.w);
 			style->fontHandle->Draw(text, (unsigned int)style->fontSize);
 			glPopMatrix();
 		glDisable(GL_TEXTURE_2D);
 	}
+}
+
+Vector2 GUIRenderable::_getTextOffsets(string text) {
+
+	Vector2 off(0,0);
+
+	if (style->_fontValid) {
+		float width = style->fontHandle->getWidth(text, (unsigned int)style->fontSize);
+		switch (style->textJustify)
+		{
+		case GUIStyle::TextJusify::LEFT:
+			off.x = -(width * 0.5f);
+			break;
+		case GUIStyle::TextJusify::RIGHT:
+			off.x = (width * 0.5f);
+			break;
+		default:
+			break;
+		}		
+		switch (style->textVerticalAlign)
+		{
+		case GUIStyle::TextVerticalAlign::TOP:
+			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::TOP);
+			break;
+		case GUIStyle::TextVerticalAlign::BOTTOM:
+			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::BOTTOM);
+			break;
+		case GUIStyle::TextVerticalAlign::BASELINE:
+			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::BASELINE);
+			break;
+		default:
+			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::AVERAGE_CENTER);
+			break;
+		}
+	}
+
+	return off;
 }
 
 void GUIRenderable::_generateGeometryData() {

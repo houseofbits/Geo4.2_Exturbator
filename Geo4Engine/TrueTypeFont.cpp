@@ -66,7 +66,7 @@ void TrueTypeFontFace::Draw(std::string text, unsigned int fontSize) {
 	float positionX = 0;
 
 	float offsetx = getWidth(text, fontSize) * 0.5f;
-	float offsety = getVerticalOffset(text, fontSize, VecticalAlignment::AVERAGE_CENTER);
+	float offsety = 0;// getVerticalOffset(text, fontSize, VecticalAlignment::AVERAGE_CENTER);
 
 	for (unsigned int i = 0; i < text.length(); i++){
 		
