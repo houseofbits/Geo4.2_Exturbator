@@ -29,12 +29,31 @@ GUIWindow={
 	blocking=1;
 	pos=512,400;
 	size=700,500;
+
+    GUIGraph={  
+      name="graph";
+      pos=0,0;
+      size=680,400;
+    }
+
     GUIText={
       name="button";
       title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
       size=500,100;
       pos=0,80;
     }
+
+    GUIText={
+      title="Proportional";
+      size=20,35;
+      pos=0,-95;
+      style="textSubscipt";
+    } 
+    GUITextInput={  
+      name="input";
+      pos=0,0;
+      size=180,30;
+    }    
 
     GUIButton={
       name="buttonZoneSettingsClose";

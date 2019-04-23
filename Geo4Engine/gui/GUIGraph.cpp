@@ -50,11 +50,13 @@ void GUIGraph::Deserialize(CFONode* node)
 
 	renderable.size = m_Size;
 
-	createGraph("Test");
-	createGraph("Test2");
+	createGraph("Size X");
+	createGraph("Size Y");
+	createGraph("Size Z");
 	for (unsigned int i = 0; i < 500; i++) {
 		addGraphValue(0, new GraphBaseValue(Math::RangeRandom(1.7f, 1.8f)));
 		addGraphValue(1, new GraphBaseValue(Math::RangeRandom(1.73f, 1.77f)));
+		addGraphValue(2, new GraphBaseValue(Math::RangeRandom(1.73f, 1.77f)));
 	}
 	autoScaleY();
 }
@@ -167,16 +169,23 @@ void GUIGraph::Render(Renderer* rnd){
 	//Graph values
 	unsigned int valuesDisplayCount = 100;
 	float step = m_Size.x / valuesDisplayCount;
-	
+	Vector4 graphColor;
+	float labelOffset = 5;
+
 	for (unsigned int i = 0; i < graphs.size(); i++) {
 		switch (i) {
-			case 0: glColor4fv(renderable.style->graphDataLineColor.val);	break;
-			case 1: glColor4fv(renderable.style->graphDataLineColor2.val);	break;
-			case 2: glColor4fv(renderable.style->graphDataLineColor3.val);	break;
-			case 3: glColor4fv(renderable.style->graphDataLineColor4.val);	break;
-			case 4: glColor4fv(renderable.style->graphDataLineColor5.val);	break;
-			default: glColor4fv(renderable.style->graphDataLineColor.val);
+		case 0: graphColor = renderable.style->graphDataLineColor;	break;
+		case 1: graphColor = renderable.style->graphDataLineColor2;	break;
+		case 2: graphColor = renderable.style->graphDataLineColor3;	break;
+		case 3: graphColor = renderable.style->graphDataLineColor4;	break;
+		case 4: graphColor = renderable.style->graphDataLineColor5;	break;
+		default: graphColor = renderable.style->graphDataLineColor;
 		};
+		
+		renderable.DrawStaticText(graphs[i].name, Vector2(-(hs.x - 5), -(hs.y - labelOffset)), graphColor);
+		labelOffset += renderable.style->lineHeight;
+
+		glColor4fv(graphColor.val);
 
 		std::deque<GraphBaseValue*>::iterator it = graphs[i].values.begin();
 		float x = -hs.x;

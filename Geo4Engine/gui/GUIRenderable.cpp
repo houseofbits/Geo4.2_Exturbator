@@ -150,6 +150,31 @@ void GUIRenderable::DrawStaticText(string text, Vector2 pos) {
 	}
 }
 
+void GUIRenderable::DrawStaticText(string text, Vector2 pos, Vector4 color) {
+
+	if (style->_fontValid) {
+
+		Vector2 off = _getTextOffsets(text) + pos;
+
+		glEnable(GL_TEXTURE_2D);
+		if (style->_fontHasShadow) {
+			glPushMatrix();
+			glTranslatef(off.x + style->fontShadowPosition.x, off.y + style->fontShadowPosition.y, 0);
+			glColor4f(style->fontShadowColor.x, style->fontShadowColor.y, style->fontShadowColor.z, style->fontShadowColor.w);
+
+			style->fontHandle->Draw(text, (unsigned int)style->fontSize);
+
+			glPopMatrix();
+		}
+		glPushMatrix();
+		glTranslatef(off.x, off.y, 0);
+		glColor4f(color.x, color.y, color.z, color.w);
+		style->fontHandle->Draw(text, (unsigned int)style->fontSize);
+		glPopMatrix();
+		glDisable(GL_TEXTURE_2D);
+	}
+}
+
 Vector2 GUIRenderable::_getTextOffsets(string text) {
 
 	Vector2 off(0,0);
