@@ -68,6 +68,10 @@ public:
 
 	bool	OnWindowEvent(WindowEvent*const);
 
+	void	setExtruderState(bool state, float speed);
+	void	setPullerState(bool state, float speed);
+	void	setWinderState(bool state, float speed);
+
 	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponseEXT;
 //	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponseWND;
 //	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponsePUL;

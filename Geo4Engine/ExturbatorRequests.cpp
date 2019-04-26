@@ -64,7 +64,18 @@ bool ExturbatorRequests::OnWindowEvent(WindowEvent*const event) {
 	if (statusResponseEXT.isCompleted()) {
 		hw->setPortValid(true);
 		statusResponseEXT.commit();
+		//processResponseEXT.commit();
 	}
 
 	return 1;
+}
+
+void ExturbatorRequests::setExtruderState(bool state, float speed) {
+
+}
+void ExturbatorRequests::setPullerState(bool state, float speed) {
+
+}
+void ExturbatorRequests::setWinderState(bool state, float speed) {
+
 }
