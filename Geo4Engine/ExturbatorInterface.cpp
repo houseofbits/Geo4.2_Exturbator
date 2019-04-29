@@ -10,7 +10,8 @@ using namespace std;
 
 CLASS_DECLARATION(ExturbatorInterface);
 
-ExturbatorInterface::ExturbatorInterface(void) : Entity()
+ExturbatorInterface::ExturbatorInterface(void) : Entity(), 
+	hardware(0)
 {	}
 
 ExturbatorInterface::~ExturbatorInterface(void)
@@ -21,6 +22,9 @@ void ExturbatorInterface::Initialise(EventManager*const event_manager, ResourceM
 	event_manager->RegisterEventHandler(this);
 	event_manager->RegisterEventReceiver(this, &ExturbatorInterface::OnWindowEvent);
 	event_manager->RegisterEventReceiver(this, &ExturbatorInterface::OnGUIEvent);
+
+	hardware = getObjectByName<ExturbatorRequests>("hardwareRequests");
+	if (!hardware)cout << "ExturbatorRequests module not found" << endl;
 }
 
 void ExturbatorInterface::Deserialize(CFONode* node)
@@ -40,7 +44,7 @@ bool ExturbatorInterface::OnWindowEvent(WindowEvent*const event){
 			window->setVisible(false);
 	}
 	*/
-	ExturbatorRequests* hardware = getObjectByName<ExturbatorRequests>("hardwareRequests");
+	//ExturbatorRequests* hardware = getObjectByName<ExturbatorRequests>("hardwareRequests");
 	if (hardware) {
 
 		//Check status
@@ -86,6 +90,23 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
 			if (w)w->setVisible(false);
 		}
+
+		/*
+		if (event->m_Sender->getName() == "buttonExtruderOn") {
+			if (hardware)hardware->extruderState = true;
+			GUIButton* b = getObjectByName<GUIButton>("buttonExtruderOn");
+			b->setVisible(false);
+			b = getObjectByName<GUIButton>("buttonExtruderOff");
+			b->setVisible(true);
+		}
+		if (event->m_Sender->getName() == "buttonExtruderOff") {
+			if (hardware)hardware->extruderState = false;
+			GUIButton* b = getObjectByName<GUIButton>("buttonExtruderOn");
+			b->setVisible(true);
+			b = getObjectByName<GUIButton>("buttonExtruderOff");
+			b->setVisible(false);
+		}
+		*/
 	}
 
 	return 1;

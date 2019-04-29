@@ -64,18 +64,64 @@ bool ExturbatorRequests::OnWindowEvent(WindowEvent*const event) {
 	if (statusResponseEXT.isCompleted()) {
 		hw->setPortValid(true);
 		statusResponseEXT.commit();
-		//processResponseEXT.commit();
 	}
+	/*
+	if (processResponseEXT.isCompleted()){
+		extruderSpeed = processResponseEXT.receivePacket->speed;
+		processResponseEXT.commit();
+	}
+	if (processResponsePUL.isCompleted()){
+		diameter.x = processResponseEXT.receivePacket->diameter1;
+		diameter.y = processResponseEXT.receivePacket->diameter2;
+		processResponsePUL.commit();
+	}
+
+	pullerSpeed = calculatePullerSpeedFromExtruder();
+	winderSpeed = calculateWinderSpeedFromExtruder();
+
+	setPullerState(pullerState, pullerSpeed);
+	setWinderState(winderState, winderSpeed);
+
+	*/
 
 	return 1;
 }
 
 void ExturbatorRequests::setExtruderState(bool state, float speed) {
-
+	//if(stateCommandEXT.isCompleted()){
+	//stateCommandEXT.transmitPacket->setPayload(StateOutStructure{state, speed});
+	//stateCommandEXT.commit();
+	//}
 }
 void ExturbatorRequests::setPullerState(bool state, float speed) {
-
+	//if(stateCommandPUL.isCompleted()){
+	//stateCommandPUL.transmitPacket->setPayload(StateOutStructure{state, speed});
+	//stateCommandPUL.commit();
+	//}
 }
 void ExturbatorRequests::setWinderState(bool state, float speed) {
+	//if(stateCommandWND.isCompleted()){
+	//stateCommandWND.transmitPacket->setPayload(StateOutStructure{state, speed});
+	//stateCommandWND.commit();
+	//}
+}
+void ExturbatorRequests::setExtruderConfiguration() {
+	//if(configCommandEXT.isCompleted()){
+	//configCommandEXT.transmitPacket->setPayload(ConfigurationOutStructure{});
+	//configCommandEXT.commit();
+	//}
+}
+void ExturbatorRequests::setPullerConfiguration() {
 
+}
+void ExturbatorRequests::setWinderConfiguration() {
+
+}
+float ExturbatorRequests::calculatePullerSpeedFromExtruder() {
+
+	return 0; 
+}
+float ExturbatorRequests::calculateWinderSpeedFromExtruder() {
+
+	return 0; 
 }

@@ -64,7 +64,7 @@ void GUIEntity::PreRender(Renderer*) {
 }
 
 void GUIEntity::PostRender() {
-	
+	/*
 	glEnable(GL_LINE_STIPPLE);
 	glLineStipple(1, 0x0F0F);
 	glLineWidth(1);
