@@ -42,9 +42,9 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
-	void	createGraph(string name) { graphs.push_back(GraphSegment(name)); }
+	unsigned int	createGraph(string name) { graphs.push_back(GraphSegment(name)); return graphs.size()-1; }
 	void	addGraphValue(unsigned int index, GraphBaseValue* val);
-	void	autoScaleY();
+	void	ScaleY();
 
 	GUIRenderable	renderable;
 
@@ -57,6 +57,8 @@ public:
 	Vector2			gridReference;
 	Vector2			xLimits;
 	Vector2			yLimits;
+	bool			autoScaleY;
+	bool			showYValues;
 
 	std::vector<GraphSegment>	graphs;
 

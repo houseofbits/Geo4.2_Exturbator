@@ -25,7 +25,7 @@ GUILayer={
 		style="buttonSquare";    
     }
     GUIButton={
-		name="buttoShutdown";
+		name="buttonShutdown";
 		title="Shut down";
 		pos=0,100;
 		size=170,40;

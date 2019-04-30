@@ -15,10 +15,20 @@ GUILayer={
       pos=0,55;
       size=183,130;
       gridStep=20,20;
-      gridDivideStep=100,100;
+      gridDivideStep=100,50;
       gridReference=50, 50,
       xLimits=0,100;
-      yLimits=0,100;      
+      yLimits=0,100;     
+      autoScaleY=0; 
+      Graph1={
+        name="Target";
+      }
+      Graph2={
+        name="Process";
+      } 
+      Graph3={
+        name="Control";
+      }        
     }
 
     GUIText={
@@ -49,7 +59,7 @@ GUILayer={
 
     GUIButton={
       style="textButton";
-      name="buttonZone1Settings";
+      name="buttonZone2Settings";
       title="Settings";
       pos=50,-125;
       size=100,40;

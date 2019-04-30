@@ -27,8 +27,7 @@ void GUIList::Initialise(EventManager*const eventManager, ResourceManager*const 
 	renderableBody.style = &styleSheet->get("listBody");
 	renderableTitle.style = &styleSheet->get("listTitle");
 
-	addItem("66", "Dynamic item");
-
+	//addItem("66", "Dynamic item");
 	reorderItems();
 }
 
@@ -41,8 +40,8 @@ void GUIList::Deserialize(CFONode* node)
 
 
 
-	renderableTitle.size = m_Size;
-	renderableTitle.size.y = titleBarSize;
+	//renderableTitle.size = m_Size;
+	//renderableTitle.size.y = titleBarSize;
 	renderableBody.size = m_Size;
 	renderableBody.size.y = m_Size.y - titleBarSize;
 //	renderableShadow.size = m_Size;
@@ -85,6 +84,7 @@ void GUIList::PreRender(Renderer* r) {
 }
 
 void GUIList::Render(Renderer* rnd){
+	/*
 	glPushMatrix();
 	glTranslatef(0, (m_Size.y * 0.5f) - (titleBarSize * 0.5f), 0);
 	renderableTitle.Draw();
@@ -94,7 +94,7 @@ void GUIList::Render(Renderer* rnd){
 	glTranslatef(0, -(titleBarSize * 0.5f), 0);
 	renderableBody.Draw();
 	glPopMatrix();
-
+	*/
 }
 
 void GUIList::PostRender() {
@@ -113,7 +113,7 @@ void GUIList::DeselectAll() {
 }
 
 void GUIList::reorderItems() {
-	float top = (m_Size.y * 0.5f) - (itemHeight * 0.5f) - titleBarSize;
+	float top = (m_Size.y * 0.5f) - (itemHeight * 0.5f);// -titleBarSize;
 	std::list<Entity*>::iterator pos = m_Childs.begin();
 	while (pos != m_Childs.end()) {
 		if ((*pos)->getTypename() == "GUIListItem") {
@@ -136,6 +136,20 @@ void GUIList::addItem(string name, string title) {
 }
 void GUIList::deleteItem(string name) {
 	//TODO
+}
+
+GUIListItem*  GUIList::getSelectedItem() {
+
+	std::list<Entity*>::iterator pos = m_Childs.begin();
+	while (pos != m_Childs.end()) {
+		if ((*pos)->getTypename() == "GUIListItem") {
+			GUIListItem* item = (GUIListItem*)(*pos);
+			if (item->selected)return item;
+		}
+		pos++;
+	}
+
+	return 0;
 }
 
 #endif

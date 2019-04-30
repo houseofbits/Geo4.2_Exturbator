@@ -89,6 +89,23 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 		if (event->m_Sender->getName() == "buttonLoadPreset") {
 			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
 			if (w)w->setVisible(false);
+			GUIList* l = getObjectByName<GUIList>("presetsList");
+			if (l) {
+				GUIListItem* item = l->getSelectedItem();
+				if (item) {
+					GUILayer* titleBar = getObjectByName<GUILayer>("layerProgramTitle");
+					if (titleBar) {
+						titleBar->setTitle("Preset - "+item->m_Title);
+					}
+				}
+			}
+		}
+		if (event->m_Sender->getName() == "buttonClosePreset") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
+			if (w)w->setVisible(false);
+		}
+		if (event->m_Sender->getName() == "buttonShutdown") {
+			return 0;
 		}
 
 		/*

@@ -2,6 +2,7 @@
 #include "GUIEntity.h"
 #include "GUIRenderable.h"
 #include "GUIStyleResource.h"
+#include "GUIListItem.h"
 
 class GUIList :
 	public GUIEntity,
@@ -29,6 +30,8 @@ public:
 	void	addItem(string name, string title);
 	void	deleteItem(string name);
 	void	reorderItems();
+
+	GUIListItem* getSelectedItem();
 
 	float	itemHeight;
 	bool	multiSelect;
