@@ -10,6 +10,33 @@ GUILayer={
      	pos=-195,75;
     }
 	
+    GUIText={
+      name="textZone1PT";
+      title="1.484 rpm";
+      size=160,20;
+      pos=-90,35;
+      style="textGreen";
+    } 
+    GUIText={
+      title="Speed";
+      size=200,20;
+      pos=-90, 10;
+      style="textSubscipt";
+    }               
+    GUIText={
+      name="textZone1ST";
+      title="289 g";
+      size=100,20;
+      pos=90,35;
+      style="textGreen";
+    } 
+    GUIText={
+      title="Aproximate weight";
+      size=200,35;
+      pos=90,10;
+      style="textSubscipt";
+    } 
+
     GUIButton={
       name="buttonWinderStart";
       title="Start";
