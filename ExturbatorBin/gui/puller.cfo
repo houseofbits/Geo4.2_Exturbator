@@ -1,0 +1,27 @@
+GUILayer={  
+	name="layerPuller";	
+	pos=395,338;
+	size=405,179;
+	
+    GUIText={
+    	style="textDefaultTitle";
+     	title="Puller";
+     	size=500,30;
+     	pos=-195,75;
+    }
+	
+    GUIButton={
+      name="buttonPullerStart";
+      title="Start";
+      pos=-143,-58;
+      size=100,40;
+    }
+
+    GUIButton={
+	  style="textButton";
+      name="buttonPullerSettings";
+      title="Settings";
+      pos=150,-58;
+      size=100,40;
+    }
+}

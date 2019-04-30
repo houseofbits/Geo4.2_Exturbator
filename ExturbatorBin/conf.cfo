@@ -14,10 +14,10 @@ SDLWindow={
 		viewmode=tps;
 		cam_pos=100,100,0;
 		pitch=-45;
-		yaw = 60;
+		yaw=60;
 		distance=150;
 		fov=60;	
-		clear_color=0.1,0.1,0.1,1.0;
+		clear_color=0.1,0.1,0.13,1.0;
 	}
 	/*
 	//Hardware communications class

@@ -1,0 +1,32 @@
+GUILayer={  
+	name="layerPuller";	
+	pos=810,338;
+	size=405,179;
+
+    GUIText={
+    	style="textDefaultTitle";
+     	title="Winder";
+     	size=500,30;
+     	pos=-195,75;
+    }
+	
+    GUIButton={
+      name="buttonWinderStart";
+      title="Start";
+      pos=-143,-58;
+      size=100,40;
+    }
+    GUIButton={
+      name="buttonMeasureStart";
+      title="Start measure";
+      pos=-0,-58;
+      size=160,40;
+    }    
+    GUIButton={
+	  style="textButton";
+      name="buttonWinderSettings";
+      title="Settings";
+      pos=150,-58;
+      size=100,40;
+    }
+}

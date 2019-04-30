@@ -163,7 +163,7 @@ void GUIGraph::Render(Renderer* rnd){
 	wx = -hs.x + ((gridReference.x - xLimits.x) * _scale.x);
 	for (float y = yLimits.x; y <= yLimits.y; y += gridDivideStep.y) {
 		float wy = -hs.y + ((y - yLimits.x) * _scale.y);
-		renderable.DrawStaticText(Utils::FloatToString(y, 4), Vector2(wx, wy));
+		renderable.DrawStaticText(Utils::FloatToString(y, 4), Vector2(wx + 3, wy + 3));
 	}
 
 	//Graph values
