@@ -20,6 +20,7 @@ public:
 	void Draw();
 	
 	void DrawStaticText(std::string, Vector2);
+	void DrawStaticText(std::string, Vector2, Vector4);
 
 	void update();
 	void setTextWithWrapping(string);

@@ -1,36 +1,34 @@
 GUILayer={  
-	pos=100,505;
-	size=170,500;
-	style="layerShadow";
+	pos=95,487;
+	size=170,480;
+	//style="layerShadow";
 
     GUIButton={
-		name="buttonPresets";
-		title="Presets";
-		pos=0,230;
-		size=170,40;
-		style="buttonSquareTop";    
-    }
-    GUIButton={
 		name="buttonPreheat";
-		title="Preheat";
-		pos=0,190;
+		title="Start heaters";
+		pos=0,220;
 		size=170,40;
-		style="buttonSquare";      
+		style="buttonSquareTop";      
     }	
     GUIButton={
 		name="buttonStartExtruder";
 		title="Start extruder";
-		pos=0,150;
+		pos=0,180;
 		size=170,40;
 		style="buttonSquare";      
-    }	
+    }	        		
     GUIButton={
-		name="buttonPullerSettings";
-		title="Puller settings";
-		pos=0,110;
+		name="buttonPresets";
+		title="Presets";
+		pos=0,140;
 		size=170,40;
-		style="buttonSquareBottom";   
-    }	    	        		
-
-
+		style="buttonSquare";    
+    }
+    GUIButton={
+		name="buttonShutdown";
+		title="Shut down";
+		pos=0,100;
+		size=170,40;
+		style="buttonSquareBottom";    
+    }    
 }

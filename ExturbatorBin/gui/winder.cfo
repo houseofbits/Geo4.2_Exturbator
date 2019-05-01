@@ -1,0 +1,59 @@
+GUILayer={  
+	name="layerPuller";	
+	pos=810,338;
+	size=405,179;
+
+    GUIText={
+    	style="textDefaultTitle";
+     	title="Winder";
+     	size=500,30;
+     	pos=-195,75;
+    }
+	
+    GUIText={
+      name="textZone1PT";
+      title="1.484 rpm";
+      size=160,20;
+      pos=-90,35;
+      style="textGreen";
+    } 
+    GUIText={
+      title="Speed";
+      size=200,20;
+      pos=-90, 10;
+      style="textSubscipt";
+    }               
+    GUIText={
+      name="textZone1ST";
+      title="289 g";
+      size=100,20;
+      pos=90,35;
+      style="textGreen";
+    } 
+    GUIText={
+      title="Aproximate weight";
+      size=200,35;
+      pos=90,10;
+      style="textSubscipt";
+    } 
+
+    GUIButton={
+      name="buttonWinderStart";
+      title="Start";
+      pos=-143,-58;
+      size=100,40;
+    }
+    GUIButton={
+      name="buttonMeasureStart";
+      title="Start measure";
+      pos=-0,-58;
+      size=160,40;
+    }    
+    GUIButton={
+	  style="textButton";
+      name="buttonWinderSettings";
+      title="Settings";
+      pos=150,-58;
+      size=100,40;
+    }
+}

@@ -68,9 +68,26 @@ public:
 
 	bool	OnWindowEvent(WindowEvent*const);
 
+	void	setExtruderState(bool state, float speed);
+	void	setPullerState(bool state, float speed);
+	void	setWinderState(bool state, float speed);
+	void	setExtruderConfiguration();
+	void	setPullerConfiguration();
+	void	setWinderConfiguration();
+
 	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponseEXT;
 //	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponseWND;
 //	DataPacketRequest<CommandDataPacket, StatusDataPacket>		statusResponsePUL;
 
+	float		extruderSpeed;
+	float		pullerSpeed;
+	float		winderSpeed;
+	Vector2		diameter;
+	bool		extruderState;
+	bool		pullerState;
+	bool		winderState;
+
+	float calculatePullerSpeedFromExtruder();
+	float calculateWinderSpeedFromExtruder();
 };
 

@@ -5,13 +5,15 @@
 CLASS_DECLARATION(GUIGraph);
 
 GUIGraph::GUIGraph() : styleSheet(),
-	renderable(),
-	gridStep(10, 0.01f),
-	gridDivideStep(50, 0.05f),
-	gridReference(500, 1.75f),
-	xLimits(0, 1000),
-	yLimits(1, 2),
-	graphs()
+renderable(),
+gridStep(10, 0.01f),
+gridDivideStep(50, 0.05f),
+gridReference(500, 1.75f),
+xLimits(0, 1000),
+yLimits(1, 2),
+graphs(),
+autoScaleY(false),
+showYValues(false)
 {	}
 
 GUIGraph::~GUIGraph()
@@ -48,15 +50,28 @@ void GUIGraph::Deserialize(CFONode* node)
 	node->getValueVector2("xLimits", xLimits);
 	node->getValueVector2("yLimits", yLimits);
 
+	node->getValueBool("autoScaleY", autoScaleY);
+	node->getValueBool("showYValues", showYValues);	
+
 	renderable.size = m_Size;
 
-	createGraph("Test");
-	createGraph("Test2");
-	for (unsigned int i = 0; i < 500; i++) {
-		addGraphValue(0, new GraphBaseValue(Math::RangeRandom(1.7f, 1.8f)));
-		addGraphValue(1, new GraphBaseValue(Math::RangeRandom(1.73f, 1.77f)));
+	for (unsigned int i = 1; i < 6; i++) {		
+		string name = "Graph" + Utils::IntToString(i);
+		CFONode* g = node->GetFirstChild(name);
+		if (g) {
+			string gname = "";
+			g->getValueString("name", gname);
+			unsigned int gid = createGraph(gname);
+
+			//Random values
+			float h = yLimits.y - yLimits.x;
+			for (unsigned int i = 0; i < 500; i++) {
+				addGraphValue(gid, new GraphBaseValue(Math::RangeRandom(yLimits.x + (h*0.3f), yLimits.y - (h*0.3f))));
+			}
+		}
 	}
-	autoScaleY();
+
+	if(autoScaleY)ScaleY();
 }
 
 bool GUIGraph::OnWindowEvent(WindowEvent*const event)
@@ -158,25 +173,31 @@ void GUIGraph::Render(Renderer* rnd){
 	glDisable(GL_LINE_STIPPLE);
 
 	//Text
-	wx = -hs.x + ((gridReference.x - xLimits.x) * _scale.x);
-	for (float y = yLimits.x; y <= yLimits.y; y += gridDivideStep.y) {
-		float wy = -hs.y + ((y - yLimits.x) * _scale.y);
-		renderable.DrawStaticText(Utils::FloatToString(y, 4), Vector2(wx, wy));
+	if (showYValues) {
+		wx = -hs.x + ((gridReference.x - xLimits.x) * _scale.x);
+		for (float y = yLimits.x; y <= yLimits.y; y += gridDivideStep.y) {
+			float wy = -hs.y + ((y - yLimits.x) * _scale.y);
+			renderable.DrawStaticText(Utils::FloatToString(y, 4), Vector2(wx + 3, wy + 3));
+		}
 	}
 
 	//Graph values
 	unsigned int valuesDisplayCount = 100;
 	float step = m_Size.x / valuesDisplayCount;
-	
+	Vector4 graphColor;
+	float labelOffset = 5;
+
 	for (unsigned int i = 0; i < graphs.size(); i++) {
 		switch (i) {
-			case 0: glColor4fv(renderable.style->graphDataLineColor.val);	break;
-			case 1: glColor4fv(renderable.style->graphDataLineColor2.val);	break;
-			case 2: glColor4fv(renderable.style->graphDataLineColor3.val);	break;
-			case 3: glColor4fv(renderable.style->graphDataLineColor4.val);	break;
-			case 4: glColor4fv(renderable.style->graphDataLineColor5.val);	break;
-			default: glColor4fv(renderable.style->graphDataLineColor.val);
+		case 0: graphColor = renderable.style->graphDataLineColor;	break;
+		case 1: graphColor = renderable.style->graphDataLineColor2;	break;
+		case 2: graphColor = renderable.style->graphDataLineColor3;	break;
+		case 3: graphColor = renderable.style->graphDataLineColor4;	break;
+		case 4: graphColor = renderable.style->graphDataLineColor5;	break;
+		default: graphColor = renderable.style->graphDataLineColor;
 		};
+		
+		glColor4fv(graphColor.val);
 
 		std::deque<GraphBaseValue*>::iterator it = graphs[i].values.begin();
 		float x = -hs.x;
@@ -197,7 +218,9 @@ void GUIGraph::Render(Renderer* rnd){
 		}
 		glEnd();
 		glDisable(GL_LINE_STIPPLE);
-
+		
+		renderable.DrawStaticText(graphs[i].name, Vector2(-(hs.x - 5), -(hs.y - labelOffset)), graphColor);
+		labelOffset += renderable.style->lineHeight;
 	}
 
 }
@@ -212,7 +235,7 @@ void GUIGraph::addGraphValue(unsigned int index, GraphBaseValue* val) {
 	}
 }
 
-void GUIGraph::autoScaleY() {
+void GUIGraph::ScaleY() {
 	Vector2 minmax(1000000, -1000000);
 	for (unsigned int i = 0; i < graphs.size(); i++) {
 		std::deque<GraphBaseValue*>::iterator it = graphs[i].values.begin();

@@ -64,6 +64,22 @@ void GUIEntity::PreRender(Renderer*) {
 }
 
 void GUIEntity::PostRender() {
+	/*
+	glEnable(GL_LINE_STIPPLE);
+	glLineStipple(1, 0x0F0F);
+	glLineWidth(1);
+
+	Vector2 hs = m_Size * 0.5f;
+	glColor4f(1,0,1,1);
+	glBegin(GL_LINE_LOOP);
+		glVertex2f(-hs.x, -hs.y);
+		glVertex2f(-hs.x, hs.y);
+		glVertex2f(hs.x, hs.y);
+		glVertex2f(hs.x, -hs.y);
+	glEnd();
+
+	glDisable(GL_LINE_STIPPLE);
+	/**/
 	glPopMatrix();
 }
 

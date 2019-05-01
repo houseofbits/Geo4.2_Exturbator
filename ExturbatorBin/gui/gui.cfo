@@ -1,3 +1,17 @@
+//Header
+GUILayer={
+  name="layerProgramTitle";  
+  style="layerProgramTitle";
+  pos=512,753;
+  size=1004,30;
+  title="*Custom process configuration";
+  GUIText={
+    style="textProgramName";
+    title="EXTURBATOR 1.0";
+    size=1004,30;
+    pos=-495,0;
+  }
+}
 
 //Sidebar action buttons
 include="gui/actions.cfo";    
@@ -6,19 +20,24 @@ include="gui/actions.cfo";
 include="gui/zone1.cfo";
 include="gui/zone2.cfo";    
 include="gui/zone3.cfo";    
-include="gui/zone4.cfo";    
+include="gui/zone4.cfo";   
+//Puller
+include="gui/puller.cfo";
+//Winder
+include="gui/winder.cfo";    
 
 //Extrusion log
-GUILayer={  
-	name="layerOutputLog";
-	pos=510,125;
-	size=1000,230;
-}
-
 GUIGraph={  
-  name="graph";
-  pos=510,125;
-  size=970,200;
+  name="graphProcessOut";
+  pos=512,125;
+  size=1004,230;
+  autoScaleY=1;   
+  Graph1={
+    name="Size X";
+  }
+  Graph2={
+    name="Size Y";
+  }  
 }
 
 //Zone1 settings window
@@ -29,12 +48,46 @@ GUIWindow={
 	blocking=1;
 	pos=512,400;
 	size=700,500;
+
+    GUIGraph={  
+      name="graph";
+      pos=0,0;
+      size=680,400;
+      gridStep=20,20;
+      gridDivideStep=100,50;
+      gridReference=50,50,
+      xLimits=0,100;
+      yLimits=0,100;    
+      autoScaleY=0;  
+      Graph1={
+        name="Target";
+      }
+      Graph2={
+        name="Process";
+      } 
+      Graph3={
+        name="Control";
+      }       
+    }
+
     GUIText={
       name="button";
       title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt";
       size=500,100;
       pos=0,80;
     }
+
+    GUIText={
+      title="Proportional";
+      size=20,35;
+      pos=0,-95;
+      style="textSubscipt";
+    } 
+    GUITextInput={  
+      name="input";
+      pos=0,0;
+      size=180,30;
+    }    
 
     GUIButton={
       name="buttonZoneSettingsClose";

@@ -22,6 +22,8 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
+	virtual void	setTitle(std::string t) { m_Title = t; renderable.setTextWithWrapping(m_Title); }
+
 	GUIRenderable	renderable;
 
 	GUIStyleResourceHandle styleSheet;

@@ -1,6 +1,7 @@
 #pragma once
 #include "Geo4.h"
 #include "Serial.h"
+#include "ExturbatorRequests.h"
 #include "gui/GUIEvent.h"
 
 class ExturbatorInterface : public Entity, public EventHandler
@@ -20,4 +21,6 @@ public:
 	bool	OnGUIEvent(GUIEvent*const);
 
 	bool	isRenderable() { return false; }
+
+	ExturbatorRequests* hardware;
 };	
