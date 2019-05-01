@@ -180,8 +180,12 @@ bool Hardware::hasInputData() {
 }
 
 void Hardware::WritePacket(BaseDataPacket* packet) {
+
+//	WritePacketToFile(packet, "status_packet.bin");
+//	return;
+
 	size = packet->getSize();
-	//cout << "Send packet of size: " << size<<endl;
+	cout << "Send packet of size: " << size<<endl;
 	packet->toBytes(outputBuffer, size);
 	if(IsOpen())Write(outputBuffer, size,0,0,10);
 }
