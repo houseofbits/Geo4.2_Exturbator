@@ -6,8 +6,8 @@ GUILayer={
     GUIText={
     	style="textDefaultTitle";
      	title="Zone4 (Hotend)";
-     	size=500,30;
-     	pos=-93,133;
+     	size=198,290;
+     	pos=0,0;
     }
 
     GUIGraph={  

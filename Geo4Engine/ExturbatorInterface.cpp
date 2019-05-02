@@ -58,6 +58,33 @@ bool ExturbatorInterface::OnWindowEvent(WindowEvent*const event){
 
 bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 
+	if (event->type == GUIEvent::SLIDER_CHANGED) {
+		//Winder settings
+		if (event->m_Sender->getName() == "sliderWinderSpeed") {
+			GUISlider* s = (GUISlider*)event->m_Sender;
+			if (s) {
+				GUITextInput* t = getObjectByName<GUITextInput>("inputWinderSpeed");
+				if (t) {
+					t->setTitle(Utils::FloatToString(s->value, 4));
+				}
+			}
+		}
+	}
+
+	if (event->type == GUIEvent::TEXT_INPUT_CHANGED) {
+		//Winder settings
+		if (event->m_Sender->getName() == "inputWinderSpeed") {
+			GUITextInput* i = (GUITextInput*)event->m_Sender;
+			if (i) {
+				float value = (float)atof(i->m_Title.c_str());
+				GUISlider* t = getObjectByName<GUISlider>("sliderWinderSpeed");
+				if (t) {
+					t->setValue(value);
+				}
+			}
+		}
+	}
+
 	if (event->type == GUIEvent::BUTTON_PRESSED) {
 
 		if (event->m_Sender->getName() == "buttonCheckConnected") {
@@ -107,6 +134,46 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 		if (event->m_Sender->getName() == "buttonShutdown") {
 			return 0;
 		}
+		//Puller
+		if (event->m_Sender->getName() == "buttonPullerSettings") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowPullerSettings");
+			if (w)w->setVisible(true);
+		}
+		if (event->m_Sender->getName() == "buttonClosePuller") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowPullerSettings");
+			if (w)w->setVisible(false);
+		}
+		//Winder
+		if (event->m_Sender->getName() == "buttonWinderSettings") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderSettings");
+			if (w)w->setVisible(true);
+		}
+		if (event->m_Sender->getName() == "buttonCloseWinder") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderSettings");
+			if (w)w->setVisible(false);
+		}
+		if (event->m_Sender->getName() == "buttonWinderStart") {
+			GUIButton* w = getObjectByName<GUIButton>("buttonWinderStart");
+			if (w)w->setVisible(false);
+			w = getObjectByName<GUIButton>("buttonWinderStop");
+			if (w)w->setVisible(true);
+		}
+		if (event->m_Sender->getName() == "buttonWinderStop") {
+			GUIButton* w = getObjectByName<GUIButton>("buttonWinderStart");
+			if (w)w->setVisible(true);
+			w = getObjectByName<GUIButton>("buttonWinderStop");
+			if (w)w->setVisible(false);
+		}
+		//Reset winder modal
+		if (event->m_Sender->getName() == "buttonWinderReset") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderReset");
+			if (w)w->setVisible(true);
+		}
+		if (event->m_Sender->getName() == "buttonResetWinderCancel") {
+			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderReset");
+			if (w)w->setVisible(false);
+		}
+
 
 		/*
 		if (event->m_Sender->getName() == "buttonExtruderOn") {

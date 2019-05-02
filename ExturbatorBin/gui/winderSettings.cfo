@@ -1,0 +1,73 @@
+GUIWindow={
+  visible=0;
+  name="windowWinderSettings";
+  title="Winder settings";
+  blocking=1;
+  pos=512,400;
+  size=500,170;
+
+  GUIText={
+    title="Default speed (rpm)";
+    size=160,20;
+    pos=-165,40;
+    style="textSubscipt";
+  }
+  GUISlider={
+    name="sliderWinderSpeed";
+    size=390,30;
+    pos=-40,10;
+    range=0.5,10;
+    value=1.6;
+  }
+  GUITextInput={  
+    name="inputWinderSpeed";
+    size=70,30;
+    pos=200,10;
+  }  
+
+  GUIButton={
+    name="buttonApplyWinderSettings";
+    title="Apply";
+    pos=-185,-50;
+    size=100,40;
+  } 
+  GUIButton={
+    name="buttonCloseWinder";
+    title="Close";
+    pos=185,-50;
+    size=100,40;
+  }   
+}
+
+GUIWindow={
+  visible=0;
+  name="windowWinderReset";
+  title="Reset winder";
+  blocking=1;
+  pos=512,400;
+  size=400,200;
+
+  GUIText={
+    title="Do you want to reset winder position to start and save finished process information?";
+    size=320,100;
+    pos=0,40;
+  }
+  GUIButton={
+    name="buttonResetWinderReset";
+    title="Reset";
+    pos=-135,-65;
+    size=100,40;
+  } 
+  GUIButton={
+    name="buttonResetWinderSave";
+    title="Save & Reset";
+    pos=0,-65;
+    size=130,40;
+  }     
+  GUIButton={
+    name="buttonResetWinderCancel";
+    title="Cancel";
+    pos=135,-65;
+    size=100,40;
+  }   
+}

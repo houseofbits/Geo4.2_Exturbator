@@ -1,0 +1,28 @@
+GUIWindow={
+  visible=0;
+  name="windowPullerSettings";
+  title="Puller settings";
+  blocking=1;
+  pos=512,400;
+  size=420,400;
+
+
+  GUIText={
+    title="Speed (rpm)";
+    size=200,20;
+    pos=-160,30;
+    style="textSubscipt";
+  } 
+  GUITextInput={  
+    name="input";
+    pos=-110,0;
+    size=180,30;
+  }  
+
+  GUIButton={
+    name="buttonClosePuller";
+    title="Close";
+    pos=140,-160;
+    size=100,40;
+  }   
+}

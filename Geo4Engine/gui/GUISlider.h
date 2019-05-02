@@ -19,26 +19,24 @@ public:
 	void	PostRender();
 	
 	bool	OnWindowEvent(WindowEvent*const);
-	bool	OnInputEvent(InputEvent*const);
+	bool	OnGUIInputEvent(GUIInputEvent*const);
 		
 	bool	OnChangeValue(Vector2);
 	bool	IsOver(Vector2);
 
-	bool			is_selected;
-		
-	unsigned int	type;
-	unsigned int	ticks;
-	
-	Vector2			value_minmax;
+	void setValue(float val);
+
+	GUIRenderable	renderable;
+	GUIRenderable	renderableControlPin;
+
+	GUIStyleResourceHandle styleSheet;
+
+	string styleName;
+	string styleNameControlPin;
+
+	Vector2			valueRange;
 	float			value;
-	float			pot_pos;
-	std::string		text;
-	
-//	FontHandle		font;
-	float			font_size;
 
-	bool			is_over;
+	Vector2			pinSize;
 
-	bool			inputJoystickPresent;
-	unsigned int	inputJoystickAxis;
 };
