@@ -166,8 +166,19 @@ bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 		}
 		//Reset winder modal
 		if (event->m_Sender->getName() == "buttonWinderReset") {
+			//Show winder reset modal window
 			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderReset");
 			if (w)w->setVisible(true);
+		}
+		if (event->m_Sender->getName() == "buttonResetWinderReset") {
+			//TODO Reset winder position
+			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderReset");
+			if (w)w->setVisible(false);
+		}
+		if (event->m_Sender->getName() == "buttonResetWinderSave") {
+			//TODO Save process to log db and reset winder position
+			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderReset");
+			if (w)w->setVisible(false);
 		}
 		if (event->m_Sender->getName() == "buttonResetWinderCancel") {
 			GUIWindow* w = getObjectByName<GUIWindow>("windowWinderReset");

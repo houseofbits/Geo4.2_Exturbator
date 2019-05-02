@@ -155,11 +155,11 @@ GUIStyle={
     shadowSize=5;
     shadowHardness=0.5;
     shadowPosition=0,-1;
-    shadowColor=0,0,0,0.4;
+    shadowColor=0,0,0,0.3;
     backgroundGradientColor={
       1=0.498, 0.545, 0.6, 0.6;
-      0.05=0.854, 0.874, 0.886, 0.8;
-      0=0.737, 0.756, 0.780, 0.8;
+      0.05=0.854, 0.874, 0.886, 0.5;
+      0=0.737, 0.756, 0.780, 0.5;
     }
     fontName="fonts/exo1/Exo-SemiBold.ttf";
     fontSize=12;
@@ -168,23 +168,21 @@ GUIStyle={
     fontShadowColor=1,1,1,0.7;
   }
   sliderDefault={
-    radius=5;
-    borderSize=1;
-    borderColor=0.058, 0.086, 0.109,0.6;
-    shadowSize=3;
-    shadowHardness=0.5;
-    shadowPosition=0,-1;
-    shadowColor=0,0,0,0.2;
-    backgroundGradientColor={
-      0=0.066, 0.101, 0.137, 0.6;
-      1=0.129, 0.203, 0.262, 0.8;
-      angle=45;
-    }
     fontName="fonts/exo1/Exo-SemiBold.ttf";
     fontSize=12;
     fontColor=0.376, 0.450, 0.505,1;
-    fontShadowPosition=0,-3;
-    fontShadowColor=0,0,0,0.9;
+    fontShadowPosition=0,-2;
+    fontShadowColor=0,0,0,0.5;
+    lineHeight=25;
+    backgroundGradientColor={
+      0=0.066, 0.101, 0.137, 0.5;
+      1=0.129, 0.203, 0.262, 0.6;
+    }    
+    radius=5;
+    borderSize=1;
+    borderColor=0.541, 0.701, 0.854,0.2;  
+    textAlign=LEFT;
+    textPadding=5,0,0,0;
   }
 
 
