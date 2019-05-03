@@ -139,6 +139,9 @@ void GUISlider::Render(Renderer*)
 
 	glPopMatrix();
 
+
+
+
 }
 
 void GUISlider::PostRender(){ 

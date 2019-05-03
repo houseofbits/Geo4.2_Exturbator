@@ -8,6 +8,7 @@ unsigned int Entity::GLOBAL_OBJECT_TYPE_COUNTER = 0;
 void Entity::Deserialize(CFONode* node)
 {	
 	node->getValueString("name", m_Name);
+	m_HashName = hashStr(m_Name.c_str());
 }
 
 SceneManager*	Entity::getSceneManager()
@@ -127,4 +128,10 @@ void	Entity::_RecursiveInitialiseChilds(Entity* parent, SceneManager* mgr, TEnti
 		_RecursiveInitialiseChilds((*pos), mgr);
 		pos++;	
 	}
+}
+
+void	Entity::setName(std::string name)
+{
+	m_Name = name; 
+	m_HashName = hashStr(m_Name.c_str());
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <algorithm>
+#include <exception>
 #include "math/HVector2.h"
 
 class SceneManager;
@@ -45,7 +46,7 @@ class Entity
 public:
 	static unsigned int	GLOBAL_OBJECT_TYPE_COUNTER;
 
-	Entity() : m_Name(""), m_Parent(0), m_Childs() {}
+	Entity() : m_Name(""), m_HashName(0),  m_Parent(0), m_Childs() {}
 	virtual ~Entity(){}
 	
 	virtual void	Initialise(EventManager*const, ResourceManager*const){};
@@ -65,7 +66,8 @@ public:
 	virtual unsigned int		getTypeId(){return 0;}
 
 	std::string					getName(){return m_Name;}
-	void						setName(std::string name){m_Name=name;}
+	unsigned int 				getHashName() { return m_HashName; }
+	void						setName(std::string name);
 	void						addChildObject(Entity* obj){m_Childs.push_back(obj);}
 	void						setParent(Entity* obj){m_Parent = obj;}
 
@@ -96,7 +98,7 @@ public:
 		return 0;
 	}
 	template<class T>
-	T*					getObjectByName(std::string name) {
+	T*	getObjectByName(std::string name) {
 		Entity*	got_root = getRootObject();
 		if (got_root) {
 			bool f = 0;
@@ -118,7 +120,7 @@ public:
 	}
 
 	template<class T>
-	T*					getChildObjectByName(std::string name) {
+	T*	getChildObjectByName(std::string name) {
 		bool f = 0;
 		Entity* obj = 0;
 		recursiveFindObjectByName(obj, name, f);
@@ -147,6 +149,19 @@ public:
 		return 0;
 	}
 
+	template<class T>
+	T*	instanceOf() {
+		if (T::TypeName() == getTypename()) {
+			return (T*)this;
+		}
+		throw -1;
+	}
+	template<class T>
+	T*	instanceOf(std::string name) {
+		T* e = getObjectByName<T>(name);
+		if (e)return e;
+		throw -2;
+	}
 	void	CreateObjects(CFONode*);
 	void	SaveObjects(CFONode*, bool include_parent=0);
 
@@ -188,6 +203,7 @@ protected:
 	}
 
 	std::string				m_Name;
+	unsigned int 			m_HashName;
 	Entity*					m_Parent;
 	std::list<Entity*>		m_Childs;
 
