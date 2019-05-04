@@ -24,7 +24,7 @@ windowDefaultBody={
   borderColor=1,1,1,0.5;
   backgroundGradientColor={
     1=0.498, 0.545, 0.6, 0.4;
-    0=0.737, 0.756, 0.780, 0.6;
+    0=0.537, 0.556, 0.580, 0.6;
     angle=45;
   }
 }  

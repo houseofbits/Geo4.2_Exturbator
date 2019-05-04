@@ -301,3 +301,12 @@ inline std::ostream& WHITE(std::ostream &s)
        FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
     return s;
 }
+
+constexpr unsigned int hashStr(const char *s, unsigned int h = 0x811C9DC5){
+	return !*s
+		? h
+		: hashStr(
+			s + 1,
+			static_cast<unsigned int>(
+			(h ^ *s) * static_cast<unsigned long long>(0x01000193)));
+}

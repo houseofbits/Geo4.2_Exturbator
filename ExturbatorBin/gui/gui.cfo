@@ -9,25 +9,25 @@ GUILayer={
     style="textProgramName";
     title="EXTURBATOR 1.0";
     size=1004,30;
-    pos=-495,0;
+    pos=0,0;
   }
 }
 
 //Sidebar action buttons
-include="gui/actions.cfo";    
+include="gui/actions.cfo";
 
 //Heating zones
 include="gui/zone1.cfo";
-include="gui/zone2.cfo";    
-include="gui/zone3.cfo";    
-include="gui/zone4.cfo";   
+include="gui/zone2.cfo";
+include="gui/zone3.cfo";
+include="gui/zone4.cfo";
 //Puller
 include="gui/puller.cfo";
 //Winder
-include="gui/winder.cfo";    
+include="gui/winder.cfo";
 
 //Extrusion log
-GUIGraph={  
+GUIGraph={
   name="graphProcessOut";
   pos=512,125;
   size=1004,230;
@@ -120,3 +120,5 @@ GUIWindow={
 }     
 
 include="gui/presets.cfo";  
+include="gui/pullerSettings.cfo"; 
+include="gui/winderSettings.cfo"; 

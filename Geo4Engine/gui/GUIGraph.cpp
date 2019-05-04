@@ -219,10 +219,12 @@ void GUIGraph::Render(Renderer* rnd){
 		glEnd();
 		glDisable(GL_LINE_STIPPLE);
 		
-		renderable.DrawStaticText(graphs[i].name, Vector2(-(hs.x - 5), -(hs.y - labelOffset)), graphColor);
+		renderable.DrawStaticText(graphs[i].name, Vector2(0, labelOffset), graphColor, 
+			GUIStyle::TextJusify::LEFT, 
+			GUIStyle::TextVerticalAlign::BOTTOM,3,3,3,3);
+
 		labelOffset += renderable.style->lineHeight;
 	}
-
 }
 
 void GUIGraph::PostRender() {

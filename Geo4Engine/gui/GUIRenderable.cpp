@@ -104,7 +104,13 @@ void GUIRenderable::Draw() {
 		float offset = 0;
 		float line = max(style->lineHeight, textLineHeight);
 		for (unsigned int i = 0; i < splitText.size(); i++) {
-			Vector2 off = _getTextOffsets(splitText[i]);
+			Vector2 off = _getTextOffsets(splitText[i], style->textJustify, 
+				style->textVerticalAlign, 
+				style->textPaddingLeft,
+				style->textPaddingRight,
+				style->textPaddingTop,
+				style->textPaddingBottom);
+
 			if (style->_fontHasShadow) {
 				Vector2 pos = off + style->fontShadowPosition + Vector2(0,-offset);
 				glPushMatrix();
@@ -124,7 +130,7 @@ void GUIRenderable::Draw() {
 		glDisable(GL_TEXTURE_2D);
 	}
 }
-
+/*
 void GUIRenderable::DrawStaticText(string text, Vector2 pos) {
 
 	if (style->_fontValid) {
@@ -149,12 +155,20 @@ void GUIRenderable::DrawStaticText(string text, Vector2 pos) {
 		glDisable(GL_TEXTURE_2D);
 	}
 }
+*/
 
-void GUIRenderable::DrawStaticText(string text, Vector2 pos, Vector4 color) {
+void GUIRenderable::DrawStaticText(string text, Vector2 pos, 
+	Vector4 color, 
+	GUIStyle::TextJusify halign,
+	GUIStyle::TextVerticalAlign valign,
+	float paddingLeft, 
+	float paddingRight,
+	float paddingTop,
+	float paddingBottom) {
 
 	if (style->_fontValid) {
 
-		Vector2 off = _getTextOffsets(text) + pos;
+		Vector2 off =  _getTextOffsets(text, halign, valign, paddingLeft, paddingRight, paddingTop, paddingBottom) + pos;
 
 		glEnable(GL_TEXTURE_2D);
 		if (style->_fontHasShadow) {
@@ -175,30 +189,38 @@ void GUIRenderable::DrawStaticText(string text, Vector2 pos, Vector4 color) {
 	}
 }
 
-Vector2 GUIRenderable::_getTextOffsets(string text) {
+Vector2 GUIRenderable::_getTextOffsets(string text, 
+	GUIStyle::TextJusify justify, 
+	GUIStyle::TextVerticalAlign valign,
+	float offsetLeft,
+	float offsetRight,
+	float offsetTop,
+	float offsetBottom) {
 
 	Vector2 off(0,0);
 
 	if (style->_fontValid) {
 		float width = style->fontHandle->getWidth(text, (unsigned int)style->fontSize);
-		switch (style->textJustify)
+		float hw = size.x * 0.5f;
+		float hh = size.y * 0.5f;
+		switch(justify)
 		{
-		case GUIStyle::TextJusify::LEFT:
-			off.x = -(width * 0.5f);
-			break;
 		case GUIStyle::TextJusify::RIGHT:
-			off.x = (width * 0.5f);
+			off.x = -(width * 0.5f) + hw - offsetRight;
+			break;
+		case GUIStyle::TextJusify::LEFT:
+			off.x = (width * 0.5f) - hw + offsetLeft;
 			break;
 		default:
 			break;
-		}		
-		switch (style->textVerticalAlign)
+		}
+		switch (valign)
 		{
-		case GUIStyle::TextVerticalAlign::TOP:
-			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::TOP);
-			break;
 		case GUIStyle::TextVerticalAlign::BOTTOM:
-			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::BOTTOM);
+			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::BOTTOM) - hh + offsetBottom;
+			break;
+		case GUIStyle::TextVerticalAlign::TOP:
+			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::TOP) + hh - offsetTop;
 			break;
 		case GUIStyle::TextVerticalAlign::BASELINE:
 			off.y = -style->fontHandle->getVerticalOffset(text, (unsigned int)style->fontSize, TrueTypeFontFace::VecticalAlignment::BASELINE);

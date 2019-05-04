@@ -9,6 +9,8 @@ public:
 		LIST_SELECTED,
 		WINDOW_SHOWN,
 		WINDOW_HIDDEN,
+		SLIDER_CHANGED,
+		TEXT_INPUT_CHANGED,
 	};
 	GUIEvent() {}
 	GUIEvent(Type t) : type(t){}

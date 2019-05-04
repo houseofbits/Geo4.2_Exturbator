@@ -156,6 +156,14 @@ GUIStyle::GUIStyle() : radius(0),
 	graphDataLineStyle4(NO_STRIPPLE),
 	graphDataLineStyle5(NO_STRIPPLE),
 
+	textJustify(TextJusify::CENTER),
+	textVerticalAlign(TextVerticalAlign::MIDDLE),
+
+	textPaddingLeft(0),
+	textPaddingRight(0),
+	textPaddingTop(0),
+	textPaddingBottom(0),
+
 	fontName(""),
 	fontSize(12),
 	fontColor(1, 1, 1, 1),
@@ -274,6 +282,13 @@ void GUIStyle::Deserialize(CFONode* node, ResourceManager* resourceManager)
 	if (node->getValueString("textAlign", stripName))textJustify = parseTextJustify(stripName);
 	if (node->getValueString("textVerticalAlign", stripName))textVerticalAlign = parseTextVerticalAlign(stripName);
 
+	Vector4 padding(0,0,0,0);
+	if (node->getValueVector4("textPadding", padding)) {
+		textPaddingLeft = padding.x;
+		textPaddingRight = padding.y;
+		textPaddingTop = padding.z;
+		textPaddingBottom = padding.w;
+	}
 }
 
 GUIStyle::LineStripple GUIStyle::parseLineStripple(string value) {

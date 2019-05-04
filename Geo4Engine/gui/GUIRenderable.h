@@ -19,8 +19,15 @@ public:
 
 	void Draw();
 	
-	void DrawStaticText(std::string, Vector2);
-	void DrawStaticText(std::string, Vector2, Vector4);
+	//void DrawStaticText(std::string, Vector2);
+	void DrawStaticText(std::string text, Vector2 pos,
+							Vector4 color = Vector4(0, 0, 0, 1),
+							GUIStyle::TextJusify halign = GUIStyle::TextJusify::CENTER,
+							GUIStyle::TextVerticalAlign valign = GUIStyle::TextVerticalAlign::MIDDLE,
+							float paddingLeft = 0,
+							float paddingRight = 0,
+							float paddingTop = 0,
+							float paddingBottom = 0);
 
 	void update();
 	void setTextWithWrapping(string);
@@ -30,7 +37,7 @@ public:
 	void _generateVertexBuffer(vector<Vector2>&, vector<Vector4>&, vector<Vector2>&);
 	void _generateIndexBuffer(vector<unsigned int>&, GLuint&, unsigned int&);
 
-	Vector2	_getTextOffsets(string);
+	Vector2	_getTextOffsets(string, GUIStyle::TextJusify, GUIStyle::TextVerticalAlign, float,float,float,float);
 
 	static GLuint stencilIndexCounter;
 	static GLuint createStencilIndex() {

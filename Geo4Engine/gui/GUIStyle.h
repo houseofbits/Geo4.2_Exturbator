@@ -172,6 +172,11 @@ public:
 	TextJusify			textJustify;
 	TextVerticalAlign	textVerticalAlign;
 
+	float				textPaddingLeft;
+	float				textPaddingRight;
+	float				textPaddingTop;
+	float				textPaddingBottom;
+
 	TrueTypeFontFaceHandle fontHandle;
 
 	bool	_fontValid;

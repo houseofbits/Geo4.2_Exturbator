@@ -58,74 +58,137 @@ bool ExturbatorInterface::OnWindowEvent(WindowEvent*const event){
 
 bool ExturbatorInterface::OnGUIEvent(GUIEvent*const event) {
 
-	if (event->type == GUIEvent::BUTTON_PRESSED) {
+	try {
 
-		if (event->m_Sender->getName() == "buttonCheckConnected") {
-			cout << "check connection button" << endl;
-		}
-		if (event->m_Sender->getName() == "buttonZone1Settings") {
+		if (event->type == GUIEvent::SLIDER_CHANGED) {
 
-			GUIWindow* w = getObjectByName<GUIWindow>("windowZoneSettings");
-			if (w) {
-				w->setTitle("Zone1 settings");
-				w->setVisible(true);
+			switch (event->m_Sender->getHashName()) {
+
+			//Winder settings
+			case hashStr("sliderWinderSpeed"):
+				instanceOf<GUITextInput>("inputWinderSpeed")->setTitle(Utils::FloatToString(event->m_Sender->instanceOf<GUISlider>()->value, 4));
+				break;
+			default:
+				break;
 			}
 		}
-		if (event->m_Sender->getName() == "buttonZone2Settings") {
-			GUIWindow* w = getObjectByName<GUIWindow>("windowZoneSettings");
-			if (w) {
-				w->setTitle("Zone2 settings");
-				w->setVisible(true);
+
+		if (event->type == GUIEvent::TEXT_INPUT_CHANGED) {
+
+			float value = 0;
+
+			switch (event->m_Sender->getHashName()) {
+
+			//Winder settings
+			case hashStr("inputWinderSpeed"):
+				value = (float)atof(event->m_Sender->instanceOf<GUITextInput>()->m_Title.c_str());
+				instanceOf<GUISlider>("sliderWinderSpeed")->setValue(value);
+				break;
+			default:
+				break;
 			}
-		}
-		if (event->m_Sender->getName() == "buttonZoneSettingsClose") {
-			GUIWindow* w = getObjectByName<GUIWindow>("windowZoneSettings");
-			if (w)w->setVisible(false);
-		}
-		if (event->m_Sender->getName() == "buttonPresets") {
-			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
-			if (w)w->setVisible(true);
-		}
-		if (event->m_Sender->getName() == "buttonLoadPreset") {
-			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
-			if (w)w->setVisible(false);
-			GUIList* l = getObjectByName<GUIList>("presetsList");
-			if (l) {
-				GUIListItem* item = l->getSelectedItem();
-				if (item) {
-					GUILayer* titleBar = getObjectByName<GUILayer>("layerProgramTitle");
-					if (titleBar) {
-						titleBar->setTitle("Preset - "+item->m_Title);
-					}
-				}
-			}
-		}
-		if (event->m_Sender->getName() == "buttonClosePreset") {
-			GUIWindow* w = getObjectByName<GUIWindow>("windowPresets");
-			if (w)w->setVisible(false);
-		}
-		if (event->m_Sender->getName() == "buttonShutdown") {
-			return 0;
 		}
 
-		/*
-		if (event->m_Sender->getName() == "buttonExtruderOn") {
-			if (hardware)hardware->extruderState = true;
-			GUIButton* b = getObjectByName<GUIButton>("buttonExtruderOn");
-			b->setVisible(false);
-			b = getObjectByName<GUIButton>("buttonExtruderOff");
-			b->setVisible(true);
+		if (event->type == GUIEvent::BUTTON_PRESSED) {
+
+			GUIListItem* item = 0;
+
+			switch (event->m_Sender->getHashName()){
+
+			case hashStr("buttonCheckConnected"):
+				cout << "check connection button" << endl;
+				break;
+			case hashStr("buttonZone1Settings"):
+				instanceOf<GUIWindow>("windowZoneSettings")->setTitle("Zone1 settings");
+				instanceOf<GUIWindow>("windowZoneSettings")->setVisible(true);
+				break;
+			case hashStr("buttonZone2Settings"):
+				instanceOf<GUIWindow>("windowZoneSettings")->setTitle("Zone2 settings");
+				instanceOf<GUIWindow>("windowZoneSettings")->setVisible(true);
+				break;
+			//etc...
+
+
+			case hashStr("buttonZoneSettingsClose"):
+				instanceOf<GUIWindow>("windowZoneSettings")->setVisible(false);
+				break;
+			case hashStr("buttonPresets"):
+				instanceOf<GUIWindow>("windowPresets")->setVisible(true);
+				break;
+			case hashStr("buttonLoadPreset"):
+				instanceOf<GUIWindow>("windowPresets")->setVisible(false);
+				item = instanceOf<GUIList>("presetsList")->getSelectedItem();
+				if (item)instanceOf<GUILayer>("layerProgramTitle")->setTitle("Preset - " + item->m_Title);
+				break;
+			case hashStr("buttonClosePreset"):
+				instanceOf<GUIWindow>("windowPresets")->setVisible(false);
+				break;
+			case hashStr("buttonShutdown"):
+				return 0;
+				break;				
+			//Puller
+			case hashStr("buttonPullerSettings"):
+				instanceOf<GUIWindow>("windowPullerSettings")->setVisible(true);
+				break;
+			case hashStr("buttonClosePuller"):
+				instanceOf<GUIWindow>("windowPullerSettings")->setVisible(false);
+				break;
+			//Winder
+			case hashStr("buttonWinderSettings"):
+				instanceOf<GUIWindow>("windowWinderSettings")->setVisible(true);
+				break;
+			case hashStr("buttonCloseWinder"):
+				instanceOf<GUIWindow>("windowWinderSettings")->setVisible(false);
+				break;
+			case hashStr("buttonWinderStart"):
+				event->m_Sender->instanceOf<GUIButton>()->setVisible(false);
+				instanceOf<GUIButton>("buttonWinderStop")->setVisible(true);
+				break;
+			case hashStr("buttonWinderStop"):
+				event->m_Sender->instanceOf<GUIButton>()->setVisible(false);
+				instanceOf<GUIButton>("buttonWinderStart")->setVisible(true);
+				break;
+			//Reset winder modal
+			case hashStr("buttonWinderReset"):
+				//Show winder reset modal window
+				instanceOf<GUIWindow>("windowWinderReset")->setVisible(true);
+				break;
+			case hashStr("buttonResetWinderReset"):
+				//TODO Reset winder position
+				instanceOf<GUIWindow>("windowWinderReset")->setVisible(false);
+				break;
+			case hashStr("buttonResetWinderSave"):
+				//TODO Save process to log db and reset winder position
+				instanceOf<GUIWindow>("windowWinderReset")->setVisible(false);
+				break;
+			case hashStr("buttonResetWinderCancel"):
+				instanceOf<GUIWindow>("windowWinderReset")->setVisible(false);
+				break;
+			default:
+				break;
+			}
+
+			/*
+			if (event->m_Sender->getName() == "buttonExtruderOn") {
+				if (hardware)hardware->extruderState = true;
+				GUIButton* b = getObjectByName<GUIButton>("buttonExtruderOn");
+				b->setVisible(false);
+				b = getObjectByName<GUIButton>("buttonExtruderOff");
+				b->setVisible(true);
+			}
+			if (event->m_Sender->getName() == "buttonExtruderOff") {
+				if (hardware)hardware->extruderState = false;
+				GUIButton* b = getObjectByName<GUIButton>("buttonExtruderOn");
+				b->setVisible(true);
+				b = getObjectByName<GUIButton>("buttonExtruderOff");
+				b->setVisible(false);
+			}
+			*/
 		}
-		if (event->m_Sender->getName() == "buttonExtruderOff") {
-			if (hardware)hardware->extruderState = false;
-			GUIButton* b = getObjectByName<GUIButton>("buttonExtruderOn");
-			b->setVisible(true);
-			b = getObjectByName<GUIButton>("buttonExtruderOff");
-			b->setVisible(false);
-		}
-		*/
 	}
-
+	catch (int e) {
+		cout << "Exception (ExturbatorInterface) " << e << endl;
+	}
 	return 1;
 }
 

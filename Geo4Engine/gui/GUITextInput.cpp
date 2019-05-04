@@ -96,6 +96,7 @@ bool GUITextInput::OnGUIInputEvent(GUIInputEvent*const event)
 				m_Title.erase(m_Title.size() - 1);
 				renderable.setText(m_Title);
 				renderableActive.setText(m_Title);
+				SendEvent(new GUIEvent(GUIEvent::TEXT_INPUT_CHANGED));
 			}
 			//enter - leave focus
 			if (event->keyCode == 40 || event->keyCode == 88) {
@@ -112,6 +113,7 @@ bool GUITextInput::OnGUIInputEvent(GUIInputEvent*const event)
 			while (m_Title.size() > maxCharacters) {
 				m_Title.erase(m_Title.size() - 1);
 			}
+			SendEvent(new GUIEvent(GUIEvent::TEXT_INPUT_CHANGED));
 			renderable.setText(m_Title);
 			renderableActive.setText(m_Title);
 		}

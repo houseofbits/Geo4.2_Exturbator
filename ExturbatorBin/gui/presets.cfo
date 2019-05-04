@@ -49,13 +49,13 @@ GUIWindow={
   }
   GUIButton={
     name="buttonLoadPreset";
-    title="Load preset";
+    title="Load";
     pos=-130,-160;
     size=130,40;
   }
   GUIButton={
     name="buttonSavePreset";
-    title="Save preset";
+    title="Save";
     pos=13,-160;
     size=130,40;
   }     

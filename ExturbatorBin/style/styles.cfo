@@ -16,7 +16,7 @@ GUIStyle={
     fontName="fonts/exo1/Exo-Medium.ttf";
     fontSize=10;
     fontColor=0.6,0.6,0.6,1;
-    fontShadowPosition=0,-2;
+    fontShadowPosition=0,-3;
     fontShadowColor=0,0,0,0.5;
     lineHeight=15;
   }  
@@ -24,7 +24,7 @@ GUIStyle={
     fontName="fonts/exo1/Exo-Black.ttf";
     fontSize=18;
     fontColor=0.2,1,0.2,1;
-    fontShadowPosition=0,-2;
+    fontShadowPosition=0,-3;
     fontShadowColor=0,0,0,0.5;
     lineHeight=25;
   }  
@@ -57,6 +57,8 @@ GUIStyle={
     radius=5;
     borderSize=1;
     borderColor=0.541, 0.701, 0.854,0.2;  
+    textAlign=LEFT;
+    textPadding=5,0,0,0;
   }  
   inputTextActive={
     fontName="fonts/exo1/Exo-SemiBold.ttf";
@@ -76,6 +78,8 @@ GUIStyle={
     shadowHardness=0.5;
     shadowPosition=0,-1;
     shadowColor=0.105, 0.176, 0.231,0.4;     
+    textAlign=LEFT;
+    textPadding=5,0,0,0;    
   }  
 
   graph={
@@ -128,7 +132,8 @@ GUIStyle={
     fontShadowPosition=0,-2;
     fontShadowColor=0,0,0,0.5;
     lineHeight=20;
-    textAlign=RIGHT;
+    textAlign=LEFT;
+    textPadding=10,0,0,0;
   }
 
   textDefaultTitle={  
@@ -137,7 +142,47 @@ GUIStyle={
     fontColor=1,1,1,0.7;
     fontShadowPosition=0,-1.5;
     fontShadowColor=0,0,0,1;
-    textAlign=RIGHT;
+    textAlign=LEFT;
+    textVerticalAlign=TOP;
+    textPadding=5,0,5,0;
+  }
+
+
+  sliderDefaultPin={
+    radius=5;
+    borderSize=1;
+    borderColor=1,1,1,0.5;
+    shadowSize=5;
+    shadowHardness=0.5;
+    shadowPosition=0,-1;
+    shadowColor=0,0,0,0.3;
+    backgroundGradientColor={
+      1=0.498, 0.545, 0.6, 0.6;
+      0.05=0.854, 0.874, 0.886, 0.5;
+      0=0.737, 0.756, 0.780, 0.5;
+    }
+    fontName="fonts/exo1/Exo-SemiBold.ttf";
+    fontSize=12;
+    fontColor=0,0,0,1;
+    fontShadowPosition=0,-1;
+    fontShadowColor=1,1,1,0.7;
+  }
+  sliderDefault={
+    fontName="fonts/exo1/Exo-SemiBold.ttf";
+    fontSize=12;
+    fontColor=0.376, 0.450, 0.505,1;
+    fontShadowPosition=0,-2;
+    fontShadowColor=0,0,0,0.5;
+    lineHeight=25;
+    backgroundGradientColor={
+      0=0.066, 0.101, 0.137, 0.5;
+      1=0.129, 0.203, 0.262, 0.6;
+    }    
+    radius=5;
+    borderSize=1;
+    borderColor=0.541, 0.701, 0.854,0.2;  
+    textAlign=LEFT;
+    textPadding=5,0,0,0;
   }
 
 

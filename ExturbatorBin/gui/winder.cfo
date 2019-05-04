@@ -6,34 +6,34 @@ GUILayer={
     GUIText={
     	style="textDefaultTitle";
      	title="Winder";
-     	size=500,30;
-     	pos=-195,75;
+     	size=405,179;
+     	pos=0,0;
     }
 	
     GUIText={
       name="textZone1PT";
       title="1.484 rpm";
       size=160,20;
-      pos=-90,35;
+      pos=90,35;
       style="textGreen";
     } 
     GUIText={
-      title="Speed";
+      title="Default speed";
       size=200,20;
-      pos=-90, 10;
+      pos=90, 10;
       style="textSubscipt";
     }               
     GUIText={
       name="textZone1ST";
       title="289 g";
       size=100,20;
-      pos=90,35;
+      pos=-90,35;
       style="textGreen";
     } 
     GUIText={
       title="Aproximate weight";
       size=200,35;
-      pos=90,10;
+      pos=-90,10;
       style="textSubscipt";
     } 
 
@@ -44,16 +44,25 @@ GUILayer={
       size=100,40;
     }
     GUIButton={
-      name="buttonMeasureStart";
-      title="Start measure";
-      pos=-0,-58;
-      size=160,40;
-    }    
+      visible=0;
+      name="buttonWinderStop";
+      title="Pause";
+      pos=-143,-58;
+      size=100,40;
+    }
     GUIButton={
-	  style="textButton";
+      name="buttonWinderReset";
+      title="Reset";
+      pos=-30,-58;
+      size=100,40;
+    }
+    GUIButton={
+    style="textButton";
       name="buttonWinderSettings";
       title="Settings";
       pos=150,-58;
       size=100,40;
     }
+
 }
+
