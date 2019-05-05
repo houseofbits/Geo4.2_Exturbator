@@ -71,6 +71,13 @@ bool GUIButton::OnWindowEvent(WindowEvent*const event)
 
 bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 {
+	switch (event->type) {
+	case GUIInputEvent::EventType::MOUSELEAVE:
+		hoverState = 0;
+		clickState = 0;
+		break;
+	};
+
 	if (isVisible() == 0)return 1;
 
 	switch (event->type) {
@@ -83,10 +90,6 @@ bool GUIButton::OnGUIInputEvent(GUIInputEvent*const event)
 		break;
 	case GUIInputEvent::EventType::MOUSEENTER:
 		hoverState = 1;
-		break;
-	case GUIInputEvent::EventType::MOUSELEAVE:
-		hoverState = 0;
-		clickState = 0;
 		break;
 	};
 	return 1;

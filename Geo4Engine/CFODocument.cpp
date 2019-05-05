@@ -306,11 +306,11 @@ int im2=0;
 	{	
 		//if(buff[i]=='\r')buff[i]='\0';
 
-		if(i+1<=buff.size()){
+		if(i+1 <= (unsigned int)buff.size()){
 			im1 = i+1;
 		}else{		im1 = i;}
 		
-		if(i+2<=buff.size()){
+		if(i+2 <= (unsigned int)buff.size()){
 			im2 = i+2;
 		}else{		im2 = i;}
 
@@ -346,7 +346,7 @@ int im2=0;
 
 	for(uint i=0;i<buff.size();i++)
 	{	
-		im1 = (i+1<=buff.size()) ? (i+1) : i;
+		im1 = (i+1 <= (unsigned int)buff.size()) ? (i+1) : i;
 		im2 = (i-1>=0) ? (i-1) : i;
 
 		if(buff[i]=='\\' && buff[im1]=='\"'){
@@ -421,9 +421,9 @@ if(_mParentNode && node)
 {
 //	if(_mThisId>=0)
 //	{
-		if(unsigned(_mThisId+1)<_mParentNode->_mNodes.size())
+		if(unsigned(_mThisId+1) < (unsigned int)_mParentNode->_mNodes.size())
 		{
-			return _mParentNode->_mNodes[(_mThisId+1)];
+			return _mParentNode->_mNodes[((unsigned int)_mThisId + 1)];
 		}
 
 //	}

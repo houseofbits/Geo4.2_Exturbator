@@ -18,7 +18,8 @@
 
 class TrueTypeActiveGlyph {
 public:
-	TrueTypeActiveGlyph():charIndex(0),
+	TrueTypeActiveGlyph():fontSize(0),
+		charIndex(0),
 		uvPos(0,0),
 		uvSize(0,0),
 		size(0,0),

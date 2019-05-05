@@ -19,7 +19,13 @@ public:
 		LEAVEFOCUS
 	};
 
-	GUIInputEvent();
+	GUIInputEvent()	: type(MOUSEDOWN),
+		mousePosition(),
+		mouseMotion(),
+		keyCode(0),
+		mouseButtonLeft(false),
+		mouseButtonRight(false),
+		textInput() {}
 	GUIInputEvent(EventType type, unsigned int key) : type(type), keyCode(key) {	}
 	GUIInputEvent(EventType type, Vector2 mousePosition, bool mouseLeft, bool mouseRight) : type(type), 
 		mousePosition(mousePosition), 

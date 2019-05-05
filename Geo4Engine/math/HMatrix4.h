@@ -19,6 +19,7 @@
 	//##ModelId=42BA535B033D
         inline Matrix4()
         {
+			memset(m, 0, 16 * sizeof(Real));
         }
 
 	//##ModelId=42BA535B033E

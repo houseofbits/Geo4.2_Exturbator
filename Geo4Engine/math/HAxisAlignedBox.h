@@ -49,6 +49,7 @@
 	    inline AxisAlignedBox( const Vector3& min, const Vector3& max )
 	    {
 		    setExtents( min, max );
+			mNull = false;
 	    }
 
 	//##ModelId=42BA535C014D
@@ -57,6 +58,7 @@
 		    Real Mx, Real My, Real Mz )
 	    {
 		    setExtents( mx, my, mz, Mx, My, Mz );
+			mNull = false;
 	    }
 
 	//##ModelId=42BA535C0157

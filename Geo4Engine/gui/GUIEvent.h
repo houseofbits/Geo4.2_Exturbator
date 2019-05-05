@@ -12,7 +12,7 @@ public:
 		SLIDER_CHANGED,
 		TEXT_INPUT_CHANGED,
 	};
-	GUIEvent() {}
+	GUIEvent() : type(BUTTON_PRESSED) {}
 	GUIEvent(Type t) : type(t){}
 	virtual ~GUIEvent(void) {}
 

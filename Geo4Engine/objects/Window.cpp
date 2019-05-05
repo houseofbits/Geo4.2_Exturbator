@@ -6,8 +6,8 @@
 //#pragma comment(lib, "../Lib/SDL2/lib/x86/SDL2main.lib")
 //#pragma comment(lib, "../Lib/SDL2/lib/x86/SDL2.lib")
 
-#pragma comment(lib, "../Lib/SDL2/lib/SDL2main.lib")
-#pragma comment(lib, "../Lib/SDL2/lib/SDL2.lib")
+#pragma comment(lib, "../Lib/SDL2/lib/x64/SDL2main.lib")
+#pragma comment(lib, "../Lib/SDL2/lib/x64/SDL2.lib")
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>

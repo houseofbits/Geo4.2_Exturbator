@@ -9,7 +9,7 @@ using namespace std;
 
 class BaseEvent{
 public:
-	BaseEvent():m_Sender(0), m_Delayed(0), m_Target(0){}
+	BaseEvent():m_Sender(0), m_Delayed(0), m_Target(0), m_ExecutionTime(0){}
 	virtual ~BaseEvent(){}
 	virtual std::string			getTypename(){return "BaseEvent";}
 	Entity*		m_Sender;

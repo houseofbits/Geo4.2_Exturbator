@@ -4,11 +4,6 @@
 
 CLASS_DECLARATION(GUIInputEvent);
 
-GUIInputEvent::GUIInputEvent()
-{
-}
-
-
 GUIInputEvent::~GUIInputEvent()
 {
 }

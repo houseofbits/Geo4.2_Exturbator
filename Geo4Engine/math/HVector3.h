@@ -20,8 +20,9 @@
 
     public:
 	//##ModelId=42BA535B009D
-        inline Vector3()
+        inline Vector3() : x(0), y(0), z(0)
         {
+			memset(val, 0, 3 * sizeof(Real));
         }
 
 	//##ModelId=42BA535B009E

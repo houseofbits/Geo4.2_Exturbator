@@ -244,7 +244,7 @@
 			float epsilon = 0.00001f;
 			float min_param_a = 0.0f + epsilon;
 			float max_param_a = 1.0f - epsilon;
-			a = std::max(min_param_a, std::min(max_param_a, a));
+			a = std::max<float>(min_param_a, std::min<float>(max_param_a, a));
 
 			if (a < 0.5f) {
 				// emphasis

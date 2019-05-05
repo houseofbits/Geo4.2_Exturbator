@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <exception>
 #include "math/HVector2.h"
+#include "StringUtils.h"
 
 class SceneManager;
 //class Scene;
@@ -103,8 +104,8 @@ public:
 		if (got_root) {
 			bool f = 0;
 			Entity* obj = 0;
-			got_root->recursiveFindObjectByName(obj, name, f);
-			if (obj && T::TypeName() == obj->getTypename()) {
+			got_root->recursiveFindObjectByHashName(obj, hashStr(name.c_str()), f);
+			if (obj && T::TypeID() == obj->getTypeId()) {
 				return (T*)obj;
 			}
 			return 0;
@@ -115,7 +116,7 @@ public:
 	Entity*					getChildObjectByName(std::string name){
 		bool f=0;
 		Entity* obj=0;
-		recursiveFindObjectByName(obj,name, f);
+		recursiveFindObjectByHashName(obj, hashStr(name.c_str()), f);
 		return obj;
 	}
 
@@ -123,8 +124,8 @@ public:
 	T*	getChildObjectByName(std::string name) {
 		bool f = 0;
 		Entity* obj = 0;
-		recursiveFindObjectByName(obj, name, f);
-		if (obj && T::TypeName() == obj->getTypename()) {
+		recursiveFindObjectByHashName(obj, hashStr(name.c_str()), f);
+		if (obj && T::TypeID() == obj->getTypeId()) {
 			return (T*)obj;
 		}
 		return 0;
@@ -151,7 +152,7 @@ public:
 
 	template<class T>
 	T*	instanceOf() {
-		if (T::TypeName() == getTypename()) {
+		if (T::TypeID() == getTypeId()) {
 			return (T*)this;
 		}
 		throw -1;
@@ -197,6 +198,22 @@ protected:
 			std::list<Entity*>::iterator pos = m_Childs.begin();
 			while(pos!=m_Childs.end()){
 				(*pos)->recursiveFindObjectByName(obj, name, found);
+				pos++;
+			}
+		}
+	}
+
+	void	recursiveFindObjectByHashName(Entity* &obj, const unsigned int& hname, bool& found) {
+		if (found)return;
+		if (getHashName() == hname) {
+			obj = this;
+			found = 1;
+			return;
+		}
+		else if (!m_Childs.empty()) {
+			std::list<Entity*>::iterator pos = m_Childs.begin();
+			while (pos != m_Childs.end()) {
+				(*pos)->recursiveFindObjectByHashName(obj, hname, found);
 				pos++;
 			}
 		}

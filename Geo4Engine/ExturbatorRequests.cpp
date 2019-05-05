@@ -2,7 +2,7 @@
 
 CLASS_DECLARATION(ExturbatorRequests);
 
-ExturbatorRequests::ExturbatorRequests() : statusResponseEXT()
+ExturbatorRequests::ExturbatorRequests() : winderState(), statusResponseEXT()
 {
 }
 

@@ -12,7 +12,9 @@
     {
     public:
 	//##ModelId=42BA535C0010
-		inline Matrix3 () {};
+		inline Matrix3 () {
+			memset(m,0, 9 * sizeof(Real));
+		};
 	//##ModelId=42BA535C0011
         inline Matrix3 (const Real arr[3][3])
 		{

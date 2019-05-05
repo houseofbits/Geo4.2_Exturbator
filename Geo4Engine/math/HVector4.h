@@ -20,6 +20,7 @@
     public:
         inline Vector4()
         {
+			memset(val, 0, 4 * sizeof(Real));
         }
 
         inline Vector4( Real fX, Real fY, Real fZ, Real fW ) 

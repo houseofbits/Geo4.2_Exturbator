@@ -79,7 +79,7 @@ public:
 	GUIGradientColor();
 	class GradientPoint {
 	public:
-		GradientPoint() {}
+		GradientPoint() : color(), position(0){}
 		GradientPoint(Vector4 c, float p) :color(c), position(p) {}
 		Vector4 color;
 		float	position;

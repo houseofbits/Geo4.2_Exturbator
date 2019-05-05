@@ -110,6 +110,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>..\Obj\$(Configuration)\</IntDir>
+    <OutDir>..\ExturbatorBin\</OutDir>
+    <IncludePath>..\Lib\freetype\include;$(IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Lib|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -123,6 +126,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>..\Obj\$(Configuration)\</IntDir>
+    <IncludePath>..\Lib\freetype\include;$(IncludePath)</IncludePath>
+    <OutDir>..\ExturbatorBin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -170,7 +176,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <TargetMachine>MachineX86</TargetMachine>
+      <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalDependencies>../Lib/GLEW/lib/Release/x64/glew32.lib;../Lib/freetype/win64/freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Lib|x64'">
@@ -222,10 +229,11 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>../Lib/GLEW/lib/Release/x64/glew32.lib;../Lib/freetype/win64/freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

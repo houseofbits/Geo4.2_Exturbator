@@ -159,7 +159,7 @@ static Matrix4 StringToMatrix4(std::string& str){
 	*/
 //	cout<<str<<endl;
 	float value[12];
-//	memset(value,0,sizeof(float));
+	memset(value,0,12 * sizeof(float));
 	std::string sval;
 
 	Matrix4 m;

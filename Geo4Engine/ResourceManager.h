@@ -21,7 +21,7 @@ class Resource
 friend class ResourceManager;
 //friend class ResourceHandle;
 public:
-	Resource():name(""), refcount(0){}
+	Resource():name(""), refcount(0), resourceManager(0){}
 	virtual ~Resource(){}
 
 	virtual bool	Load(std::string name){return 0;}

@@ -42,7 +42,7 @@ public:
 	void	Render(Renderer*);
 	void	PostRender();
 
-	unsigned int	createGraph(string name) { graphs.push_back(GraphSegment(name)); return graphs.size()-1; }
+	unsigned int	createGraph(string name) { graphs.push_back(GraphSegment(name)); return (unsigned int)graphs.size()-1; }
 	void	addGraphValue(unsigned int index, GraphBaseValue* val);
 	void	ScaleY();
 
