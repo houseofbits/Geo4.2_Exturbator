@@ -43,7 +43,7 @@ bool ExturbatorInterface::OnWindowEvent(WindowEvent*const event){
 		else
 			window->setVisible(false);
 	}
-	*/
+	/**/
 	//ExturbatorRequests* hardware = getObjectByName<ExturbatorRequests>("hardwareRequests");
 	if (hardware) {
 
