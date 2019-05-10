@@ -2,6 +2,7 @@
 #include "GUIEntity.h"
 #include "GUIRenderable.h"
 #include "GUIStyleResource.h"
+#include <regex>
 
 class GUITextInput :
 	public GUIEntity,
@@ -43,5 +44,8 @@ public:
 	float			keyDownDelay;
 	float			keyDownTimer;
 	bool			backspaceDown;
+
+	std::regex		inputMask;
+	bool			doInputMasking;
 };
 

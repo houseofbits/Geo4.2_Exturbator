@@ -24,8 +24,9 @@ GUIWindow={
     name="inputWinderSpeed";
     size=70,30;
     pos=200,10;
+    mask="([0-9]+([.][0-9]*)?|[.][0-9]+)";
+    length=6;
   }
-
   GUIButton={
     name="buttonApplyWinderSettings";
     title="Apply";

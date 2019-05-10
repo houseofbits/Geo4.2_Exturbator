@@ -16,7 +16,6 @@ GUIRenderable::GUIRenderable() : style(0),
 	stencilIndex(0)
 {
 
-
 }
 
 GUIRenderable::~GUIRenderable()
@@ -25,6 +24,20 @@ GUIRenderable::~GUIRenderable()
 
 void GUIRenderable::Draw() {
 
+	if (!style) {
+		//undefined style
+		//draw red box		
+		Vector2 hs = size * 0.5f;
+		glColor4f(1, 0, 0, 1);
+		glBegin(GL_QUADS);
+			glVertex2f(-hs.x, -hs.y);
+			glVertex2f(-hs.x, hs.y);
+			glVertex2f(hs.x, hs.y);
+			glVertex2f(hs.x, -hs.y);
+		glEnd();
+		
+		return;
+	}
 	if (bodyIndexArrayId > 0 && style->backgroundFill == GUIStyle::FillType::GRADIENT) {
 
 		if (shadowIndexArrayId > 0) {

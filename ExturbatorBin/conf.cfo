@@ -19,7 +19,7 @@ SDLWindow={
 		fov=60;	
 		clear_color=0.1,0.1,0.13,1.0;
 	}
-	
+	/*
 	//Hardware communications class
     Hardware={
     	name="hardware";	
@@ -28,6 +28,7 @@ SDLWindow={
     	//Exturb. specific packets
     	ExturbatorRequests={name="hardwareRequests";}
     }
+    */
     //Main interface class for Exturb.
     ExturbatorInterface={		}   
 

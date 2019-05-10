@@ -12,7 +12,9 @@ GUITextInput::GUITextInput() : renderable(),
 	maxCharacters(50),
 	keyDownDelay(0.2f),
 	keyDownTimer(0),
-	backspaceDown(false)
+	backspaceDown(false),
+	inputMask(),
+	doInputMasking(false)
 {	}
 
 GUITextInput::~GUITextInput()
@@ -28,7 +30,6 @@ void GUITextInput::Initialise(EventManager*const eventManager, ResourceManager*c
 
 	renderable.style = &styleSheet->get(styleName);
 	renderableActive.style = &styleSheet->get(styleNameActive);
-
 }
 
 void GUITextInput::Deserialize(CFONode* node)
@@ -44,6 +45,12 @@ void GUITextInput::Deserialize(CFONode* node)
 	node->getValueString("styleActive", styleNameActive);
 
 	node->getValueInt("length", maxCharacters);
+
+	string regex = "";
+	if (node->getValueString("mask", regex) && regex.length() > 0) {
+		inputMask = std::regex(regex);
+		doInputMasking = true;
+	}
 
 	renderable.size = m_Size;
 	renderableActive.size = m_Size;
@@ -77,7 +84,9 @@ bool GUITextInput::OnWindowEvent(WindowEvent*const event)
 bool GUITextInput::OnGUIInputEvent(GUIInputEvent*const event)
 {
 	if (isVisible() == 0)return 1;
-
+	
+	std::smatch base_match;
+	std::string tmpStr = "";
 	switch (event->type) {
 	case GUIInputEvent::EventType::KEYPRESS:
 		backspaceDown = false;
@@ -102,13 +111,15 @@ bool GUITextInput::OnGUIInputEvent(GUIInputEvent*const event)
 			if (event->keyCode == 40 || event->keyCode == 88) {
 				setFocus(false);
 			}
-			//cout << "k:" << (int)event->keyCode << endl;
 		}
 		break;
 	case GUIInputEvent::EventType::TEXENTER:
 		backspaceDown = false;
 		if (isFocused()) {
-			//cout << "text in: " << event->textInput<< endl;
+			if (doInputMasking) {
+				tmpStr = m_Title + event->textInput;
+				if (!std::regex_match(tmpStr, base_match, inputMask)) break;
+			}
 			m_Title = m_Title + event->textInput;
 			while (m_Title.size() > maxCharacters) {
 				m_Title.erase(m_Title.size() - 1);
